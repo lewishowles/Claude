@@ -126,46 +126,6 @@ function setup:claude() {
 
 These tools are optional but recommended for enhanced workflows.
 
-### Graphify — Knowledge graphs
-
-Build knowledge graphs from your codebase to understand structure, dependencies, and relationships at scale.
-
-**One-time setup (macOS):**
-
-Install via `uv`:
-
-```bash
-uv tool install graphify
-graphify install
-```
-
-Requires:
-
-- `uv` (install via `brew install uv` if needed)
-- `ANTHROPIC_API_KEY` environment variable set
-
-**Per-project setup:**
-
-From your project root:
-
-```bash
-graphify claude install
-```
-
-Then run:
-
-```bash
-/graphify .
-```
-
-This generates a knowledge graph of the current directory.
-
-**Workflow notes:**
-
-- **When to use**: Understanding a large codebase, mapping dependencies, identifying patterns
-- **Output**: Interactive graph visualization + exportable JSON
-- **Customization**: Edit `.graphifyrc` in your project to customize what gets indexed (e.g., ignore certain directories, focus on specific file types)
-
 ### Superpowers plugin — Structured workflows
 
 Adds structured skills for TDD, debugging, code review, and architecture design.
