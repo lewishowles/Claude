@@ -101,9 +101,76 @@ function setup:claude() {
 		echo "${PURPLE}settings.json${RESET_COLOUR} already exists. No changes made."
 	fi
 
+	if [ ! -f ".claudeignore" ]; then
+		cp "$repo/templates/.claudeignore" .claudeignore
+		echo "${GREEN}✓${RESET_COLOUR} Copied ${PURPLE}.claudeignore${RESET_COLOUR} — edit to customise which directories to skip"
+	else
+		echo "${PURPLE}.claudeignore${RESET_COLOUR} already exists. No changes made."
+	fi
+
 	echo ""
 }
 ```
+
+## Optional: Recommended tools
+
+These tools are optional but recommended for enhanced workflows.
+
+### Graphify — Knowledge graphs
+
+Build knowledge graphs from your codebase to understand structure, dependencies, and relationships at scale.
+
+**One-time setup (macOS):**
+
+Install via `uv`:
+
+```bash
+uv tool install graphify
+graphify install
+```
+
+Requires:
+- `uv` (install via `brew install uv` if needed)
+- `ANTHROPIC_API_KEY` environment variable set
+
+**Per-project setup:**
+
+From your project root:
+
+```bash
+graphify claude install
+```
+
+Then run:
+
+```bash
+/graphify .
+```
+
+This generates a knowledge graph of the current directory.
+
+**Workflow notes:**
+
+- **When to use**: Understanding a large codebase, mapping dependencies, identifying patterns
+- **Output**: Interactive graph visualization + exportable JSON
+- **Customization**: Edit `.graphifyrc` in your project to customize what gets indexed (e.g., ignore certain directories, focus on specific file types)
+
+### Superpowers plugin — Structured workflows
+
+Adds structured skills for TDD, debugging, code review, and architecture design.
+
+**One-time setup:**
+
+```bash
+claude plugin install superpowers@claude-plugins-official
+```
+
+**Workflow notes:**
+
+- **Auto-triggers**: Skills activate automatically based on context and keywords
+- **Structured workflows**: TDD, debugging, code review, planning, architecture design
+- **No per-project setup needed**: Works globally once installed
+- **Access**: Type `/superpowers:*` to see available skills, or they auto-trigger in relevant contexts
 
 ## Per-project setup
 
@@ -113,6 +180,14 @@ Run `setup:claude` from the project root:
 cd your-project
 setup:claude
 ```
+
+Copy `.claudeignore` to the project root (optional but recommended):
+
+```bash
+cp /path/to/repository/templates/.claudeignore .
+```
+
+This tells Claude Code which directories to skip during analysis (node_modules, build artifacts, locks, databases, etc.). Edit as needed for your project.
 
 Edit `.claude/AGENTS.md` to document:
 

@@ -37,6 +37,11 @@
 						"type": "command",
 						"command": "bash \"/Users/lewis/.claude/hooks/skill-file-trigger.sh\"",
 						"timeout": 5
+					},
+					{
+						"type": "command",
+						"command": "bash /Users/lewis/Dev/Configuration/Claude/hooks/auto-allow-edits.sh",
+						"timeout": 5
 					}
 				]
 			}
