@@ -1,11 +1,9 @@
 {
 	"skillOverrides": {
-		"_comment": "BASELINE (all projects) — enable these by default",
 		"code-style": "on",
 		"error-handling": "on",
 		"writing": "on",
 
-		"_comment": "VUE/FRONTEND — enable for web projects (Vite, TypeScript, testing)",
 		"vue": "name-only",
 		"vue-project-stack": "name-only",
 		"vite-patterns": "name-only",
@@ -15,27 +13,21 @@
 		"unit-testing": "name-only",
 		"e2e-testing": "name-only",
 
-		"_comment": "SWIFT/iOS/macOS — enable for native Apple projects",
 		"swift": "name-only",
 		"swift-ui": "name-only",
 
-		"_comment": "BASH/CLI/SCRIPTING — enable for shell + automation projects",
 		"bash": "name-only",
 		"dependencies": "name-only",
 
-		"_comment": "DOCUMENTATION/CONTENT — enable for docs, blogs, writing",
 		"readme": "name-only",
 
-		"_comment": "CONFIGURATION/ARCHITECTURE — enable for config repos, ADRs, system design",
 		"claude-config": "name-only",
 		"architecture-decision-records": "name-only",
 		"session-management": "name-only",
 
-		"_comment": "APIs/CLAUDE INTEGRATION — enable for Claude API, Anthropic SDK projects",
 		"agentic-engineering": "name-only",
 		"claude-api": "name-only",
 
-		"_comment": "BUILT-IN TOOLS (name-only by default)",
 		"fewer-permission-prompts": "name-only",
 		"init": "name-only",
 		"keybindings-help": "name-only",
@@ -46,14 +38,12 @@
 		"simplify": "name-only",
 		"update-config": "name-only",
 
-		"_comment": "CAVEMAN PLUGIN (name-only by default)",
 		"caveman:caveman": "name-only",
 		"caveman:caveman-commit": "name-only",
 		"caveman:caveman-help": "name-only",
 		"caveman:caveman-review": "name-only",
 		"caveman:compress": "name-only",
 
-		"_comment": "CLAUDE-MEM PLUGIN (name-only by default)",
 		"claude-mem:babysit": "name-only",
 		"claude-mem:do": "name-only",
 		"claude-mem:how-it-works": "name-only",

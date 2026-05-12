@@ -81,7 +81,6 @@
 	"agentPushNotifEnabled": true,
 	"contextCompactionThreshold": 80,
 	"skillOverrides": {
-		"_comment": "CLAUDE-MEM PLUGIN (name-only by default)",
 		"code-style": "on",
 		"error-handling": "on",
 		"writing": "on",
