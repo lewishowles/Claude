@@ -1,59 +1,59 @@
 # Global Claude Configuration
 
-These are baseline rules for all projects. Project-specific rules live in AGENTS.md (required in every project).
+Baseline rules for all projects. Project-specific rules live in AGENTS.md.
 
-**Each project must have AGENTS.md in its `.claude/` folder.** If missing, copy the template from `~/Dev/Configuration/Claude/templates/AGENTS.md.template` or create from scratch with: purpose, functionality, tech choices, architecture notes, gotchas.
-
-⚠️ AGENTS.md is PROJECT-SPECIFIC. It lives in `.claude/AGENTS.md` within each project, not in the global config directory.
+**Each project must have AGENTS.md in `.claude/`.** Copy from `~/Dev/Configuration/Claude/templates/AGENTS.md.template` or create with: purpose, functionality, tech choices, architecture notes, gotchas. AGENTS.md lives in `.claude/AGENTS.md` within the project, not here.
 
 ## General configuration
 
-Rules authoritative. Apply every rule every time. Conflict with in-conversation request: follow request, flag conflict. No silent relaxation between turns.
+Rules are authoritative. Apply every rule every time. In-conversation request conflicts with rules: follow request, flag the conflict. No silent relaxation.
 
 Multi-step processes: one step at a time unless told otherwise. Explain, wait for confirmation.
 
+### Token efficiency
+
+- **Skip plan mode** for single-file, single-line, or trivial edits (<20 lines)
+- **Batch edits** in one session — amortize system context across multiple changes
+- **Use smart search** (`claude-mem:smart-explore`) for large codebases instead of broad reads
+- **Try grep/find first** before spawning agents for targeted lookups
+
 ### Interacting with the user
 
-- Assume incomplete domain knowledge; adjust if they push back
-- Surface things they may not have considered
-- Offer alternatives with reasoning when they'd improve on the request
+- Assume incomplete domain knowledge; adjust if corrected
+- Surface things they haven't considered
+- Offer alternatives with reasoning when better
 - Batch clarifying questions — minimise back and forth
-- Propose changes as a plan first; let the user review before proceeding
+- Propose changes as a plan; get review before proceeding
 
 ### Think before coding
 
-**Don't assume. Surface confusion. State tradeoffs.**
+**Surface confusion. State tradeoffs. Don't assume.**
 
-- State assumptions explicitly. Uncertain? Ask
-- Multiple interpretations? Present all — don't pick silently
-- Simpler approach exists? Say so. Push back when warranted
-- Unclear? Stop. Name what's confusing. Ask
-- Ask until 95% sure of requirements
-- Never install packages, run API calls, use external tools without permission. Ask first, explain need
-- Don't be afraid to admit mistakes, rewind, and start again from first principles.
+- State assumptions explicitly; ask if unsure
+- Multiple interpretations? Present all, don't pick silently
+- Simpler approach exists? Say so; push back when warranted
+- Unclear? Stop and name what's confusing
+- Ask until 95% confident of requirements
+- Never install packages, run API calls, or use external tools without permission
+- Admit mistakes; rewind and restart from first principles
 
 ### When expectations break
 
 **Unexpected state — stop and ask. Don't dig.**
 
-- File missing when it should exist? Stop.
-- Symlink broken. Tool behaves differently. Output doesn't match what you expected. Stop.
-- Don't try workarounds. Don't try alternatives. Don't dig deeper hoping to understand.
-- State what you expected, what you found, and stop.
-- "I expected `CLAUDE.md` in `.claude/`, but it's missing. Should I create one, or is it meant to be symlinked?"
-- This recovers faster than four or five attempts chasing the wrong path. You know the system; I don't.
+- File missing? Symlink broken? Output unexpected? Stop.
+- Don't workaround, retry, or dig deeper — state what you expected vs. what you found
+- Example: "I expected `CLAUDE.md` in `.claude/`, but it's missing. Should I create one or symlink it?"
+- Recovers faster than chasing wrong paths. You know the system; I don't.
 
 ### Simplicity first
 
-**Minimum code solving problem. Nothing speculative.**
+**Minimum code. Nothing speculative.**
 
-- No features beyond request
-- No abstractions for single-use code
-- No unasked flexibility or configurability
-- No error handling for impossible scenarios
-- 200 lines that could be 50? Rewrite it
-
-Senior engineer call this overcomplicated? Simplify.
+- No features beyond request, no single-use abstractions
+- No unasked flexibility, configurability, or error handling for impossible scenarios
+- Code bloated? Rewrite it simpler
+- Senior engineer says "overcomplicated"? Simplify
 
 ### Surgical changes
 
@@ -61,17 +61,17 @@ Senior engineer call this overcomplicated? Simplify.
 
 When editing:
 
-- Don't improve adjacent code, comments, formatting
-- Don't refactor what isn't broken
+- Don't improve adjacent code, comments, or formatting
+- Don't refactor what works
 - Match existing style
-- Notice unrelated dead code? Mention it — don't delete
+- Spot unrelated dead code? Mention it, don't delete
 
 When your changes create orphans:
 
-- Remove imports/variables/functions you made unused
+- Remove unused imports, variables, functions you created
 - Don't remove pre-existing dead code unless asked
 
-Test: Every changed line traces directly to user's request.
+Rule: every changed line traces directly to the request
 
 ### Goal-driven execution
 
@@ -79,60 +79,62 @@ Test: Every changed line traces directly to user's request.
 
 Transform tasks into verifiable goals:
 
-- "Add validation" → write tests for invalid inputs, make them pass
-- "Fix the bug" → write test reproducing it, make it pass
-- "Refactor X" → ensure tests pass before and after
+- "Add validation" → write tests, make them pass
+- "Fix bug" → reproduce with test, make it pass
+- "Refactor X" → tests pass before and after
 
-Multi-step tasks: state brief plan:
+Multi-step tasks: state plan with verification:
 
 ```
 1. [Step] → verify: [check]
 2. [Step] → verify: [check]
-3. [Step] → verify: [check]
 ```
 
-Strong criteria = loop independently. Weak criteria ("make it work") = constant clarification.
+Strong criteria = independent loops. Weak criteria = constant clarification.
 
-Guidelines produce: fewer diff changes, fewer rewrites, questions before implementation.
+Result: fewer diffs, fewer rewrites, questions upfront
 
 ## Identity & expertise
 
-Designer, front-end dev, strong full-stack. Focus: accessible design (WCAG AA baseline, AAA where feasible), maintainable/scalable code, dev experience. UK-based. Exploring freelance, tooling, accessibility audits.
+Designer, front-end dev, strong full-stack. Focus: accessible design (WCAG AA, AAA where feasible), maintainable/scalable code, dev experience. UK-based. Exploring freelance, tooling, accessibility audits.
 
 ## Communicating with humans
 
-Applies everywhere: documentation, UI copy, code comments, README files. Humans are diverse; not everyone understands the same way.
+Applies everywhere: documentation, UI copy, comments, README. Humans are diverse.
 
 - **Quick tasks**: concise, actionable
-- **Conceptual/unfamiliar**: thorough, educational — explain why, not just what
-- **Tone**: friendly, conversational; empathetic not prescriptive
-- **Real examples**: analogies, concrete cases, links to resources
-- **Structure**: explain why before stating rules
-- **UK spelling**: colour, organise, grey, behaviour, etc.
-- **Titles**: sentence case, not Title Case — easier to read
-- **Don't**: capitalise every word; use preamble/summary unless asked
+- **New concepts**: explain why before rules, use examples
+- **Tone**: friendly, conversational, empathetic not prescriptive
+- **Examples**: analogies, concrete cases, links to resources
+- **UK spelling**: colour, organise, behaviour, grey, etc.
+- **Titles**: sentence case (easier to read than Title Case)
+- **No preamble/summary** unless asked; no capitalised word titles
 
 ## Git & version control
 
 - Never commit automatically
-- Changes requiring documentation: update docs at same time
-- Commit messages: one-line intent summary. Description only if adds clarity beyond diff. Enumerate only if non-obvious; `git diff` gives detailed record
-- Don't mention comment or documentation changes in message — not relevant to user
+- Update docs when changes require documentation
 
 ## Global skills
 
-These skills apply across all projects. See individual skills for detailed rules.
+Apply across all projects. See individual skills for detailed rules. Per-project `.claude/settings.json` can disable skills via `skillOverrides` — useful if a skill's tech (Vue, Swift) isn't used in that project.
 
-- `/accessibility` — When building interfaces, covering WCAG AA baseline, accessible design
-- `/bash` — When writing shell scripts, covering bash scripting, config files, patterns
-- `/code-style` — When formatting any code, covering naming, comments, JS, arrays, objects
-- `/dependencies` — When adding packages, covering when to add, what to choose
-- `/error-handling` — When validating input, covering validation, graceful fallbacks
-- `/readme` — When writing a README, covering structure, what belongs, what to cut
-- `/swift` — When writing Swift, covering style, SwiftUI patterns, concurrency
-- `/typescript` — When using TypeScript, covering type safety, escape hatches
-- `/ui-copy` — When writing microcopy, covering buttons, errors, empty states, CTAs
-- `/unit-testing` — When writing unit tests, covering Vitest, philosophy, what to skip
-- `/vue` — When writing Vue code, covering formatting, patterns, composables, component organisation
-- `/vue-project-stack` — When working in a Vue project using the wider stack (Bun, Vitest, Tailwind, Gitflow, @lewishowles libs)
-- `/writing` — When writing prose or documentation, covering voice, tone, structure, and style
+- `/accessibility` — When building interfaces, WCAG AA baseline, accessible design
+- `/agentic-engineering` — When building with Claude API, Anthropic SDK, or managed agents
+- `/architecture-decision-records` — When documenting significant architectural decisions
+- `/bash` — When writing shell scripts, bash config, patterns
+- `/code-style` — When formatting code, covering naming, comments, arrays, objects
+- `/dependencies` — When adding packages, what to choose, when to add
+- `/e2e-testing` — When writing end-to-end tests with Playwright
+- `/error-handling` — When validating input, graceful fallbacks, error handling
+- `/readme` — When writing a README, structure, what to include/cut
+- `/session-management` — When saving/resuming work sessions across machines
+- `/swift` — When writing Swift, style, SwiftUI patterns, concurrency
+- `/swift-ui` — When writing/reviewing SwiftUI code, views, state management
+- `/typescript` — When using TypeScript, type safety, escape hatches
+- `/ui-copy` — When writing microcopy, buttons, errors, empty states, CTAs
+- `/unit-testing` — When writing unit tests, Vitest, philosophy, what to skip
+- `/vite-patterns` — When configuring vite.config.ts, Vite project patterns
+- `/vue` — When writing Vue code, formatting, patterns, composables, components
+- `/vue-project-stack` — When working in Vue + Bun + Vitest + Tailwind + Gitflow stack
+- `/writing` — When writing prose/documentation, voice, tone, structure, style
