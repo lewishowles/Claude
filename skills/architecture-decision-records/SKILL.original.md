@@ -8,11 +8,11 @@ related-skills:
 
 # Architecture Decision Records
 
-ADRs document significant technical decisions: why made, what considered, consequences.
+ADRs document significant technical decisions: why they were made, what was considered, and consequences.
 
 ## Format
 
-Store ADRs in `docs/adr/` or `adr/` with sequential numbering:
+Store ADRs in `docs/adr/` or `adr/` directory with sequential numbering:
 
 - `0001-use-vue-for-ui.md`
 - `0002-tailwind-for-styling.md`
@@ -73,17 +73,17 @@ We will use Vue 3 with Composition API and `<script setup>`.
 
 ## Status field
 
-- **Proposed** — under discussion
-- **Accepted** — made and implemented
-- **Superseded** — replaced by later ADR
+- **Proposed** — decision under discussion
+- **Accepted** — decision made and implemented
+- **Superseded** — replaced by a later ADR
 
 ## Consequences matter
 
-Document trade-offs: gains and losses. Helps future devs understand constraints.
+Document trade-offs: what you gain and what you lose. This helps future developers understand constraints.
 
 ## Linking
 
-Reference ADRs in code comments and docs:
+Reference ADRs in code comments and documentation:
 
 ```typescript
 // See ADR-0001: we chose Vue for specific TypeScript + DX reasons

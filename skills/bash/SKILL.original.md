@@ -8,8 +8,8 @@ description: Use this skill when writing shell scripts, zsh functions, bash util
 ## Config files
 
 - Minimal comments, no headers
-- `.env`/`.conf` concise, scannable
-- Config organised cleanly
+- `.env`/`.conf` concise and scannable
+- Config organised cleanly and sensibly
 
 ## Documentation
 

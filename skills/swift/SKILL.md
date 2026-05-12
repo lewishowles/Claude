@@ -9,9 +9,9 @@ related-skills:
 
 ## Comments
 
-Swift comments follow a strict two-tier system based on what's being documented.
+Swift comments: strict two-tier system.
 
-**Types and functions** — always use the multi-line `/** */` block form, even for a single sentence. Never use `/** Description. */` on one line. Never use `//` for types or functions.
+**Types and functions** — always use `/** */` block form, even single sentence. Never `/** Description. */` one line. Never `//` for types or functions.
 
 ```swift
 /**
@@ -25,7 +25,7 @@ struct Foo { ... }
 func doSomething() { ... }
 ```
 
-**Properties and inline logic** — use `//` only. Multi-line `//` blocks are fine. Never use `/** */` on a property or inside a function body.
+**Properties and inline logic** — `//` only. Multi-line `//` blocks fine. Never `/** */` on property or inside function body.
 
 ```swift
 // ID of the currently selected project.
@@ -39,39 +39,39 @@ let projects = projects
 
 ## Spacing
 
-- Blank line between logical sections within a function body — e.g. between state mutation and a `save()` call, between setup and execution, between a `guard` and the main logic.
-- Blank line between declarations of different "weight": a single-line property followed by a multi-line property (or function), or between two multi-line declarations.
+- Blank line between logical sections in function body — state mutation vs `save()`, setup vs execution, `guard` vs main logic.
+- Blank line between declarations of different "weight": single-line property before multi-line property or function, or between two multi-line declarations.
 - No blank line between two single-line properties of similar weight.
 
 ## Naming
 
-- Use full, descriptive names — no abbreviations for common things (`project` not `proj`, `index` not `i`).
-- Bool properties and parameters: prefix with `is`, `has`, `should`, `can` where it reads naturally (`isLoading`, `showSheet`).
-- Async functions that fetch or load data: name by what they return (`currentBranch`, `readPackageJSON`) not by the mechanism (`fetchBranch`, `loadJSON`).
+- Full, descriptive names — no abbreviations (`project` not `proj`, `index` not `i`).
+- Bool properties/parameters: prefix `is`, `has`, `should`, `can` where natural (`isLoading`, `showSheet`).
+- Async fetch functions: name by return value (`currentBranch`, `readPackageJSON`) not mechanism (`fetchBranch`, `loadJSON`).
 
 ## Concurrency
 
-- Mark UI-driving classes `@MainActor` rather than sprinkling `await MainActor.run` at call sites.
-- Use `async let` for concurrent fetches that are logically parallel and needed together.
-- Capture value-type snapshots before entering a `Task` body to avoid actor-isolation errors in Swift 6:
+- Mark UI-driving classes `@MainActor` — don't sprinkle `await MainActor.run` at call sites.
+- `async let` for concurrent fetches that are parallel and needed together.
+- Capture value-type snapshots before `Task` body to avoid Swift 6 actor-isolation errors:
   ```swift
   let projects = projects  // captured copy
   saveTask = Task {
       Persistence.save(projects, filename: "projects.json")
   }
   ```
-- Actors protect internal state — one instance per operation, not a global serialisation queue.
-- Use `AsyncStream` with a `continuation` to bridge callback-based APIs (e.g. `Process`, `DispatchSource`) into structured concurrency.
+- Actors protect internal state — one instance per operation, not global serialisation queue.
+- `AsyncStream` with `continuation` to bridge callback-based APIs (`Process`, `DispatchSource`) into structured concurrency.
 
 ## Error handling
 
-- Use `guard let` / `guard` with early return rather than deeply nested `if let`.
-- `try?` is fine for non-critical operations (file reads, process launch) where failure degrades gracefully.
-- Don't use `try!` — always handle or suppress explicitly.
+- `guard let` / `guard` with early return over deeply nested `if let`.
+- `try?` fine for non-critical ops (file reads, process launch) where failure degrades gracefully.
+- No `try!` — always handle or suppress explicitly.
 
 ## PATH in macOS apps
 
-Apps launched from Finder don't inherit the shell `PATH`. When spawning external tools (`bun`, `git`, etc.), prepend known locations manually:
+Apps from Finder don't inherit shell `PATH`. When spawning external tools (`bun`, `git`, etc.), prepend known locations manually:
 
 ```swift
 var env = ProcessInfo.processInfo.environment

@@ -11,7 +11,7 @@ related-skills:
 
 ## General
 
-- Over-test: happy/unhappy paths, valid/invalid variants
+- Over-test for robustness: happy/unhappy paths, valid/invalid variants
 - Meaningful assertions over snapshots for volatile content
 - Separate test setup from assertions like separating variables from logic in JS
 
@@ -20,7 +20,7 @@ related-skills:
 - Vitest; unit-test computed properties and heavily-used methods
 - Skip tests for methods delegating to `@lewishowles/helpers`
 - Component testing: focus on user interactions and state changes
-- Composables: test reactive state, side effects, lifecycle hooks
+- For composables: test reactive state, side effects, lifecycle hooks
 
 ### Component test structure
 
@@ -122,4 +122,4 @@ describe('useForm', () => {
 });
 ```
 
-**File colocation**: place test file next to component or composable using `.test.js` extension. Vitest discovers and runs automatically.
+**File colocation**: place test file next to the component or composable using `.test.js` extension. Vitest discovers and runs them automatically.

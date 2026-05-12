@@ -9,13 +9,13 @@ related-skills:
 
 # SwiftUI patterns
 
-Modern SwiftUI, iOS 26+ / macOS 26+. `@Observable` over legacy `ObservableObject`. Type-safe navigation. Performance-aware view composition.
+Modern SwiftUI development with iOS 26+ / macOS 26+ features. Emphasises @Observable over legacy ObservableObject, type-safe navigation, and performance-aware view composition.
 
 ## State management
 
 ### Property wrapper selection
 
-Choose by scope and mutability:
+Choose based on scope and mutability:
 
 | Wrapper | Scope | Mutability | Use case |
 |---------|-------|-----------|----------|
@@ -28,7 +28,7 @@ Choose by scope and mutability:
 
 ### @Observable view model pattern
 
-Replace `ObservableObject` + `@Published` + `@StateObject` with `@Observable`:
+Replace `ObservableObject` + `@Published` + `@StateObject` with simpler `@Observable`:
 
 ```swift
 import Observation
@@ -63,7 +63,7 @@ struct ProjectView: View {
 
 ### Environment injection pattern
 
-Inject Observable models via `@Environment`, access with `@Bindable`:
+Inject Observable models via `@Environment` and access with `@Bindable`:
 
 ```swift
 // In parent
@@ -96,7 +96,7 @@ struct SettingsView: View {
 
 ### Subview extraction
 
-Avoid re-rendering entire view tree on local state change. Extract sub-views with own `@State`:
+Avoid re-rendering entire view tree when local state changes. Extract sub-views with their own `@State`:
 
 ```swift
 struct ContentView: View {
@@ -149,7 +149,7 @@ Button("Submit") { }
 
 ### Type-safe NavigationStack
 
-Enum-based routing + `NavigationPath` for type-safe navigation:
+Use enum-based routing and `NavigationPath` for type-safe navigation:
 
 ```swift
 enum Route: Hashable {
@@ -201,7 +201,7 @@ ScrollView {
 
 ### Stable identifiers in ForEach
 
-Always `id: \.id`, not implicit integer index:
+Always use `id: \.id` (not implicit integer index):
 
 ```swift
 // GOOD
@@ -217,7 +217,7 @@ ForEach(items, id: \.self) { item in
 
 ### Avoid expensive work in body
 
-Move I/O, heavy computation, DB queries into `.task {}`:
+Move I/O, heavy computation, or database queries into `.task {}`:
 
 ```swift
 struct DetailView: View {
@@ -237,7 +237,7 @@ struct DetailView: View {
 
 ### Equatable conformance for expensive views
 
-Conform to `Equatable`, use `.equatable()` to skip re-renders when props unchanged:
+If a view's body is expensive to compute, conform to `Equatable` and pass `@_spi(Advanced)` to skip re-renders when props haven't changed:
 
 ```swift
 struct ExpensiveView: View, Equatable {
@@ -291,7 +291,7 @@ struct ProjectDetailView: View {
 - **ObservableObject + @Published** — use `@Observable` instead
 - **@StateObject** — use `@State` + `@Observable` instead
 - **@EnvironmentObject** — use `@Environment` + Observable instead
-- **AnyView type erasure** — use conditional view composition instead
+- **AnyView type erasure** — use conditional view composition or conditional statement instead
 - **Async work in body or init** — use `.task {}` or `.onAppear {}`
 - **Creating view models in child views** — inject from parent
 - **Ignoring Sendable** — @MainActor-annotated view models are Sendable automatically

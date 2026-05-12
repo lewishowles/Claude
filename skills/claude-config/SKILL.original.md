@@ -8,7 +8,7 @@ related-skills:
 
 # Claude config
 
-Skill applies in `~/Dev/Configuration/Claude` — repo defining Claude global behaviour.
+This skill applies when working in `~/Dev/Configuration/Claude` — the repository that defines Claude's global behaviour.
 
 ## Repo structure
 
@@ -56,24 +56,24 @@ Configuration/Claude/
 ## Skill conventions
 
 - **Folder name** = skill slug (used in `/slug` commands and hook pattern lists)
-- Each skill folder: exactly one `SKILL.md`
-- Frontmatter fields: `name`, `description`, `related-skills` (optional)
-- `description` shown in skills list — one sentence, starts "Use this skill when..."
-- Content: `#` title, `##` sections — no banner comments or dividers
-- UK spelling
+- Every skill folder contains exactly one `SKILL.md`
+- Frontmatter fields: `name`, `description`, `related-skills` (optional list)
+- `description` is shown in the skills list — one sentence, starts with "Use this skill when..."
+- Content uses `#` for the title, `##` for sections — no banner comments or dividers
+- UK spelling throughout
 
 ## Hook conventions
 
-- All hooks in `hooks/`, symlinked to `~/.claude/hooks/`
-- Registered in `settings.json` under appropriate event key
+- All hooks live in `hooks/` and are symlinked to `~/.claude/hooks/`
+- Registered in `settings.json` under the appropriate event key
 - Each hook outputs JSON to stdout — Claude Code reads this, not stderr
 - `UserPromptSubmit` hooks receive `{"prompt": "..."}` on stdin
-- `PreToolUse` hooks receive full tool input JSON on stdin
-- Hard-fail (exit 2) only when blocking intentional; else exit 0
+- `PreToolUse` hooks receive the full tool input JSON on stdin
+- Hooks should hard-fail (exit 2) only when blocking is intentional; otherwise exit 0
 
 ### skill-autotrigger.sh pattern authoring
 
-Each skill block follows:
+Each skill block in `skill-autotrigger.sh` follows this pattern:
 
 ```bash
 # ─── skill-name ───────────────────────────────────────────────────────────
@@ -83,14 +83,14 @@ if echo "$prompt" | grep -qiE 'keyword1|keyword2|\bterm\b'; then
 fi
 ```
 
-- Use `\b` word boundaries — avoid partial matches
+- Use `\b` word boundaries to avoid partial matches
 - Case-insensitive (`-i`) always
-- Pair related skills in same block (e.g. `vue` always adds `vue-project-stack`)
-- New skill → add to continuation catch-all list at top too
+- Pair related skills in the same block (e.g. `vue` always adds `vue-project-stack`)
+- When adding a new skill, add it to the continuation catch-all list at the top too
 
 ### skill-file-trigger.sh extension mapping
 
-Add new extensions to `case` block:
+Add new extensions to the `case` block:
 
 ```bash
 case "$ext" in
@@ -98,7 +98,7 @@ case "$ext" in
 esac
 ```
 
-Filename-based rules (README, vite.config) go in `if`/`shopt` block below case.
+Filename-based rules (README, vite.config) go in the `if`/`shopt` block below the case.
 
 ## settings.json structure
 
@@ -114,7 +114,7 @@ Filename-based rules (README, vite.config) go in `if`/`shopt` block below case.
 ```
 
 Hook event names: `UserPromptSubmit`, `PreToolUse`, `PostToolUse`, `Stop`, `SessionStart`.
-`PreToolUse` supports `matcher` field (regex against tool name).
+`PreToolUse` supports a `matcher` field (regex against tool name).
 
 ## Installed plugins
 
@@ -125,7 +125,7 @@ Hook event names: `UserPromptSubmit`, `PreToolUse`, `PostToolUse`, `Stop`, `Sess
 
 ## When editing docs/
 
-- Update `docs/skills.md` when adding/removing skill
-- Update `docs/hooks.md` when changing hook behaviour or adding hook
-- Update `docs/commands.md` when new skill or plugin command appears
-- Keep `README.md` focused on setup — detail in `docs/`
+- Update `docs/skills.md` when adding or removing a skill
+- Update `docs/hooks.md` when changing hook behaviour or adding a new hook
+- Update `docs/commands.md` when a new skill or plugin command appears
+- Keep `README.md` focused on setup — detail goes in `docs/`

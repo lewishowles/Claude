@@ -5,11 +5,11 @@ description: Use this skill when building with Claude API, Anthropic SDK, or man
 
 # Agentic engineering
 
-Build with Claude API and managed agents. Focus: cost awareness, right-size models, sustainable LLM workflows.
+Building with Claude API and managed agents. Focus: cost awareness, right-sizing models, and sustainable LLM workflows.
 
 ## Model selection
 
-Three models, three purposes. Pick by task complexity, cost, latency:
+Three models, three purposes. Pick based on task complexity, cost constraints, and latency:
 
 | Model | Best for | Cost | Speed | Context |
 |-------|----------|------|-------|---------|
@@ -20,12 +20,12 @@ Three models, three purposes. Pick by task complexity, cost, latency:
 ### Selection heuristics
 
 - **Use Haiku** for: bulk text classification, simple summaries, content filtering, high-frequency tasks (chatbots, API responses)
-- **Use Sonnet** for: default — feature work, debugging, code review, most Agent tasks
-- **Use Opus** when Sonnet fails or task needs deep reasoning — multi-doc synthesis, architectural decisions, complex proofs
+- **Use Sonnet** for: default choice — feature work, debugging, code review, most Agent tasks
+- **Use Opus** when Sonnet fails or task requires deep reasoning — multi-document synthesis, architectural decisions, complex proofs
 
 ### Cost-quality trade-off
 
-Test on Haiku first (cheap signal). Underperforms → upgrade to Sonnet. Only use Opus if Sonnet consistently fails.
+Test on Haiku first (cheap signal). If it underperforms, upgrade to Sonnet. Only use Opus if Sonnet consistently fails.
 
 ```python
 # Example: classify sentiment
@@ -45,19 +45,19 @@ def classify_sentiment(text: str) -> str:
 
 ## Token budgeting
 
-Tokens = cost unit. Manage three categories:
+Tokens are the unit of cost. Manage three categories:
 
 ### Input tokens (cheaper)
 
-- Every prompt word costs
+- Prompt engineering: every word costs
 - Long contexts (system prompts, documents, examples) multiply input cost
 - Caching: repeat inputs amortise cost over time
 
 ### Output tokens (more expensive)
 
 - Longer responses cost more
-- Step-by-step reasoning uses 2–3× more tokens than direct answers
-- Use `max_tokens` to cap runaway outputs
+- Generation patterns: step-by-step reasoning uses 2–3× more tokens than direct answers
+- Generation limits: use `max_tokens` to cap runaway outputs
 
 ### Batch processing (20% discount)
 
@@ -90,7 +90,7 @@ batch = client.beta.messages.batches.create(
 
 ## Prompt caching (5% savings + speed)
 
-Cache static content (docs, examples, system prompts) across requests. Cache hits 90% cheaper than input tokens.
+Cache static content (documentation, examples, system prompts) across multiple requests. Cache hits are 90% cheaper than input tokens.
 
 ```python
 response = client.messages.create(
@@ -119,11 +119,11 @@ response = client.messages.create(
 )
 ```
 
-Monitor `usage.cache_read_input_tokens` vs `usage.input_tokens`. Healthy ratio: >30% cache reads on repeated tasks.
+Cache hit rates: monitor `usage.cache_read_input_tokens` vs `usage.input_tokens`. Healthy ratio: >30% cache reads on repeated tasks.
 
 ## Cost tracking
 
-Log cost per request:
+Log cost per request for budget awareness:
 
 ```python
 def log_cost(response) -> float:
@@ -151,13 +151,13 @@ def log_cost(response) -> float:
     return total_cost
 ```
 
-Aggregate cost by model, task, time period. Alert when weekly cost exceeds baseline.
+Aggregate cost by model, task, and time period. Budget spike alerts: if weekly cost exceeds historical baseline, investigate.
 
 ## Patterns for cost efficiency
 
 ### Few-shot examples over lengthy instructions
 
-Short concrete examples cheaper than long prose:
+Short, concrete examples (few-shot) are cheaper than long prose instructions:
 
 ```python
 # BAD: long explanation
@@ -177,7 +177,7 @@ Example:
 
 ### Streaming for perceived performance
 
-Stream tokens as they arrive. No cost reduction, but improves UX:
+Stream output tokens as they arrive. Doesn't reduce cost, but improves UX (user sees results sooner):
 
 ```python
 with client.messages.stream(
@@ -191,7 +191,7 @@ with client.messages.stream(
 
 ### Structured output (JSON schema)
 
-Constrain output format to cut token waste and parsing overhead:
+Constrain output format to reduce token waste and parsing overhead:
 
 ```python
 response = client.messages.create(
@@ -217,7 +217,7 @@ response = client.messages.create(
 
 ### Parallel batch processing over sequential loops
 
-Process N items in one request, not N requests:
+Process multiple items in one request (parallel) instead of looping (sequential):
 
 ```python
 # BAD: N requests for N items
@@ -244,19 +244,19 @@ response = client.messages.create(
 
 ## Managed agents (Claude AI + API integration)
 
-Use managed agents for complex, long-running tasks. Agents handle tool use, looping, state automatically.
+Use managed agents for complex, long-running tasks. Agents handle tool use, looping, and state automatically.
 
-- Define task in Claude AI (UI)
-- Integrate results into app via API
-- Auto-retried and resumed on failure
-- No orchestration token overhead (managed server-side)
+- Define agent task in Claude AI (UI)
+- Integrate results into application via API
+- Automatically retried and resumed on failure
+- No token overhead for orchestration (managed server-side)
 
-Cost: pay only for actual Claude API calls (same per-token pricing).
+Cost: pay only for actual Claude API calls made by the agent (same per-token pricing).
 
 ## Monitoring & observability
 
 - Track API usage via Anthropic Dashboard or invoice
-- Alert on unexpected cost spikes
-- Log token usage per task, model, user
+- Set up alerts for unexpected cost spikes
+- Log token usage per task, model, and user
 - Publish monthly cost breakdown
 - Benchmark cost per feature

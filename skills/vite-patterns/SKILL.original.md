@@ -58,11 +58,11 @@ export default defineConfig(({ command, mode }) => {
 
 ## Environment Variables
 
-Vite loads `.env`, `.env.local`, `.env.[mode]`, `.env.[mode].local` in order; later files override earlier. `.local` files gitignored, for local secrets.
+Vite loads `.env`, `.env.local`, `.env.[mode]`, `.env.[mode].local` in order; later files override earlier ones. `.local` files are gitignored and meant for local secrets.
 
 ### Client-Side Access
 
-Only `VITE_`-prefixed vars exposed to client code:
+Only `VITE_`-prefixed variables are exposed to client code:
 
 ```typescript
 // accessible in browser
@@ -92,7 +92,7 @@ export default defineConfig(({ mode }) => {
 
 ### `VITE_` Prefix is NOT a Security Boundary
 
-Any `VITE_`-prefixed var is **statically inlined into client bundle at build time**. Minification and disabled source maps do NOT hide it. Attacker can extract any `VITE_` var from shipped JavaScript.
+Any variable prefixed `VITE_` is **statically inlined into the client bundle at build time**. Minification and disabling source maps do NOT hide it. A determined attacker can extract any `VITE_` var from shipped JavaScript.
 
 **Rule:** Only public values (API URLs, feature flags, public keys) go in `VITE_` vars. Secrets (API tokens, database URLs, private keys) MUST live server-side behind an API.
 
@@ -109,7 +109,7 @@ const env = loadEnv(mode, process.cwd(), ['VITE_', 'APP_'])
 
 ### Source Maps in Production
 
-Production source maps leak original source code. Disable unless uploading to error tracker (Sentry, Bugsnag) and deleting locally afterward:
+Production source maps leak original source code. Disable them unless you upload to an error tracker (Sentry, Bugsnag) and delete locally afterward:
 
 ```typescript
 build: {
@@ -125,16 +125,16 @@ build: {
 
 ## Dev vs Build
 
-Dev uses esbuild for on-demand transforms; build uses Rollup for bundling. CJS libs can behave differently between the two. **Always verify with `vite build && vite preview` before deploying.**
+Dev uses esbuild for on-demand transforms; build uses Rollup for bundling. CJS libraries can behave differently between the two. **Always verify with `vite build && vite preview` before deploying.**
 
 `vite build` transpiles but does NOT type-check. Type errors silently ship to production unless you run `tsc --noEmit` in CI or use `vite-plugin-checker`.
 
 ## Library Mode
 
-Publishing npm package: use `build.lib`. Two footguns:
+When publishing an npm package, use `build.lib`. Two footguns:
 
-1. **Types not emitted** — add `vite-plugin-dts` or run `tsc --emitDeclarationOnly` separately.
-2. **Peer deps MUST be externalized** — unlisted peers bundle into library, causing duplicate-runtime errors in consumers.
+1. **Types are not emitted** — add `vite-plugin-dts` or run `tsc --emitDeclarationOnly` separately.
+2. **Peer dependencies MUST be externalized** — unlisted peers get bundled into your library, causing duplicate-runtime errors in consumers.
 
 ```typescript
 build: {
@@ -155,12 +155,12 @@ build: {
 
 New builds produce new chunk hashes. Users with active sessions request old filenames that no longer exist. Mitigations:
 
-- Keep old `dist/assets/` files live for deployment window
-- Catch dynamic import errors in router and force page reload
+- Keep old `dist/assets/` files live for a deployment window
+- Catch dynamic import errors in your router and force a page reload
 
 ### Docker and Containers
 
-Vite binds to `localhost` by default, unreachable from outside container:
+Vite binds to `localhost` by default, unreachable from outside a container:
 
 ```typescript
 server: {
@@ -171,7 +171,7 @@ server: {
 
 ### Monorepo File Access
 
-Vite restricts file serving to project root. Packages outside root blocked:
+Vite restricts file serving to project root. Packages outside root are blocked:
 
 ```typescript
 server: {
@@ -183,7 +183,7 @@ server: {
 
 ### Barrel Files Slow Dev Server
 
-Barrel files (`index.ts` re-exporting everything from directory) force Vite to load every re-exported file even when importing single symbol.
+Barrel files (`index.ts` re-exporting everything from a directory) force Vite to load every re-exported file even when importing a single symbol.
 
 ```typescript
 // BAD — importing one util forces load of whole barrel
@@ -195,7 +195,7 @@ import { slash } from '@/utils/slash'
 
 ### Explicit Import Extensions
 
-Each implicit extension forces multiple filesystem checks. In large codebases, adds up.
+Each implicit extension forces multiple filesystem checks. In large codebases, this adds up.
 
 ```typescript
 // BAD
@@ -207,7 +207,7 @@ import Component from './Component.vue'
 
 ### Stale Pre-Bundle Cache
 
-Pre-bundle cache (`node_modules/.vite`) causes phantom errors when deps change. Clear when switching branches or after patching deps:
+Pre-bundle cache (`node_modules/.vite`) causes phantom errors when deps change. Clear it when switching branches or after patching deps:
 
 ```bash
 rm -rf node_modules/.vite

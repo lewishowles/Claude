@@ -13,8 +13,8 @@ related-skills:
 
 - Tab HTML indentation
 - Always self-close where possible (`<img />`, `<component />`)
-- Lowercase component names in templates
-- Always two-word minimum component names per Vue best practices
+- Use lowercase component names in templates
+- Always use at least two-words in component names as per Vue best practices
 - Max 5 attributes per line (single); 1 per line (multiline)
 - Import groups: destructurable → non-destructurable → Components, blank line between
 
@@ -24,7 +24,7 @@ related-skills:
 
 ## Computed properties
 
-- Non-simple computed: multiline with blank lines around
+- Non-simple computed properties: multiline with blank lines around
 - Order: variables and single-line computed, then multi-line computed, then functions
 - Keep related items together
 
@@ -45,7 +45,7 @@ related-skills:
 ## Component naming
 
 - Lowercase kebab-case names (`form-input`, `data-table`)
-- Always two words minimum — single-word names conflict with native HTML elements
+- Always at least two words, per Vue best practice — single-word component names conflict with native HTML elements
 
 ---
 
@@ -53,7 +53,7 @@ related-skills:
 
 ## Fragment-based component composition
 
-Break complex components into internal `/fragments/` subdirectory. Fragments not exported; used only by parent. Reduces re-render scope, keeps logic isolated.
+Break complex components into internal `/fragments/` subdirectory. Fragments are not exported; used only by parent. Reduces re-render scope and keeps component logic isolated.
 
 **Pattern**: parent component → child fragments (via slots, not props)
 
@@ -84,11 +84,11 @@ const haveHelp = isNonEmptySlot(slots.help);
 
 **Benefits**: fragments driven by slots → cleaner composition, easier refactoring.
 
-**Slot checking**: use `useSlots()` + boolean computed/const to detect available slots.
+**Slot checking**: use `useSlots()` + boolean computed/const to detect which slots are available.
 
 ## Composables as global state + API wrapper
 
-For smaller apps (without Pinia), composables expose module-scope refs persisting across component mounts. Multiple components share same instance.
+For smaller apps (without Pinia), composables can expose module-scope refs that persist across component mounts. Multiple components share same instance.
 
 **Pattern**: composable defines module-level ref, exports accessor functions and reactive computed.
 
@@ -233,7 +233,7 @@ const [DefineTemplate, ReuseTemplate] = createReusableTemplate();
 
 ## Dynamic slot names
 
-Use template literals in `#[...]` syntax for computed slot names. Useful for flexible column configs or dynamic field rendering.
+Use template literals in `#[...]` syntax for computed slot names. Useful for flexible column configurations or dynamic field rendering.
 
 ```vue
 <script setup>
@@ -284,7 +284,7 @@ const displayOptions = computed(() =>
 
 ## Skeleton loaders
 
-Build domain-specific skeleton components (e.g., `user-list-skeleton`, `product-card-skeleton`) composing `loading-skeleton` (wrapper) and `loading-skeleton-indicator` (individual "bones") from `@lewishowles/components`. Use `v-show` (not `v-if`) to preserve animation state. Size bones to match template being loaded.
+Build domain-specific skeleton components (e.g., `user-list-skeleton`, `product-card-skeleton`) that internally compose `loading-skeleton` (wrapper) and `loading-skeleton-indicator` (individual "bones") from `@lewishowles/components`. Use `v-show` (not `v-if`) to preserve animation state. Size bones to match the template being loaded.
 
 **Domain-specific skeleton** (user-list-skeleton.vue):
 
@@ -380,11 +380,11 @@ onMounted(() => security.updateStatus());
 </template>
 ```
 
-**vs module-level refs**: Pinia offers devtools, time-travel debugging, type-safe mutations. Use for complex state; module refs for simple shared data.
+**vs module-level refs**: Pinia offers devtools, time-travel debugging, type-safe mutations. Use for complex state; use module refs for simple shared data.
 
 ## keep-alive (cache component state)
 
-Cache component instance when hidden (e.g., tabs, routes). Preserves state, skips re-run of `onMounted`.
+Cache component instance when it's hidden (e.g., tabs, routes). Preserves component state and doesn't re-run `onMounted`.
 
 ```vue
 <script setup>
@@ -418,7 +418,7 @@ const activeTab = ref('films');
 </template>
 ```
 
-**Without keep-alive**: switching tabs unmounts film-list, losing scroll position and form state. With keep-alive: state preserved.
+**Without keep-alive**: switching tabs unmounts film-list, losing scroll position and form state. With keep-alive: state is preserved.
 
 **With include/exclude**:
 
@@ -430,7 +430,7 @@ const activeTab = ref('films');
 
 ## Suspense (async component boundaries)
 
-Boundary for async setup or data loading. Shows fallback UI while child loads; renders child when ready. Works well with skeleton loaders — put skeleton in `#fallback` slot.
+Boundary for async setup or data loading. Shows fallback UI while child loads; renders child when ready. Suspense works well with skeleton loaders — put a skeleton in the `#fallback` slot.
 
 ```vue
 <script setup>
@@ -467,11 +467,11 @@ const { data } = await fetch(`/api/films/${props.id}`).then(r => r.json());
 </template>
 ```
 
-**Suspense + skeletons**: Suspense handles multiple async children together, coordinates loading state. Use skeleton loaders (from component library) as fallback. Simpler for async setup when data is critical to rendering.
+**Suspense + skeletons**: Suspense handles multiple async children together and coordinates their loading state. Use skeleton loaders (from the component library) as the fallback UI. Suspense is simpler for async setup when data is critical to rendering.
 
 ## Teleport (render outside hierarchy)
 
-Render component to different DOM location. Useful for modals, tooltips, popovers (keep in component tree, render elsewhere).
+Render component to a different part of the DOM. Useful for modals, tooltips, popovers (keep in DOM hierarchy, render elsewhere).
 
 ```vue
 <script setup>
@@ -499,11 +499,11 @@ const showModal = ref(false);
 </body>
 ```
 
-**Benefits**: modal doesn't inherit parent's CSS constraints (z-index, overflow); stays in logical component tree (for events/props). Accessibility: use `role="dialog"` + `aria-modal="true"` on teleported modal and mark main app `aria-hidden="true"` while modal open, so screen readers skip inert content.
+**Benefits**: modal doesn't inherit parent's CSS constraints (z-index, overflow); stays in logical component tree (for events/props). Accessibility: use `role="dialog"` + `aria-modal="true"` on the teleported modal and mark the main app `aria-hidden="true"` while modal is open, so screen readers skip the inert content.
 
 ## v-memo (skip expensive re-renders)
 
-Skip re-render if dependency array unchanged. Use only when re-render is known expensive (complex template, large list).
+Skip re-render if dependency array unchanged. Use only when you know re-render is expensive (complex template, large list).
 
 ```vue
 <script setup>
@@ -533,13 +533,13 @@ const filtered = computed(() =>
 </template>
 ```
 
-**Without v-memo**: list re-renders even if parent state changes but filtered array identical. With v-memo: skips render if filtered array reference unchanged.
+**Without v-memo**: list re-renders even if parent state changes but filtered array is identical. With v-memo: skips render if filtered array reference unchanged.
 
-**Caveat**: premature optimization. Use only if profiler shows re-render is bottleneck. Vue's reactivity fast; avoid `v-memo` unless needed.
+**Caveat**: premature optimization. Use only if profiler shows re-render is a bottleneck. Vue's reactivity is fast; avoid v-memo unless needed.
 
 ## watch and watchEffect (alternative patterns)
 
-`computed` preferred for derived state. `watch` and `watchEffect` handle side effects and conditional reactions.
+While `computed` is preferred for derived state, `watch` and `watchEffect` handle side effects and conditional reactions.
 
 **watch** — explicit dependencies, triggers when they change:
 
@@ -561,7 +561,7 @@ watch(
 );
 ```
 
-**watchEffect** — auto-tracks dependencies inside effect:
+**watchEffect** — auto-tracks dependencies inside the effect:
 
 ```typescript
 import { ref, watchEffect } from 'vue';
@@ -578,9 +578,9 @@ watchEffect(async () => {
 });
 ```
 
-**Prefer computed when possible** — caches results, skips re-run if dependencies unchanged. Use watch/watchEffect only for:
+**Prefer computed when possible** — it caches results, skips re-run if dependencies unchanged. Use watch/watchEffect only for:
 - Side effects (API calls, analytics, DOM manipulation)
 - Reactions that don't compute values (logging, validation)
 - Conditional reactions (only run if X is true)
 
-**Common mistake**: using watch to compute derived state. Use computed instead — cached and reactive.
+**Common mistake**: using watch to compute derived state. Use computed instead—it's cached and reactive.

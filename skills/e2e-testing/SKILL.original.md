@@ -9,11 +9,11 @@ related-skills:
 
 # End-to-end testing
 
-E2E tests verify full user journeys, browser to backend. Playwright automates interactions and assertions.
+E2E tests verify full user journeys from browser to backend. Playwright automates browser interactions and assertions.
 
 ## Playwright setup
 
-Runs headless browsers (Chromium, Firefox, WebKit), records interactions.
+Playwright runs headless browsers (Chromium, Firefox, WebKit) and records interactions.
 
 ```bash
 bun add -D @playwright/test
@@ -106,12 +106,12 @@ const count = await page.locator('[data-test="list-item"]').count();
 const text = await page.locator('[data-test="page-title"]').textContent();
 ```
 
-**Use data-test attributes**: Prefer `data-test="component.element"` over CSS selectors. Namespacing avoids cross-test contamination, intent stays clear.
+**Use data-test attributes**: Always prefer `data-test="component.element"` over CSS selectors. Namespacing (component.element) avoids cross-test contamination and makes intent clear.
 
 ## Best practices
 
-- **One user journey per test** — full flows, not isolated pieces
-- **Use data attributes** — `data-testid="user-input"` more stable than selectors
+- **One user journey per test** — test full flows, not isolated pieces
+- **Use data attributes** — `data-testid="user-input"` is more stable than selectors
 - **Wait explicitly** — avoid `page.waitForTimeout()`, use `waitForURL()` or `waitForSelector()`
-- **Cleanup** — no test data left; use `beforeAll`/`afterAll` to set up/tear down
-- **Parallel tests** — parallel by default; no execution order dependency
+- **Cleanup** — don't leave test data; use `beforeAll`/`afterAll` to set up/tear down
+- **Parallel tests** — tests run in parallel by default; don't depend on execution order

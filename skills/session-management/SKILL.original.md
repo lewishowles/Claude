@@ -7,7 +7,7 @@ related-skills:
 
 # Session management
 
-Save/resume Claude Code sessions. Preserve context across restarts.
+Save and resume Claude Code sessions to preserve context across restarts.
 
 ## /save-session
 
@@ -17,14 +17,14 @@ Snapshot current session state:
 /save-session "feature: add dark mode toggle"
 ```
 
-Creates checkpoint with:
+Creates a checkpoint with:
 - Conversation history
 - File state (recently opened, edited)
 - Current task context
 
 ## /resume-session
 
-List/resume previous sessions:
+List and resume previous sessions:
 
 ```
 /resume-session
@@ -41,17 +41,17 @@ Shows saved snapshots. Select one to restore context and continue.
 
 ## Naming sessions
 
-Descriptive names capture intent:
+Use descriptive names that capture intent:
 
 - ✅ "fix: auth bug in login flow"
 - ✅ "feature: add export to CSV"
 - ✅ "refactor: extract API client"
 - ❌ "work on stuff"
 
-Clear names = find right session fast.
+Clear names let you find the right session quickly later.
 
 ## Session limits
 
-Claude Code keeps recent sessions. Old snapshots may auto-clean.
+Claude Code keeps recent sessions. Very old snapshots may be cleaned up automatically.
 
-Permanent records: commit to git instead.
+For permanent records, commit work to git instead.

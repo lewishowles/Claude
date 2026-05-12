@@ -10,7 +10,7 @@ related-skills:
 
 # Code style
 
-**Baseline for all code, all projects, all languages.** Working in specific language/framework: also consult language skill: `/vue` for Vue, `/swift` for Swift, `/typescript` for TypeScript. Those extend code-style with language patterns; code-style = foundation.
+**This is the baseline for all code, all projects, all languages.** When working in a specific language or framework, also consult the language-specific skill: `/vue` for Vue files, `/swift` for Swift, `/typescript` for TypeScript. These extend code-style with language-specific patterns; code-style provides the foundation.
 
 ## Formatting
 
@@ -29,8 +29,8 @@ related-skills:
 ## Comments & documentation
 
 - Every top-level variable: single-line comment describing what it does — all languages
-- Functions: JSDoc or equivalent blocks. Parameters: `@param  {type}  name` format, description indented four spaces on next line
+- Functions: Include JSDoc or equivalent blocks. Parameters: `@param  {type}  name` format, description indented four spaces on next line
 - Repeated inline logic? Extract into named functions with JSDoc or equivalent, don't duplicate
 - No banner/divider comments (`// ---`) — use JSDoc or equivalent and blank lines for structure
-- In-code comments explain why, not what
-- Block comments for functions explain purpose and why
+- In-code comments explain why, not what.
+- Block comments for functions explain the purpose, and include the why.

@@ -7,8 +7,8 @@ related-skills:
 
 # Typescript
 
-- Avoid complex type gymnastics; manual runtime checks for external data
-- Use the simplest acceptable types, not clever, overly complex types
-- Prefer built-in types over framework-specific when they add no meaningful safety
-- `as any` / `as unknown` acceptable as named local escapes, but smelly. May be required to do proper input validation
-- Always explain why a type error occurs — don't silently fix it
+- No complex type gymnastics; manual runtime checks for external data
+- Simplest acceptable types, not clever/complex ones
+- Prefer built-in types over framework-specific when no meaningful safety gained
+- `as any` / `as unknown` OK as named local escapes, but smelly. May need for proper input validation
+- Always explain why type error occurs — never silently fix
