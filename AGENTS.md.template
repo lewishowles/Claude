@@ -1,0 +1,66 @@
+---
+This is a template. Copy this to your project as AGENTS.md and fill in project-specific details.
+---
+
+# [Project Name]
+
+## Purpose
+
+What is this project? Who uses it? Why does it exist?
+
+Example: "Personal task management app for iOS with offline sync and iCloud integration."
+
+## Functionality
+
+What does this app/service do? Key features or domains.
+
+- [Feature/domain 1]
+- [Feature/domain 2]
+- [Domain-specific info relevant to code]
+
+Example:
+- Tasks: create, list, edit, delete, recurring tasks
+- Sync: iCloud, local caching, conflict resolution
+- UI: list view, detail view, inline editing
+
+## Tech choices
+
+Specific libraries or tools for this project that differ from global baseline.
+
+- Packages added (with brief reason if non-standard)
+- Services/APIs used
+- State management approach (if bespoke)
+- Data persistence strategy
+
+Example:
+- `react-query` for server state (critical for sync)
+- Firebase for real-time collab (vs local-only)
+- SQLite for offline storage
+
+## Architecture notes
+
+Code organization and patterns specific to this project.
+
+- Data flow patterns (how data moves through the app)
+- How state is managed (global store, local, hooks, etc.)
+- Folder structure specifics
+- API/service integration patterns
+
+Example:
+- Views organised by domain: tasks/, settings/, etc.
+- Sync state lives in composable, UI components consume it
+- API calls wrapped in fetch composable
+
+## Gotchas
+
+Known issues, constraints, performance considerations, or environment specifics.
+
+- Browser/device quirks
+- Performance bottlenecks to avoid
+- Common mistakes or edge cases
+- Accessibility considerations specific to this app
+
+Example:
+- iOS Safari doesn't support IndexedDB (use localStorage fallback)
+- Large task lists (1000+) need virtualization
+- Users often quit without saving; implement autosave

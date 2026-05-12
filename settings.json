@@ -1,0 +1,72 @@
+{
+  "env": {
+    "CLAUDE_CODE_DISABLE_AUTO_MEMORY": "1"
+  },
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"/Users/lewis/.claude/hooks/skill-autotrigger.sh\"",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": ".*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash /Users/lewis/.claude/hooks/check-claude.sh",
+            "timeout": 30,
+            "statusMessage": "Checking for CLAUDE.md…"
+          }
+        ]
+      },
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"/Users/lewis/.claude/hooks/skill-file-trigger.sh\"",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash /Users/lewis/.claude/hooks/pre-stop-checks.sh",
+            "timeout": 60,
+            "statusMessage": "Checking lint and tests…"
+          }
+        ]
+      }
+    ]
+  },
+  "enabledPlugins": {
+    "caveman@caveman": true,
+    "claude-mem@thedotmack": true
+  },
+  "extraKnownMarketplaces": {
+    "caveman": {
+      "source": {
+        "source": "github",
+        "repo": "JuliusBrussee/caveman"
+      }
+    },
+    "thedotmack": {
+      "source": {
+        "source": "github",
+        "repo": "thedotmack/claude-mem"
+      }
+    }
+  },
+  "agentPushNotifEnabled": true
+}
