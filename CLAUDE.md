@@ -2,7 +2,7 @@
 
 These are baseline rules for all projects. Project-specific rules live in AGENTS.md (required in every project).
 
-**Each project must have AGENTS.md in its `.claude/` folder.** If missing, copy the template from `~/Dev/Configuration/Claude/AGENTS.md.template` or create from scratch with: purpose, functionality, tech choices, architecture notes, gotchas.
+**Each project must have AGENTS.md in its `.claude/` folder.** If missing, copy the template from `~/Dev/Configuration/Claude/templates/AGENTS.md.template` or create from scratch with: purpose, functionality, tech choices, architecture notes, gotchas.
 
 ⚠️ AGENTS.md is PROJECT-SPECIFIC. It lives in `.claude/AGENTS.md` within each project, not in the global config directory.
 

@@ -15,7 +15,9 @@ Skill applies in `~/Dev/Configuration/Claude` — repo defining Claude global be
 ```
 Configuration/Claude/
 ├── CLAUDE.md               # Global rules — applies to all projects
-├── AGENTS.md.template      # Starting point for per-project .claude/AGENTS.md
+├── templates/
+│   ├── AGENTS.md.template  # Starting point for per-project .claude/AGENTS.md
+│   └── settings.json       # Project template with stack-specific skills suppressed
 ├── CREDITS.md              # Attribution for externally-inspired content
 ├── README.md               # Setup guide for new installs
 ├── settings.json           # Global Claude Code settings (symlinked to ~/.claude/settings.json)

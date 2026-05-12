@@ -8,7 +8,7 @@ A central repository for Claude Code configuration, based on constant tinkering 
 - **skills/** — skill folders covering specific areas: Vue, testing, TypeScript, accessibility, writing, and more. Each is a folder containing `SKILL.md` with frontmatter and instructions
 - **hooks/** — shell scripts that fire automatically during sessions to enforce standards and trigger skills
 - **settings.json** — global Claude Code settings, symlinked to `~/.claude/settings.json`
-- **AGENTS.md.template** — starting point for per-project instructions
+- **templates/** — starting points for new projects: `AGENTS.md.template` for per-project instructions, `settings.json` with stack-specific skills suppressed by default
 - **CREDITS.md** — attribution for skills or content adapted from external sources
 - **docs/** — deeper reference: [hooks](docs/hooks.md), [skills](docs/skills.md), [commands](docs/commands.md), [agents](docs/agents.md), [plugins](docs/plugins.md)
 
@@ -75,18 +75,30 @@ Add to `~/.zshrc` to streamline new-project setup:
 
 ```bash
 function setup:claude() {
+	local repo="/path/to/repository"
+
 	echo ""
+	mkdir -p .claude
 
 	if [ ! -f ".claude/CLAUDE.md" ]; then
-		ln -s /path/to/repository/CLAUDE.md .claude/CLAUDE.md
+		ln -s "$repo/CLAUDE.md" .claude/CLAUDE.md
 		echo "${GREEN}✓${RESET_COLOUR} Symlinked ${PURPLE}CLAUDE.md${RESET_COLOUR}"
 	else
 		echo "${PURPLE}CLAUDE.md${RESET_COLOUR} already exists. No link was made."
 	fi
 
 	if [ ! -f ".claude/AGENTS.md" ]; then
-		echo ""
-		echo "${YELLOW}Important:${RESET_COLOUR} Set up project-specific instructions in ${PURPLE}AGENTS.md${RESET_COLOUR}. See AGENTS.md.template for an example."
+		cp "$repo/templates/AGENTS.md.template" .claude/AGENTS.md
+		echo "${GREEN}✓${RESET_COLOUR} Copied ${PURPLE}AGENTS.md${RESET_COLOUR} — edit it to document this project"
+	else
+		echo "${PURPLE}AGENTS.md${RESET_COLOUR} already exists. No changes made."
+	fi
+
+	if [ ! -f ".claude/settings.json" ]; then
+		cp "$repo/templates/settings.json" .claude/settings.json
+		echo "${GREEN}✓${RESET_COLOUR} Copied ${PURPLE}settings.json${RESET_COLOUR} — enable stack-specific skills as needed"
+	else
+		echo "${PURPLE}settings.json${RESET_COLOUR} already exists. No changes made."
 	fi
 
 	echo ""
@@ -95,12 +107,10 @@ function setup:claude() {
 
 ## Per-project setup
 
-Each project needs its own `.claude/AGENTS.md`. Use the template:
+Run `setup:claude` from the project root:
 
 ```bash
 cd your-project
-mkdir -p .claude
-cp /path/to/repository/AGENTS.md.template .claude/AGENTS.md
 setup:claude
 ```
 
@@ -110,6 +120,8 @@ Edit `.claude/AGENTS.md` to document:
 - **Tech choices** — anything specific to this project
 - **Architecture notes** — key patterns, structure, how things fit together
 - **Gotchas & constraints** — tricky parts, known issues, limitations
+
+In `.claude/settings.json`, set stack-specific skills to `"on"` for whatever this project uses. See [docs/skills.md](docs/skills.md) for the full list of override values.
 
 ## Going deeper
 
