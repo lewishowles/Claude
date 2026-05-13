@@ -16,7 +16,22 @@ A central repository for Claude Code configuration, based on constant tinkering 
 
 Replace `/path/to/repository` with the actual path to this repository throughout.
 
-### 1. Skills
+### 1. CLAUDE.md
+
+Symlink CLAUDE.md to add global rules.
+
+```bash
+ln -s /path/to/repository/CLAUDE.md ~/.claude/CLAUDE.md
+```
+
+Verify:
+
+```bash
+ls -la ~/.claude/CLAUDE.md
+# Should point back to this repository's CLAUDE.md
+```
+
+### 2. Skills
 
 Symlink the whole `skills/` directory so new skills appear automatically:
 
@@ -31,7 +46,7 @@ ls -la ~/.claude/skills
 # Should point back to this repository's skills folder
 ```
 
-### 2. Settings
+### 3. Settings
 
 Symlink the settings file to set up the hooks, enabled plugins, and marketplaces.
 
@@ -44,7 +59,7 @@ ln -sf /path/to/repository/settings.json ~/.claude/settings.json
 
 Any changes made during a Claude session are written here and tracked by this repository.
 
-### 3. Hooks
+### 4. Hooks
 
 Symlink the whole `hooks/` directory so `settings.json` can reference scripts via a stable path:
 
@@ -59,7 +74,7 @@ ls -la ~/.claude/hooks
 # Should point back to this repository's hooks folder
 ```
 
-### 4. Hook dependency
+### 5. Hook dependency
 
 The skill-trigger hooks require `jq`:
 
@@ -69,7 +84,7 @@ brew install jq
 
 `skill-autotrigger.sh` will block prompts and report an error if `jq` is missing. `skill-file-trigger.sh` silently skips instead, so writes are never blocked.
 
-### 5. Shell helper (optional)
+### 6. Shell helper (optional)
 
 Add to `~/.zshrc` to streamline new-project setup:
 
