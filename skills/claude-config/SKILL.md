@@ -131,3 +131,18 @@ Hook event names: `UserPromptSubmit`, `PreToolUse`, `PostToolUse`, `Stop`, `Sess
 - Update `docs/hooks.md` when changing hook behaviour or adding hook
 - Update `docs/commands.md` when new skill or plugin command appears
 - Keep `README.md` focused on setup — detail in `docs/`
+
+## When adding or changing skills and hooks
+
+When adding, removing, or renaming a skill:
+- Check `skill-autotrigger.sh` — add keyword patterns if the skill has clear trigger terms; add to the continuation catch-all list at the top
+- Check `skill-file-trigger.sh` — add file extension or filename mappings if the skill applies to specific file types
+- Update `docs/skills.md` with the new entry
+
+When creating a new hook:
+- Register it in `settings.json` under the correct lifecycle event
+- Add a entry to `docs/hooks.md` with: event, purpose, stdin format, and what it outputs
+
+## Progress tracking for meaningful work
+
+See `session-management` skill — covers `PROGRESS.md` structure, when to create it, and how to update it across sessions. The template lives at `.claude/templates/PLAN.md.template` in each project.
