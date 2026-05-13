@@ -26,11 +26,14 @@
 - [x] **2.4 Remove communicating with humans detail** — trimmed to 3 universal lines; full guidance in `writing` skill
 - [x] **2.5 Verify line count** — 100 lines (down from 141); skills list accounts for 19; rule content ~80 lines
 
-## Phase 3 — plan verification hook
+## Phase 3 — plan verification hook + progress-resume hook
 
-- [ ] **3.1 Write `hooks/plan-verify.sh`** — `PostToolUse` on `ExitPlanMode`; warns if `## Validation` or `## Plan of work` absent from plan file
-- [ ] **3.2 Register in `settings.json`**
-- [ ] **3.3 Test**: exit plan mode without Validation section → warning visible; with section → silent
+- [x] **3.1 Write `hooks/plan-verify.sh`** — `PostToolUse` on `ExitPlanMode`; warns if `## Validation` absent from plan file
+- [x] **3.2 Write `hooks/progress-resume.sh`** — `UserPromptSubmit`; detects continue-intent phrases, injects `.claude/PROGRESS.md` content
+- [x] **3.3 Register both in `settings.json`**
+- [x] **3.4 Document in `docs/hooks.md`**
+- [ ] **3.5 Test**: exit plan mode without Validation section → warning visible; with section → silent
+- [ ] **3.6 Test**: say "let's continue" in project with PROGRESS.md → content injected; without → silent
 
 ## Phase 4 — friction logging
 
@@ -111,4 +114,5 @@ Progress tracking is flow-driven (updated at task completion), not session-drive
 
 ### 2026-05-13
 **Completed:** Phases 1 & 2 — PROGRESS.md, PLAN.md.template, claude-config skill maintenance rules, session-management skill expanded (token efficiency, goal-driven, PROGRESS.md workflow), CLAUDE.md slimmed 141→100 lines, autotrigger updated with session-management patterns  
-**Next:** Phase 3 — plan verification warning hook; Phase 4 — friction logging; Phase 5 — PreWrite test gate
+**Completed (session 2):** Phase 3 — `plan-verify.sh` (PostToolUse:ExitPlanMode warns on missing Validation section), `progress-resume.sh` (UserPromptSubmit auto-injects PROGRESS.md on continue-intent phrases), both registered in settings.json, docs/hooks.md updated  
+**Next:** Test 3.5–3.6; Phase 4 — friction logging; Phase 5 — PreWrite test gate
