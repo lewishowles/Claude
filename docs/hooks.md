@@ -10,6 +10,7 @@ Hooks are shell scripts that Claude Code runs automatically at specific points i
 | `progress-resume.sh` | Every user message (`UserPromptSubmit`) | Silently skips if `jq` missing or no PROGRESS.md found |
 | `check-claude.sh` | Before every tool use (`PreToolUse`, all tools) | Blocks with exit code 2 and tells Claude to stop until `CLAUDE.md` is present |
 | `skill-file-trigger.sh` | Before every Write or Edit (`PreToolUse`, `Write\|Edit`) | Silently skips if `jq` is missing — writes are never blocked |
+| `plan-verify.sh` | After `ExitPlanMode` (`PostToolUse`) | Silently skips if no plan files exist |
 | `pre-stop-checks.sh` | When Claude finishes (`Stop`) | Runs lint and unit tests; pauses Claude and displays output if either fails |
 
 ### skill-autotrigger.sh
@@ -49,6 +50,14 @@ Extension-to-skill mapping:
 Fires on every user message. Detects continue-intent phrases ("continue", "pick up", "resume", "next step", "carry on", "where were we", "what's next") and injects the contents of `.claude/PROGRESS.md` from the current working directory into Claude's context. This lets Claude resume in-progress work without the user needing to paste the file manually.
 
 Silent if the phrase doesn't match, if no `PROGRESS.md` exists in the project, or if `jq` is missing.
+
+**Requires:** `jq` — silently skips if missing.
+
+### plan-verify.sh
+
+Fires after `ExitPlanMode`. Finds the most recently modified `.md` file in `~/.claude/plans/` and checks for a `## Validation` section. If absent, injects a warning into Claude's context. Silent if the section is present, or if no plan files exist.
+
+The hook warns rather than blocks — plans for small tasks are valid without a Validation section.
 
 **Requires:** `jq` — silently skips if missing.
 

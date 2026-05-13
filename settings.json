@@ -20,6 +20,16 @@
 						"command": "bash -c 'bash \"$HOME/.claude/hooks/progress-resume.sh\"'",
 						"timeout": 5
 					}
+				]
+			}
+		],
+		"PostToolUse": [
+			{
+				"matcher": "ExitPlanMode",
+				"hooks": [
+					{
+						"type": "command",
+						"command": "bash -c 'bash \"$HOME/.claude/hooks/plan-verify.sh\"'",
 						"timeout": 5
 					}
 				]
