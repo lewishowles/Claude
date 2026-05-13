@@ -20,11 +20,11 @@
 
 ## Phase 2 — slim CLAUDE.md
 
-- [ ] **2.1 Audit CLAUDE.md rules** — classify each as keep / move-to-skill / identity context (analysis already done; see Decisions)
-- [ ] **2.2 Move token efficiency section** → `session-management` skill
-- [ ] **2.3 Move goal-driven execution section** → `session-management` skill
-- [ ] **2.4 Remove communicating with humans detail** — already covered by `writing` skill
-- [ ] **2.5 Verify CLAUDE.md is ~55–60 lines** and all moved content accessible via skills
+- [x] **2.1 Audit CLAUDE.md rules** — classify each as keep / move-to-skill / identity context (analysis already done; see Decisions)
+- [x] **2.2 Move token efficiency section** → `session-management` skill
+- [x] **2.3 Move goal-driven execution section** → `session-management` skill
+- [x] **2.4 Remove communicating with humans detail** — trimmed to 3 universal lines; full guidance in `writing` skill
+- [x] **2.5 Verify line count** — 100 lines (down from 141); skills list accounts for 19; rule content ~80 lines
 
 ## Phase 3 — plan verification hook
 
@@ -110,5 +110,5 @@ Progress tracking is flow-driven (updated at task completion), not session-drive
 ## Session notes
 
 ### 2026-05-13
-**Completed:** Explored Writ repo; comparative analysis; planning (two feedback rounds); Phase 1 complete — PROGRESS.md created, claude-config skill updated with maintenance rules, PLAN.md.template created, progress workflow added to session-management skill (so it travels to all projects), claude-config trimmed to cross-reference  
-**Next:** Phase 2 — slim CLAUDE.md; then Phases 3–5 (hooks + test gate)
+**Completed:** Phases 1 & 2 — PROGRESS.md, PLAN.md.template, claude-config skill maintenance rules, session-management skill expanded (token efficiency, goal-driven, PROGRESS.md workflow), CLAUDE.md slimmed 141→100 lines, autotrigger updated with session-management patterns  
+**Next:** Phase 3 — plan verification warning hook; Phase 4 — friction logging; Phase 5 — PreWrite test gate

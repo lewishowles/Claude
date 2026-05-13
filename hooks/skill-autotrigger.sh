@@ -167,9 +167,10 @@ if echo "$prompt" | grep -qiE '\badr\b|\barchitecture.decision\b|\btech.decision
 fi
 
 # ─── session-management ───────────────────────────────────────────────────────
-# Save/resume sessions, context snapshots, checkpoints, session state
+# Save/resume sessions, PROGRESS.md tracking, token efficiency, goal-driven execution
 if echo "$prompt" | grep -qiE '\bsave.session\b|\bresume.session\b|\bcontext.*snapshot\b|\bcheckpoint\b' || \
-   echo "$prompt" | grep -qiE 'session.*management|pause.*resume'; then
+   echo "$prompt" | grep -qiE 'session.*management|pause.*resume' || \
+   echo "$prompt" | grep -qiE '\bPROGRESS\.md\b|progress.*track|token.*efficien|goal.driven'; then
 	skills+=("session-management")
 fi
 

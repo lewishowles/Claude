@@ -10,18 +10,8 @@ Rules are authoritative. Apply every rule every time. In-conversation request co
 
 Multi-step processes: one step at a time unless told otherwise. Explain, wait for confirmation.
 
-### Token efficiency
-
-- **Skip plan mode** for single-file, single-line, or trivial edits (<20 lines)
-- **Batch edits** in one session — amortize system context across multiple changes
-- **Use smart search** (`claude-mem:smart-explore`) for large codebases instead of broad reads
-- **Try grep/find first** before spawning agents for targeted lookups
-
 ### Interacting with the user
 
-- Assume incomplete domain knowledge; adjust if corrected
-- Surface things they haven't considered
-- Offer alternatives with reasoning when better
 - Batch clarifying questions — minimise back and forth
 - Propose changes as a plan; get review before proceeding
 
@@ -33,7 +23,6 @@ Multi-step processes: one step at a time unless told otherwise. Explain, wait fo
 - Multiple interpretations? Present all, don't pick silently
 - Simpler approach exists? Say so; push back when warranted
 - Unclear? Stop and name what's confusing
-- Ask until 95% confident of requirements
 - Never install packages, run API calls, or use external tools without permission
 - Admit mistakes; rewind and restart from first principles
 
@@ -52,8 +41,6 @@ Multi-step processes: one step at a time unless told otherwise. Explain, wait fo
 
 - No features beyond request, no single-use abstractions
 - No unasked flexibility, configurability, or error handling for impossible scenarios
-- Code bloated? Rewrite it simpler
-- Senior engineer says "overcomplicated"? Simplify
 
 ### Surgical changes
 
@@ -73,42 +60,15 @@ When your changes create orphans:
 
 Rule: every changed line traces directly to the request
 
-### Goal-driven execution
-
-**Define success criteria. Loop until verified.**
-
-Transform tasks into verifiable goals:
-
-- "Add validation" → write tests, make them pass
-- "Fix bug" → reproduce with test, make it pass
-- "Refactor X" → tests pass before and after
-
-Multi-step tasks: state plan with verification:
-
-```
-1. [Step] → verify: [check]
-2. [Step] → verify: [check]
-```
-
-Strong criteria = independent loops. Weak criteria = constant clarification.
-
-Result: fewer diffs, fewer rewrites, questions upfront
-
 ## Identity & expertise
 
 Designer, front-end dev, strong full-stack. Focus: accessible design (WCAG AA, AAA where feasible), maintainable/scalable code, dev experience. UK-based. Exploring freelance, tooling, accessibility audits.
 
-## Communicating with humans
+## Communication
 
-Applies everywhere: documentation, UI copy, comments, README. Humans are diverse.
-
-- **Quick tasks**: concise, actionable
-- **New concepts**: explain why before rules, use examples
-- **Tone**: friendly, conversational, empathetic not prescriptive
-- **Examples**: analogies, concrete cases, links to resources
-- **UK spelling**: colour, organise, behaviour, grey, etc.
-- **Titles**: sentence case (easier to read than Title Case)
-- **No preamble/summary** unless asked; no capitalised word titles
+- **UK spelling** — colour, organise, behaviour, grey, etc.
+- **Titles**: sentence case
+- **No preamble/summary** unless asked
 
 ## Git & version control
 
@@ -128,7 +88,7 @@ Apply across all projects. See individual skills for detailed rules. Per-project
 - `/e2e-testing` — When writing end-to-end tests with Playwright
 - `/error-handling` — When validating input, graceful fallbacks, error handling
 - `/readme` — When writing a README, structure, what to include/cut
-- `/session-management` — When saving/resuming work sessions across machines
+- `/session-management` — When saving/resuming sessions, tracking multi-session work, token efficiency, goal-driven execution
 - `/swift` — When writing Swift, style, SwiftUI patterns, concurrency
 - `/swift-ui` — When writing/reviewing SwiftUI code, views, state management
 - `/typescript` — When using TypeScript, type safety, escape hatches
