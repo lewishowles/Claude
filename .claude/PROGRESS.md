@@ -1,118 +1,310 @@
-# Claude config improvements — Writ-inspired
+# Claude config improvements — dual-target (Claude + Codex)
 
 **Started:** 2026-05-13  
-**Project:** `~/Dev/Configuration/Claude`  
-**Status:** in-progress
+**Project:** `~/Dev/Configuration/Claude` (renames to `~/Dev/Configuration/Agents` in Phase 9)  
+**Status:** in-progress  
+**Current priority:** Dual-target phases 0–9
 
 ## Legend
 
 - `[ ]` not started
 - `[~]` in progress
 - `[x]` done
-- `[-]` skipped (with reason)
-
-## Phase 1 — foundation
-
-- [x] **1.1 Create `.claude/PROGRESS.md`** — this file
-- [x] **1.2 Add skill/hook maintenance rules to `claude-config` skill** — covers when to update autotrigger + file-trigger on skill changes
-- [x] **1.3 Create `templates/PLAN.md.template`** — comprehensive template shipped with project setup
-- [x] **1.4 Add progress tracking workflow** — moved to `session-management` skill so it travels to all projects; `claude-config` references it
-
-## Phase 2 — slim CLAUDE.md
-
-- [x] **2.1 Audit CLAUDE.md rules** — classify each as keep / move-to-skill / identity context (analysis already done; see Decisions)
-- [x] **2.2 Move token efficiency section** → `session-management` skill
-- [x] **2.3 Move goal-driven execution section** → `session-management` skill
-- [x] **2.4 Remove communicating with humans detail** — trimmed to 3 universal lines; full guidance in `writing` skill
-- [x] **2.5 Verify line count** — 100 lines (down from 141); skills list accounts for 19; rule content ~80 lines
-
-## Phase 3 — plan verification hook + progress-resume hook
-
-- [x] **3.1 Write `hooks/plan-verify.sh`** — `PostToolUse` on `ExitPlanMode`; warns if `## Validation` absent from plan file
-- [x] **3.2 Write `hooks/progress-resume.sh`** — `UserPromptSubmit`; detects continue-intent phrases, injects `.claude/PROGRESS.md` content
-- [x] **3.3 Register both in `settings.json`**
-- [x] **3.4 Document in `docs/hooks.md`**
-- [ ] **3.5 Test**: exit plan mode without Validation section → warning visible; with section → silent
-- [ ] **3.6 Test**: say "let's continue" in project with PROGRESS.md → content injected; without → silent
-
-## Phase 4 — friction logging
-
-- [ ] **4.1 Add friction log write** to `pre-stop-checks.sh` (or new hook) — appends timestamp + session summary to `~/.claude/logs/friction.log`
-- [ ] **4.2 Write `scripts/analyze-friction.sh`** — parses log, shows top friction causes
-
-## Phase 5 — PreWrite test-skeleton gate
-
-- [ ] **5.1 Write `hooks/pre-write-test-gate.sh`** — detects test framework config (Vitest, Playwright, Cypress, Jest, XCTest); blocks implementation writes if no matching test file exists
-- [ ] **5.2 Register in `settings.json`**
-- [ ] **5.3 Test in Vitest project**: write `.ts` without test file → blocked; write `.test.ts` first → proceeds
-- [ ] **5.4 Test in non-test project**: write `.ts` → no interruption
+- `[-]` skipped/superseded (with reason)
 
 ---
 
-## Purpose
+## Confirmed Codex behaviour (verified by Lewis)
 
-Improve the Claude configuration repo with patterns adapted from the Writ project: structural enforcement where advisory hooks fall short, a living progress-tracking system, a slimmer CLAUDE.md, and better plan templates.
+- **Global rules:** `~/.codex/AGENTS.md` (or `AGENTS.override.md` first if present)
+- **Project rules:** walks root → cwd for `AGENTS.override.md` then `AGENTS.md`. Root `AGENTS.md` (real file or symlink) covers both runtimes. `project_doc_fallback_filenames` in `~/.codex/config.toml` works in 0.130.0-alpha.5 but treat as unstable.
+- **Skills:** `~/.agents/skills/` (user scope); `~/.codex/skills/` (system). Frontmatter `name`+`description` visible upfront; full skill loaded on use. Implicit matching weights description heavily.
+- **Skill discovery:** description-driven, not slash-command. Action verbs at start + file globs inline = better matching.
+- **Hooks:** Codex hooks exist (developers.openai.com/codex/hooks) but parity out of scope. Skill descriptions carry discovery weight.
+- **Caveman + claude-mem:** already installed for Codex (caveman manually activated). No further plugin work needed.
 
-## Context
+---
 
-Explored the Writ repo (https://github.com/infinri/Writ) and compared its enforcement model to the current setup. Current hooks are advisory (prompt-level reminders); Writ uses structural hooks that block writes until conditions are met. We identified which patterns are worth adopting at ~60 rules / solo workflow scale, and which are overkill.
+## Critical decisions
 
-Key finding: existing hooks work well after descriptions were tightened. The gap is enforcement depth — a PreWrite test-skeleton gate would catch the most common discipline slip.
+| Decision | Rationale |
+|---|---|
+| `shared/` + `targets/<agent>/` structure | Single source of truth; agent outputs grouped; hooks move out of root |
+| Per-skill, per-hook symlinks (not whole folder) | Coexists with plugin-installed skills in `~/.agents/skills/` and `~/.claude/skills/` |
+| Root `AGENTS.md` always real file or symlink | Both Claude and Codex read root `AGENTS.md` — one file covers both runtimes |
+| `sync.sh` composes from `shared/` | No manual sync between agent files; one place to edit shared rules |
+| Interactive default, `--claude/--codex/--both` flags | Accessible for first-time use; flags for repeat runs |
+| Repo rename only after Phase 8 validates end-to-end | Avoid disruption during implementation; rename is symbolic milestone |
 
-## Architecture
+---
 
-Enforcement stays in hooks, not prompts. Three new hooks:
-1. `plan-verify.sh` — warns on `ExitPlanMode` if plan file lacks required sections
-2. `pre-write-test-gate.sh` — blocks implementation writes in projects with a test suite if no matching test file exists
-3. Friction logging folded into `pre-stop-checks.sh` or a new flow-triggered write
+## Dual-target phases (current priority)
 
-Progress tracking is flow-driven (updated at task completion), not session-driven — `SessionEnd` doesn't fire reliably when conversations are archived.
+### Phase 0 — Update AGENTS.md and PROGRESS.md
 
-`PLAN.md.template` ships with the project (copied into `.claude/templates/` on setup) — self-contained, no global path dependency.
+- [x] **0.1** Rewrite `.claude/AGENTS.md` for dual-target purpose, structure, Codex behaviour
+- [x] **0.2** Rewrite `.claude/PROGRESS.md` with dual-target phases; mark old Phase 6 superseded
+
+**Working state:** Documentation only. No functional change.
+
+---
+
+### Phase 1 — Skill descriptions + rename `claude-config` → `agent-config`
+
+- [ ] **1.1** Rewrite `description` in all 19 `skills/*/SKILL.md` — action verbs at start, file globs inline, pair-skill mentions
+- [ ] **1.2** Rename `skills/claude-config/` → `skills/agent-config/`; broaden content scope to "agent config repo (Claude + Codex)"
+- [ ] **1.3** Update `hooks/skill-autotrigger.sh` line 50 (continuation list) and line 182 (`claude-config` block)
+- [ ] **1.4** Update `hooks/skill-file-trigger.sh` lines 67–69 (`claude-config` paths)
+- [ ] **1.5** Update `settings.json` — `skillOverrides` key `claude-config` → `agent-config`
+- [ ] **1.6** Update `CLAUDE.md` skills list — `/claude-config` → `/agent-config`
+- [ ] **1.7** Update `docs/skills.md`, `docs/commands.md`, `docs/hooks.md` — rename references
+
+**Working state:** Claude works with renamed skill and tighter descriptions. Auto-trigger keys updated. No Codex changes yet.
+
+**Validation:**
+- `/agent-config` slash command works; `claude-config` no longer exists
+- Auto-trigger fires `agent-config` for matching prompts
+- Spot-check 3 random skill descriptions for action verbs and file globs
+
+---
+
+### Phase 2 — Add `## File discovery` + `## Skill use policy` to `CLAUDE.md`
+
+- [ ] **2.1** Add `## Skill use policy` block to `CLAUDE.md`:
+  > Skills are authoritative when their trigger conditions match. Before coding, editing prose, changing config, or reviewing files, inspect the task and file paths, then load and use every matching skill. If multiple skills match, use all relevant skills — especially `code-style` plus language/framework skills. Do not wait for explicit slash-command invocation.
+- [ ] **2.2** Add `## File discovery` block to `CLAUDE.md`:
+  > Do not inspect generated, vendored, cached, build, dependency, or large binary directories unless explicitly asked. Prefer `rg` / `rg --files`, which respects `.gitignore` and `.rgignore`. Avoid `find`, broad `ls -R`, or reading ignored paths such as `node_modules`, `dist`, `build`, `.git`, coverage, caches, lockfile-heavy generated output, and local secrets.
+
+**Working state:** Claude immediately benefits. Codex inherits when wired in Phase 3.
+
+**Validation:** Both sections present in `CLAUDE.md`.
+
+---
+
+### Phase 3 — Restructure: `shared/` + `targets/<agent>/` + `scripts/sync.sh`
+
+⚠️ Ship Phase 3 + Phase 4 together. When `hooks/` and `settings.json` move, the existing `~/.claude/hooks` symlink (whole folder) and `~/.claude/settings.json` reference break. Phase 4 setup script re-creates per-item symlinks pointing to new paths.
+
+- [ ] **3.1** Create `shared/global-rules.md` — extract General config, Think before coding, When expectations break, Simplicity first, Surgical changes, Communication, Git from `CLAUDE.md`
+- [ ] **3.2** Create `shared/skills-policy.md` — Phase 2 skill use policy block
+- [ ] **3.3** Create `shared/file-discovery.md` — Phase 2 file discovery block
+- [ ] **3.4** Create `shared/identity.md` — Identity & expertise block from `CLAUDE.md`
+- [ ] **3.5** Create `scripts/lib/colours.sh` — `${GREEN}`, `${PURPLE}`, `${YELLOW}`, `${RED}`, `${RESET_COLOUR}`
+- [ ] **3.6** Create `scripts/sync.sh` — deterministic concatenation with banner `<!-- Generated by scripts/sync.sh — do not edit -->`; composes `targets/claude/CLAUDE.md` (shared + Claude-specific addendum: skill list with `/syntax`, hook refs) and `targets/codex/AGENTS.md` (shared + Codex addendum: description-driven discovery, no hooks, `~/.codex/config.toml` trust)
+- [ ] **3.7** Move `hooks/*` → `targets/claude/hooks/`
+- [ ] **3.8** Move `settings.json` → `targets/claude/settings.json`
+- [ ] **3.9** Delete root `CLAUDE.md` (superseded by `targets/claude/CLAUDE.md`)
+
+**Working state:** `sync.sh` runs cleanly. Until Phase 4 setup script runs, existing symlinks are broken — include migration note in commit.
+
+**Validation:** `scripts/sync.sh` exits 0; `targets/claude/CLAUDE.md` content equivalent to pre-Phase-3 effective rules + new sections; `targets/codex/AGENTS.md` exists and reads cleanly.
+
+---
+
+### Phase 4 — `scripts/setup-global.sh` + fix `~/.claude/settings.json` drift
+
+- [ ] **4.1** Create `scripts/setup-global.sh` with `--claude | --codex | --both`
+  - No flag → interactive prompt: "Which agent(s)? [1] Claude  [2] Codex  [3] Both"
+  - Self-discovers repo via `REPO_DIR=$(cd "$(dirname "$0")/.." && pwd)`
+  - Idempotent; re-run reports `↪ already linked` for unchanged
+  - Fail-fast on first error; partial results not rolled back (they're symlinks)
+- [ ] **4.2** `--claude` symlinks: `~/.claude/CLAUDE.md`, `~/.claude/settings.json`, `~/.claude/skills/<name>` ×19, `~/.claude/hooks/<file>` per-hook — all → `repo/targets/claude/`
+- [ ] **4.3** `--codex` symlinks: `~/.codex/AGENTS.md` → `repo/targets/codex/AGENTS.md`; `~/.agents/skills/<name>` ×19 → `repo/skills/<name>`
+- [ ] **4.4** Backup strategy (never overwrites, never deletes):
+  - Doesn't exist → create symlink → `✓ linked <name>`
+  - Symlink → correct repo path → skip → `↪ already linked <name>`
+  - Symlink → elsewhere → move to `<path>.bak.<YYYYMMDD-HHMMSS>`, create new → `⟳ relinked <name>`
+  - Real file, no `.bak` → move to `<path>.bak`, create symlink → `⟳ replaced <name> (backup at <bak>)`
+  - Real file, `.bak` exists → move to `<path>.bak.<YYYYMMDD-HHMMSS>`, create symlink → `⟳ replaced <name> (backup at <bak>.<timestamp>)`
+- [ ] **4.5** Specific drift fix: `~/.claude/settings.json` is currently a real file with `.bak` from 2026-05-14 11:15. Script moves it to `.bak.<timestamp>`, creates symlink → `repo/targets/claude/settings.json`.
+- [ ] **4.6** Update README with global setup instructions and aliases
+
+**Working state:** Fresh install or migration from old layout — both work via one command. Settings.json drift fixed.
+
+**Validation:** `setup-global.sh --claude` creates per-skill, per-hook symlinks; `~/.claude/settings.json` is a symlink; re-run is idempotent; backups exist for any pre-existing real files.
+
+---
+
+### Phase 5 — `scripts/setup-project.sh`
+
+- [ ] **5.1** Create `scripts/setup-project.sh` with `--claude | --codex | --both`; no flag → interactive prompt; skip existing files (no overwrite)
+- [ ] **5.2** `--claude`: `cp templates/claude/AGENTS.md.template AGENTS.md`; `mkdir -p .claude/`; copy `templates/claude/settings.json`, `templates/claude/.claudeignore`, `templates/PLAN.md.template` → `.claude/templates/`
+- [ ] **5.3** `--codex`: `cp templates/codex/AGENTS.md.template AGENTS.md`
+- [ ] **5.4** `--both`: `cp templates/shared/AGENTS.md.template AGENTS.md`; `mkdir -p .claude/`; copy Claude `.claude/` layout
+
+**Working state:** Per-project setup for Claude, Codex, or both via one command.
+
+**Validation:** Each flag in a fresh dir creates correct layout; re-run skips existing files.
+
+---
+
+### Phase 6 — Templates filled in
+
+- [ ] **6.1** Write `templates/claude/AGENTS.md.template` — project-specific, Claude framing
+- [ ] **6.2** Write `templates/codex/AGENTS.md.template` — project-specific, Codex framing; no Claude-only references
+- [ ] **6.3** Write `templates/shared/AGENTS.md.template` — neutral, both runtimes
+- [ ] **6.4** Move `templates/settings.json` → `templates/claude/settings.json`
+- [ ] **6.5** Move `templates/.claudeignore` → `templates/claude/.claudeignore`
+
+**Working state:** All `setup-project.sh` flag combinations have valid template inputs.
+
+**Validation:** Each template loads correctly in respective runtime; no Claude-only references in Codex template.
+
+---
+
+### Phase 7 — Documentation pass
+
+- [ ] **7.1** Rewrite `README.md` — three setup paths (Claude / Codex / both); single-source-of-truth model; alias setup snippet
+- [ ] **7.2** Create `docs/setup.md` — manual setup steps as fallback
+- [ ] **7.3** Create `docs/codex.md` — `~/.codex/config.toml` schema, skill loading, hook absence note (link to OpenAI hooks docs as future work), plugin parity notes
+- [ ] **7.4** Update `docs/hooks.md` — banner: "Claude-only. Codex hooks exist but parity out of scope; skill descriptions carry discovery weight instead."
+- [ ] **7.5** Update `docs/skills.md` — auto-trigger (Claude) vs description-driven (Codex); note descriptions written for both
+- [ ] **7.6** Update `docs/plugins.md` — banner Claude-only; Codex marketplace exists; caveman + claude-mem usable in both
+- [ ] **7.7** Update `docs/commands.md` — rename `/claude-config` → `/agent-config`
+- [ ] **7.8** Update `docs/agents.md` — Claude agents only; note distinct from Codex top-level "agents" concept
+
+**Validation:** README scan: every "this repo" reference accurate; `docs/codex.md` reachable from README.
+
+---
+
+### Phase 8 — End-to-end validation
+
+- [ ] **8.1** Run `setup-global.sh --both` on this machine. Verify all symlinks per topology table.
+- [ ] **8.2** Backup `~/.claude/` and `~/.codex/AGENTS.md`. Run script in clean state. Verify same result. Restore.
+- [ ] **8.3** In fresh test project: `setup:agents --claude`, then `--codex`, then `--both` — three separate test projects. Verify file layouts.
+- [ ] **8.4** Open Claude in test project — confirms CLAUDE.md + skill descriptions load correctly.
+- [ ] **8.5** Open Codex in test project — confirms AGENTS.md + skills visible.
+- [ ] **8.6** Run `scripts/sync.sh` after editing `shared/global-rules.md`. Diff both targets — confirm both update.
+
+**Working state:** Confidence to ship. Both runtimes verified end-to-end.
+
+---
+
+### Phase 9 — Repo rename `Configuration/Claude` → `Configuration/Agents`
+
+Only after Phase 8 passes.
+
+- [ ] **9.1** `mv ~/Dev/Configuration/Claude ~/Dev/Configuration/Agents`
+- [ ] **9.2** Update git remote URL if changed on hosting side
+- [ ] **9.3** Update README references to new path
+- [ ] **9.4** Update aliases in `~/.zshrc`
+- [ ] **9.5** Re-run `setup-global.sh --both` — updates all symlinks to new repo path
+- [ ] **9.6** Update `skills/agent-config/SKILL.md` repo path reference
+- [ ] **9.7** Update `.claude/AGENTS.md` path references
+
+**Working state:** Final form. Repo name reflects content.
+
+---
 
 ## Key files
 
-| File | Change |
-|---|---|
-| `.claude/PROGRESS.md` | New — this file |
-| `templates/PLAN.md.template` | New — comprehensive plan template |
-| `skills/claude-config/SKILL.md` | Added: autotrigger maintenance rule; references session-management for progress workflow |
-| `skills/session-management/SKILL.md` | Add: token efficiency + goal-driven execution + progress.md workflow |
-| `CLAUDE.md` | Slim to ~55–60 lines; move token/goal sections to session-management skill |
-| `hooks/plan-verify.sh` | New — PostToolUse on ExitPlanMode, warns on missing sections |
-| `hooks/pre-write-test-gate.sh` | New — PreWrite, test-first enforcement in test projects |
-| `settings.json` | Register new hooks |
-
-## Decisions
-
-| Decision | Rationale | Date |
+| Phase | File | Change |
 |---|---|---|
-| Single `PROGRESS.md` not two files | Simpler than architecture.md + progress.md — one file easier to maintain | 2026-05-13 |
-| Progress tracking in `session-management` skill | `claude-config` skill only applies in config repo; session-management travels to all projects | 2026-05-13 |
-| Flow-driven updates, not SessionEnd | User archives conversations; SessionEnd unreliable in desktop app | 2026-05-13 |
-| Warning not block for plan verification | Plans for small tasks are fine as-is; block would be too rigid | 2026-05-13 |
-| Test gate per-project only | Global gate annoying in prototypes; detect by test config presence | 2026-05-13 |
-| Template ships in `.claude/templates/` | Self-contained — no dependency on global `~/Dev/Configuration/Claude` path | 2026-05-13 |
-| No RAG / Neo4j / state machine | Overkill at ~60 rules, solo workflow; bash + hooks sufficient | 2026-05-13 |
+| 0 | `.claude/AGENTS.md`, `.claude/PROGRESS.md` | Dual-target documentation |
+| 1 | `skills/*/SKILL.md` (×19) | Tighten descriptions |
+| 1 | `skills/claude-config/` | Rename → `skills/agent-config/`; broaden content |
+| 1 | `hooks/skill-autotrigger.sh` | Lines 50, 182 — rename |
+| 1 | `hooks/skill-file-trigger.sh` | Lines 67–69 — rename |
+| 1 | `settings.json` | `skillOverrides` rename key |
+| 1 | `CLAUDE.md` | Skill list rename |
+| 1 | `docs/skills.md`, `docs/commands.md`, `docs/hooks.md` | Rename references |
+| 2 | `CLAUDE.md` | Add `## Skill use policy` and `## File discovery` |
+| 3 | `shared/*.md` | New — extracted shared content |
+| 3 | `targets/claude/CLAUDE.md`, `targets/codex/AGENTS.md` | New — composed by sync.sh |
+| 3 | `targets/claude/hooks/*` | Moved from `hooks/` |
+| 3 | `targets/claude/settings.json` | Moved from repo root |
+| 3 | `scripts/sync.sh`, `scripts/lib/colours.sh` | New |
+| 3 | `CLAUDE.md` (root) | Deleted |
+| 4 | `scripts/setup-global.sh` | New |
+| 5 | `scripts/setup-project.sh` | New |
+| 6 | `templates/claude/`, `templates/codex/`, `templates/shared/` | Restructure + new Codex template |
+| 7 | `README.md`, `docs/*` | Rewrite for dual-target |
+| 9 | Repo directory | Rename to `Configuration/Agents` |
 
-## Validation
+---
 
-- CLAUDE.md is ~55–60 lines; all previous rules still accessible via skills or identity context
-- New plan in any project creates `.claude/PROGRESS.md` from `.claude/templates/PLAN.md.template`
-- Exiting plan mode without a Validation section produces a visible warning
-- Writing a `.ts` file in a Vitest project without a matching `.test.ts` is blocked with a clear message
-- Writing a `.ts` file in a project without `vitest.config.ts` proceeds without interruption
+## Script output style
 
-## Discoveries
+All scripts load from `scripts/lib/colours.sh`. Blank line before/after each section header.
 
-- `SessionEnd` hook likely doesn't fire when conversations are archived in desktop app — needs flow-driven alternative
-- `skill-autotrigger` has been matching context correctly since descriptions were tightened; no changes needed there
-- OpenAI codex exec plans format recommends Decision log and Surprises/Discoveries sections — incorporated into template
-- Writ's core insight: enforcement belongs in the hook layer, not the prompt layer
+```
+→ Setting up Claude (global)
+
+  ✓ linked CLAUDE.md
+  ✓ linked skills/vue
+  ⟳ replaced settings.json (backup at ~/.claude/settings.json.bak)
+  ↪ hooks/check-claude.sh already linked
+
+→ Setting up Codex (global)
+
+  ✓ linked AGENTS.md
+  ✓ linked skills/vue
+
+Done.
+```
+
+---
+
+## Deferred phases (Writ-inspired — queued, not blocking dual-target)
+
+### Old Phase 1 — Foundation [x]
+
+- [x] Create `.claude/PROGRESS.md`
+- [x] Add skill/hook maintenance rules to `claude-config` skill
+- [x] Create `templates/PLAN.md.template`
+- [x] Add progress tracking workflow to `session-management` skill
+
+### Old Phase 2 — Slim CLAUDE.md [x]
+
+- [x] Audit and classify CLAUDE.md rules
+- [x] Move token efficiency + goal-driven execution → `session-management`
+- [x] Remove communicating-with-humans detail
+- [x] Verify line count (100 lines, down from 141)
+
+### Old Phase 3 — Plan verify + progress-resume hooks [x]
+
+- [x] Write `hooks/plan-verify.sh` (PostToolUse:ExitPlanMode)
+- [x] Write `hooks/progress-resume.sh` (UserPromptSubmit)
+- [x] Register both in `settings.json`
+- [x] Document in `docs/hooks.md`
+- [ ] **3.5 Test:** exit plan mode without Validation section → warning visible; with section → silent
+- [ ] **3.6 Test:** "let's continue" in project with PROGRESS.md → content injected; without → silent
+
+### Old Phase 4 — Friction logging [ ] deferred
+
+- [ ] Add friction log write to `pre-stop-checks.sh` — appends timestamp + session summary to `~/.claude/logs/friction.log`
+- [ ] Write `scripts/analyze-friction.sh` — parses log, shows top friction causes
+
+### Old Phase 5 — PreWrite test-skeleton gate [ ] deferred
+
+- [ ] Write `hooks/pre-write-test-gate.sh` — detects Vitest/Playwright/Cypress/Jest/XCTest; blocks implementation writes if no matching test file
+- [ ] Register in `settings.json`
+- [ ] Test in Vitest project: write `.ts` without test file → blocked; write `.test.ts` first → proceeds
+- [ ] Test in non-test project: write `.ts` → no interruption
+
+### Old Phase 6 — install.sh [-] superseded
+
+Superseded by `scripts/setup-global.sh` (dual-target Phase 4). Per-skill, per-hook symlinks are a strict improvement over the old whole-folder approach.
+
+---
+
+## Architecture
+
+Enforcement stays in hooks, not prompts. `shared/` is single source of truth for rules. `sync.sh` composes agent-specific outputs deterministically. Setup scripts handle both runtimes from one entry point with a consistent backup strategy.
+
+Progress tracking is flow-driven (updated at task completion), not session-driven — `SessionEnd` doesn't fire reliably when conversations are archived in the desktop app.
+
+## Validation (end-to-end)
+
+Clone repo to clean machine, run `setup:agents:global --both`, then `cd` to a fresh project and run `setup:agents --both`. Both runtimes pick up global rules and project-local instructions.
 
 ## Session notes
 
 ### 2026-05-13
-**Completed:** Phases 1 & 2 — PROGRESS.md, PLAN.md.template, claude-config skill maintenance rules, session-management skill expanded (token efficiency, goal-driven, PROGRESS.md workflow), CLAUDE.md slimmed 141→100 lines, autotrigger updated with session-management patterns  
-**Completed (session 2):** Phase 3 — `plan-verify.sh` (PostToolUse:ExitPlanMode warns on missing Validation section), `progress-resume.sh` (UserPromptSubmit auto-injects PROGRESS.md on continue-intent phrases), both registered in settings.json, docs/hooks.md updated  
-**Next:** Test 3.5–3.6; Phase 4 — friction logging; Phase 5 — PreWrite test gate
+**Completed:** Old phases 1 & 2 — PROGRESS.md, PLAN.md.template, claude-config skill maintenance rules, session-management skill expanded, CLAUDE.md slimmed 141→100 lines, autotrigger updated  
+**Completed (session 2):** Old phase 3 — `plan-verify.sh`, `progress-resume.sh`, registered in settings.json, docs/hooks.md updated  
+**Next:** Old phase 3.5–3.6 tests; dual-target phases 0–9
+
+### 2026-05-14
+**Completed:** Phase 0 — `.claude/AGENTS.md` and `.claude/PROGRESS.md` rewritten to capture dual-target plan in full  
+**Next:** Phase 1 — skill descriptions + rename `claude-config` → `agent-config`
