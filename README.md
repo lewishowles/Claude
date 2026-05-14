@@ -5,8 +5,8 @@ A central repository for Claude Code and OpenAI Codex configuration. This reposi
 ## What's inside
 
 - **shared/** — source files for shared rules used by both Claude and Codex
-- **targets/claude/** — generated `CLAUDE.md`, Claude settings, and Claude hooks
-- **targets/codex/** — generated `AGENTS.md` for Codex
+- **targets/claude/** — Claude source fragments, generated `CLAUDE.md`, settings, and hooks
+- **targets/codex/** — Codex source fragments and generated `AGENTS.md`
 - **skills/** — skill folders covering specific areas: Vue, testing, TypeScript, accessibility, writing, and more. Each is a folder containing `SKILL.md` with frontmatter and instructions
 - **scripts/** — sync and setup scripts
 - **templates/** — starting points for new projects: `AGENTS.md.template` for per-project instructions, `settings.json` with stack-specific skills suppressed by default

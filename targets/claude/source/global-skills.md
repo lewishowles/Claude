@@ -1,0 +1,24 @@
+## Global skills
+
+Apply across all projects. See individual skills for detailed rules. Per-project `.claude/settings.json` can disable skills via `skillOverrides` — useful if a skill's tech (Vue, Swift) isn't used in that project.
+
+- `/accessibility` — When building interfaces, WCAG AA baseline, accessible design
+- `/agent-config` — When maintaining this shared Claude and Codex configuration repo
+- `/agentic-engineering` — When building with Claude API, Anthropic SDK, or managed agents
+- `/architecture-decision-records` — When documenting significant architectural decisions
+- `/bash` — When writing shell scripts, bash config, patterns
+- `/code-style` — When formatting code, covering naming, comments, arrays, objects
+- `/dependencies` — When adding packages, what to choose, when to add
+- `/e2e-testing` — When writing end-to-end tests with Playwright
+- `/error-handling` — When validating input, graceful fallbacks, error handling
+- `/readme` — When writing a README, structure, what to include/cut
+- `/session-management` — When saving/resuming sessions, tracking multi-session work, token efficiency, goal-driven execution
+- `/swift` — When writing Swift, style, SwiftUI patterns, concurrency
+- `/swift-ui` — When writing/reviewing SwiftUI code, views, state management
+- `/typescript` — When using TypeScript, type safety, escape hatches
+- `/ui-copy` — When writing microcopy, buttons, errors, empty states, CTAs
+- `/unit-testing` — When writing unit tests, Vitest, philosophy, what to skip
+- `/vite-patterns` — When configuring vite.config.ts, Vite project patterns
+- `/vue` — When writing Vue code, formatting, patterns, composables, components
+- `/vue-project-stack` — When working in Vue + Bun + Vitest + Tailwind + Gitflow stack
+- `/writing` — When writing prose/documentation, voice, tone, structure, style

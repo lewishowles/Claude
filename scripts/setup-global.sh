@@ -2,7 +2,8 @@
 
 set -euo pipefail
 
-# Resolve paths from the script location so aliases can call it from anywhere.
+# Resolve the script's directory, then the repo root, so aliases can call this
+# script from anywhere.
 SCRIPT_DIR=$(cd "$(dirname "$0")" && pwd)
 REPO_DIR=$(cd "$SCRIPT_DIR/.." && pwd)
 
