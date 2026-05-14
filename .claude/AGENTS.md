@@ -81,4 +81,4 @@ Each skill: `skills/<name>/SKILL.md` with frontmatter (`name`, `description`, `r
 
 ## Current phase
 
-See `.claude/PROGRESS.md`. Dual-target phases 0–9 are current top priority. Phase 1 complete — next is Phase 2 (add skill use policy and file discovery rules to `CLAUDE.md`).
+See `.claude/PROGRESS.md`. Dual-target phases 0–9 are current top priority. Phase 2 complete — next is Phase 3 (restructure into `shared/`, `targets/<agent>/`, and `scripts/sync.sh`).

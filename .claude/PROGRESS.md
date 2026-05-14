@@ -70,9 +70,9 @@
 
 ### Phase 2 — Add `## File discovery` + `## Skill use policy` to `CLAUDE.md`
 
-- [ ] **2.1** Add `## Skill use policy` block to `CLAUDE.md`:
+- [x] **2.1** Add `## Skill use policy` block to `CLAUDE.md`:
   > Skills are authoritative when their trigger conditions match. Before coding, editing prose, changing config, or reviewing files, inspect the task and file paths, then load and use every matching skill. If multiple skills match, use all relevant skills — especially `code-style` plus language/framework skills. Do not wait for explicit slash-command invocation.
-- [ ] **2.2** Add `## File discovery` block to `CLAUDE.md`:
+- [x] **2.2** Add `## File discovery` block to `CLAUDE.md`:
   > Do not inspect generated, vendored, cached, build, dependency, or large binary directories unless explicitly asked. Prefer `rg` / `rg --files`, which respects `.gitignore` and `.rgignore`. Avoid `find`, broad `ls -R`, or reading ignored paths such as `node_modules`, `dist`, `build`, `.git`, coverage, caches, lockfile-heavy generated output, and local secrets.
 
 **Working state:** Claude immediately benefits. Codex inherits when wired in Phase 3.
@@ -308,4 +308,5 @@ Clone repo to clean machine, run `setup:agents:global --both`, then `cd` to a fr
 ### 2026-05-14
 **Completed:** Phase 0 — `.claude/AGENTS.md` and `.claude/PROGRESS.md` rewritten to capture dual-target plan in full  
 **Completed (session 2):** Phase 1 — all skill descriptions rewritten with `Use this skill when`, action-led discovery, and file globs; `claude-config` renamed to `agent-config`; hooks/settings/docs updated
-**Next:** Phase 2 — add `## Skill use policy` and `## File discovery` to `CLAUDE.md`
+**Completed (session 3):** Phase 2 — added `## Skill use policy` and `## File discovery` to `CLAUDE.md`
+**Next:** Phase 3 — restructure into `shared/`, `targets/<agent>/`, and `scripts/sync.sh`
