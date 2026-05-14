@@ -1,6 +1,6 @@
 # Hooks
 
-Hooks are shell scripts that Claude Code runs automatically at specific points in a session. They're registered in `settings.json` under the `hooks` key and live in `hooks/`.
+Hooks are shell scripts that Claude Code runs automatically at specific points in a session. They're registered in `targets/claude/settings.json` under the `hooks` key and live in `targets/claude/hooks/`.
 
 ## Registered hooks
 
@@ -42,7 +42,7 @@ Extension-to-skill mapping:
 | `*.test.js`, `*.spec.ts`, etc. | + `unit-testing` |
 | `*.e2e.js`, files in `e2e/` | + `e2e-testing` |
 | Files in `adr/` or `0001-*.md` | + `architecture-decision-records` |
-| `CLAUDE.md`, `AGENTS.md`, `settings.json`, `skills/*/SKILL.md`, `hooks/*.sh` | + `agent-config` |
+| `CLAUDE.md`, `AGENTS.md`, `settings.json`, `skills/*/SKILL.md`, `targets/claude/hooks/*.sh`, `scripts/*.sh` | + `agent-config` |
 
 **Requires:** `jq` — silently skips if missing.
 
@@ -80,8 +80,8 @@ To invoke a skill manually: type `/skill-name` in Claude Code (e.g. `/vue`, `/ty
 
 ## Adding a new hook
 
-1. Create the script in `hooks/` — make it executable (`chmod +x`)
-2. Register it in `settings.json` under the appropriate event key
+1. Create the script in `targets/claude/hooks/` — make it executable (`chmod +x`)
+2. Register it in `targets/claude/settings.json` under the appropriate event key
 3. Document it in the table above
 
 Event types supported by Claude Code: `UserPromptSubmit`, `PreToolUse`, `PostToolUse`, `Stop`, `SessionStart`.

@@ -8,8 +8,8 @@ Single source for shared rules and skills. `scripts/sync.sh` composes agent-spec
 
 ## Current vs target state
 
-**Current (pre-Phase 3):** `CLAUDE.md`, `hooks/`, `skills/`, `settings.json` at repo root.  
-**Target (post-Phase 3):** `shared/`, `targets/claude/`, `targets/codex/`, `skills/`, `scripts/`, `docs/`. See `.claude/PROGRESS.md` Phase 3.
+**Current:** `shared/`, `targets/claude/`, `targets/codex/`, `skills/`, `scripts/`, `docs/`. See `.claude/PROGRESS.md` for remaining phases.
+**Target:** same structure, with project setup scripts, templates, docs, validation, and repo rename still to come.
 
 ## Target directory structure
 
@@ -76,9 +76,9 @@ Each skill: `skills/<name>/SKILL.md` with frontmatter (`name`, `description`, `r
 1. Create `skills/<name>/SKILL.md`
 2. Frontmatter: `name`, `description` (`Use this skill when` + action-led wording + globs), `related-skills`
 3. Write content
-4. Update `hooks/skill-autotrigger.sh` and `hooks/skill-file-trigger.sh` (or `targets/claude/hooks/` post-Phase 3)
+4. Update `targets/claude/hooks/skill-autotrigger.sh` and `targets/claude/hooks/skill-file-trigger.sh`
 5. Re-run `setup-global.sh` to create new symlinks
 
 ## Current phase
 
-See `.claude/PROGRESS.md`. Dual-target phases 0–9 are current top priority. Phase 2 complete — next is Phase 3 (restructure into `shared/`, `targets/<agent>/`, and `scripts/sync.sh`).
+See `.claude/PROGRESS.md`. Dual-target phases 0–9 are current top priority. Phase 4 complete — next is Phase 5 (`scripts/setup-project.sh`).

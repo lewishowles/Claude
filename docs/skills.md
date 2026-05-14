@@ -127,8 +127,8 @@ related-skills:
 Content here.
 ```
 
-3. Register keyword triggers in `hooks/skill-autotrigger.sh` so the hook detects relevant prompts
-4. Register file extension triggers in `hooks/skill-file-trigger.sh` if the skill maps to a file type
+3. Register keyword triggers in `targets/claude/hooks/skill-autotrigger.sh` so the hook detects relevant prompts
+4. Register file extension triggers in `targets/claude/hooks/skill-file-trigger.sh` if the skill maps to a file type
 5. Add the skill to the skills table in this file and to [docs/commands.md](commands.md)
 
 The skill appears in Claude Code's skill list immediately — no restart needed.
