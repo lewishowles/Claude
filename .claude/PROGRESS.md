@@ -19,7 +19,7 @@
 - **Global rules:** `~/.codex/AGENTS.md` (or `AGENTS.override.md` first if present)
 - **Project rules:** walks root → cwd for `AGENTS.override.md` then `AGENTS.md`. Root `AGENTS.md` (real file or symlink) covers both runtimes. `project_doc_fallback_filenames` in `~/.codex/config.toml` works in 0.130.0-alpha.5 but treat as unstable.
 - **Skills:** `~/.agents/skills/` (user scope); `~/.codex/skills/` (system). Frontmatter `name`+`description` visible upfront; full skill loaded on use. Implicit matching weights description heavily.
-- **Skill discovery:** description-driven, not slash-command. Action verbs at start + file globs inline = better matching.
+- **Skill discovery:** description-driven, not slash-command. `Use this skill when` + action-led wording + file globs inline = better matching.
 - **Hooks:** Codex hooks exist (developers.openai.com/codex/hooks) but parity out of scope. Skill descriptions carry discovery weight.
 - **Caveman + claude-mem:** already installed for Codex (caveman manually activated). No further plugin work needed.
 
@@ -51,20 +51,20 @@
 
 ### Phase 1 — Skill descriptions + rename `claude-config` → `agent-config`
 
-- [ ] **1.1** Rewrite `description` in all 19 `skills/*/SKILL.md` — action verbs at start, file globs inline, pair-skill mentions
-- [ ] **1.2** Rename `skills/claude-config/` → `skills/agent-config/`; broaden content scope to "agent config repo (Claude + Codex)"
-- [ ] **1.3** Update `hooks/skill-autotrigger.sh` line 50 (continuation list) and line 182 (`claude-config` block)
-- [ ] **1.4** Update `hooks/skill-file-trigger.sh` lines 67–69 (`claude-config` paths)
-- [ ] **1.5** Update `settings.json` — `skillOverrides` key `claude-config` → `agent-config`
-- [ ] **1.6** Update `CLAUDE.md` skills list — `/claude-config` → `/agent-config`
-- [ ] **1.7** Update `docs/skills.md`, `docs/commands.md`, `docs/hooks.md` — rename references
+- [x] **1.1** Rewrite `description` in all 20 `skills/*/SKILL.md` — `Use this skill when` prefix, action-led wording, file globs inline, pair-skill mentions
+- [x] **1.2** Rename `skills/claude-config/` → `skills/agent-config/`; broaden content scope to "agent config repo (Claude + Codex)"
+- [x] **1.3** Update `hooks/skill-autotrigger.sh` line 50 (continuation list) and line 182 (`claude-config` block)
+- [x] **1.4** Update `hooks/skill-file-trigger.sh` lines 67–69 (`claude-config` paths)
+- [x] **1.5** Update `settings.json` — `skillOverrides` key `claude-config` → `agent-config`
+- [x] **1.6** Update `CLAUDE.md` skills list — `/claude-config` → `/agent-config`
+- [x] **1.7** Update `docs/skills.md`, `docs/commands.md`, `docs/hooks.md` — rename references
 
 **Working state:** Claude works with renamed skill and tighter descriptions. Auto-trigger keys updated. No Codex changes yet.
 
 **Validation:**
 - `/agent-config` slash command works; `claude-config` no longer exists
 - Auto-trigger fires `agent-config` for matching prompts
-- Spot-check 3 random skill descriptions for action verbs and file globs
+- Spot-check 3 random skill descriptions for `Use this skill when`, action-led wording, and file globs
 
 ---
 
@@ -108,8 +108,8 @@
   - Self-discovers repo via `REPO_DIR=$(cd "$(dirname "$0")/.." && pwd)`
   - Idempotent; re-run reports `↪ already linked` for unchanged
   - Fail-fast on first error; partial results not rolled back (they're symlinks)
-- [ ] **4.2** `--claude` symlinks: `~/.claude/CLAUDE.md`, `~/.claude/settings.json`, `~/.claude/skills/<name>` ×19, `~/.claude/hooks/<file>` per-hook — all → `repo/targets/claude/`
-- [ ] **4.3** `--codex` symlinks: `~/.codex/AGENTS.md` → `repo/targets/codex/AGENTS.md`; `~/.agents/skills/<name>` ×19 → `repo/skills/<name>`
+- [ ] **4.2** `--claude` symlinks: `~/.claude/CLAUDE.md`, `~/.claude/settings.json`, `~/.claude/skills/<name>` ×20, `~/.claude/hooks/<file>` per-hook — all → `repo/targets/claude/`
+- [ ] **4.3** `--codex` symlinks: `~/.codex/AGENTS.md` → `repo/targets/codex/AGENTS.md`; `~/.agents/skills/<name>` ×20 → `repo/skills/<name>`
 - [ ] **4.4** Backup strategy (never overwrites, never deletes):
   - Doesn't exist → create symlink → `✓ linked <name>`
   - Symlink → correct repo path → skip → `↪ already linked <name>`
@@ -160,7 +160,7 @@
 - [ ] **7.4** Update `docs/hooks.md` — banner: "Claude-only. Codex hooks exist but parity out of scope; skill descriptions carry discovery weight instead."
 - [ ] **7.5** Update `docs/skills.md` — auto-trigger (Claude) vs description-driven (Codex); note descriptions written for both
 - [ ] **7.6** Update `docs/plugins.md` — banner Claude-only; Codex marketplace exists; caveman + claude-mem usable in both
-- [ ] **7.7** Update `docs/commands.md` — rename `/claude-config` → `/agent-config`
+- [x] **7.7** Update `docs/commands.md` — rename `/claude-config` → `/agent-config` (completed in Phase 1)
 - [ ] **7.8** Update `docs/agents.md` — Claude agents only; note distinct from Codex top-level "agents" concept
 
 **Validation:** README scan: every "this repo" reference accurate; `docs/codex.md` reachable from README.
@@ -201,7 +201,7 @@ Only after Phase 8 passes.
 | Phase | File | Change |
 |---|---|---|
 | 0 | `.claude/AGENTS.md`, `.claude/PROGRESS.md` | Dual-target documentation |
-| 1 | `skills/*/SKILL.md` (×19) | Tighten descriptions |
+| 1 | `skills/*/SKILL.md` (×20) | Tighten descriptions |
 | 1 | `skills/claude-config/` | Rename → `skills/agent-config/`; broaden content |
 | 1 | `hooks/skill-autotrigger.sh` | Lines 50, 182 — rename |
 | 1 | `hooks/skill-file-trigger.sh` | Lines 67–69 — rename |
@@ -307,4 +307,5 @@ Clone repo to clean machine, run `setup:agents:global --both`, then `cd` to a fr
 
 ### 2026-05-14
 **Completed:** Phase 0 — `.claude/AGENTS.md` and `.claude/PROGRESS.md` rewritten to capture dual-target plan in full  
-**Next:** Phase 1 — skill descriptions + rename `claude-config` → `agent-config`
+**Completed (session 2):** Phase 1 — all skill descriptions rewritten with `Use this skill when`, action-led discovery, and file globs; `claude-config` renamed to `agent-config`; hooks/settings/docs updated
+**Next:** Phase 2 — add `## Skill use policy` and `## File discovery` to `CLAUDE.md`

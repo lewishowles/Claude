@@ -1,6 +1,6 @@
 ---
 name: swift-ui
-description: Use this skill when writing or reviewing SwiftUI code — views, state management, view composition, navigation, and performance. Covers modern patterns (@Observable, @Bindable), anti-patterns (ObservableObject, @Published), and optimization techniques for responsive interfaces.
+description: Use this skill when building or reviewing SwiftUI views, navigation, state, bindings, and performance in *.swift files. Covers @Observable, @Bindable, view composition, NavigationStack, anti-patterns such as ObservableObject and @Published, and responsive interfaces. Pair with swift.
 related-skills:
   - swift
   - code-style

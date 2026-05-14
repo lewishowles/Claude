@@ -1,6 +1,6 @@
 ---
 name: readme
-description: Use this skill when writing or editing a README file (README.md or similar). Covers what belongs in a README, what doesn't, structure, and the "no fluff that doesn't help the average reader" principle — example: a bash script for macOS shouldn't mention Windows alternatives that don't exist. Pair with the writing skill for voice and tone baselines.
+description: Use this skill when writing or editing README.md, README, and getting-started documentation. Covers what belongs in a README, what to cut, practical structure, and avoiding fluff that does not help the average reader. Pair with writing for voice and tone.
 ---
 
 # README

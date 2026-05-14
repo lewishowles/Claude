@@ -1,6 +1,6 @@
 ---
 name: bash
-description: Use this skill when writing shell scripts, zsh functions, bash utilities, .env files, or config files. Apply even for short scripts or helper functions — covers bash patterns, minimal documentation style, and config file conventions.
+description: Use this skill when writing or reviewing shell scripts, zsh functions, bash utilities, .env files, Makefiles, and config files such as *.sh, .zshrc, .bashrc, and *.env. Covers simple bash patterns, minimal documentation, and config conventions.
 ---
 
 # Bash

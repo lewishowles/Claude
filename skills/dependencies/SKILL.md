@@ -1,6 +1,6 @@
 ---
 name: dependencies
-description: Use this skill whenever a package installation, npm/bun add, or new dependency is mentioned or considered — even if just suggesting a library. Covers when to add packages, what to avoid, the @lewishowles/helpers and @lewishowles/components libraries that replace common packages, and when to discuss before installing.
+description: Use this skill when evaluating package installs, dependency changes, package.json edits, npm install, bun add, yarn add, and library recommendations. Covers when to add packages, what to avoid, @lewishowles/helpers, @lewishowles/components, and when to discuss before installing.
 ---
 
 # Dependencies

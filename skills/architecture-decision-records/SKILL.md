@@ -1,6 +1,6 @@
 ---
 name: architecture-decision-records
-description: Use this skill when documenting significant architectural decisions. ADRs record the what, why, and context of decisions for future reference and team alignment. Store in docs/adr/ or adr/ directory.
+description: Use this skill when writing architectural decision records for docs/adr/*.md, adr/*.md, major refactors, framework choices, and technical decisions. Covers the what, why, context, consequences, and team-facing record of a decision. Pair with writing for prose quality.
 related-skills:
   - writing
   - code-style

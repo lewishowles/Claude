@@ -42,6 +42,7 @@ Extension-to-skill mapping:
 | `*.test.js`, `*.spec.ts`, etc. | + `unit-testing` |
 | `*.e2e.js`, files in `e2e/` | + `e2e-testing` |
 | Files in `adr/` or `0001-*.md` | + `architecture-decision-records` |
+| `CLAUDE.md`, `AGENTS.md`, `settings.json`, `skills/*/SKILL.md`, `hooks/*.sh` | + `agent-config` |
 
 **Requires:** `jq` — silently skips if missing.
 

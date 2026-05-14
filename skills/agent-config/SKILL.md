@@ -1,31 +1,31 @@
 ---
-name: claude-config
-description: Use this skill when working in the Claude configuration repository itself — editing CLAUDE.md, AGENTS.md, settings.json, skills/, hooks/, or docs/. Covers repo structure, skill and hook conventions, trigger pattern authoring, and how the pieces fit together.
+name: agent-config
+description: Use this skill when maintaining this agent configuration repository for Claude and Codex, including CLAUDE.md, AGENTS.md, settings.json, skills/*/SKILL.md, hooks/*.sh, scripts/*.sh, docs/**, and templates/**. Covers repo structure, skill conventions, hook conventions, trigger patterns, and generated target files. Pair with bash or writing as needed.
 related-skills:
   - bash
   - writing
 ---
 
-# Claude config
+# Agent config
 
-Skill applies in `~/Dev/Configuration/Claude` — repo defining Claude global behaviour.
+Skill applies in `~/Dev/Configuration/Claude` — repo defining shared Claude and Codex global behaviour.
 
 ## Repo structure
 
 ```
 Configuration/Claude/
-├── CLAUDE.md               # Global rules — applies to all projects
+├── CLAUDE.md               # Current Claude global rules — Phase 3 moves generated output to targets/
 ├── templates/
 │   ├── AGENTS.md.template  # Starting point for per-project .claude/AGENTS.md
 │   └── settings.json       # Project template with stack-specific skills suppressed
 ├── CREDITS.md              # Attribution for externally-inspired content
 ├── README.md               # Setup guide for new installs
-├── settings.json           # Global Claude Code settings (symlinked to ~/.claude/settings.json)
+├── settings.json           # Current Claude Code settings (Phase 3 moves to targets/claude/)
 ├── docs/
-│   ├── agents.md           # Agent types reference
+│   ├── agents.md           # Claude agent types reference
 │   ├── commands.md         # Built-in, skill, and plugin commands
 │   ├── hooks.md            # Hook reference and skill triggering explanation
-│   ├── plugins.md          # Installed plugins (caveman, claude-mem)
+│   ├── plugins.md          # Installed plugins and agent-specific notes
 │   └── skills.md           # Full skills reference with auto-trigger keywords
 ├── hooks/
 │   ├── check-claude.sh         # PreToolUse — blocks if .claude/CLAUDE.md is missing
@@ -37,7 +37,7 @@ Configuration/Claude/
     ├── agentic-engineering/
     ├── architecture-decision-records/
     ├── bash/
-    ├── claude-config/          # This skill
+    ├── agent-config/           # This skill
     ├── code-style/
     ├── dependencies/
     ├── e2e-testing/
@@ -57,16 +57,16 @@ Configuration/Claude/
 
 ## Skill conventions
 
-- **Folder name** = skill slug (used in `/slug` commands and hook pattern lists)
+- **Folder name** = skill slug (used in `/slug` commands, hook pattern lists, and Codex skill discovery)
 - Each skill folder: exactly one `SKILL.md`
 - Frontmatter fields: `name`, `description`, `related-skills` (optional)
-- `description` shown in skills list — one sentence, starts "Use this skill when..."
+- `description` shown in skills list — starts with "Use this skill when", then includes action-led wording and relevant file globs
 - Content: `#` title, `##` sections — no banner comments or dividers
 - UK spelling
 
 ## Hook conventions
 
-- All hooks in `hooks/`, symlinked to `~/.claude/hooks/`
+- All current hooks in `hooks/`, symlinked to `~/.claude/hooks/`; Phase 3 moves them to `targets/claude/hooks/`
 - Registered in `settings.json` under appropriate event key
 - Each hook outputs JSON to stdout — Claude Code reads this, not stderr
 - `UserPromptSubmit` hooks receive `{"prompt": "..."}` on stdin

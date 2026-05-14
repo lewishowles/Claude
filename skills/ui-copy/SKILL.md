@@ -1,6 +1,6 @@
 ---
 name: ui-copy
-description: Use this skill when writing UI microcopy — button labels, error messages, empty states, tooltips, CTAs, form helper text, confirmation dialogs. Covers being specific and action-oriented, surfacing useful context, and avoiding vague filler. Pair with the writing skill for voice baselines and the accessibility skill for screen-reader-friendly phrasing.
+description: Use this skill when writing UI microcopy for button labels, error messages, empty states, tooltips, CTAs, form helper text, placeholders, and confirmation dialogs. Covers specific action-oriented wording, useful context, and avoiding vague filler. Pair with writing and accessibility.
 ---
 
 # UI copy

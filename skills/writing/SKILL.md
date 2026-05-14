@@ -1,6 +1,6 @@
 ---
 name: writing
-description: Use this skill when writing or editing prose — blog posts, documentation, longform content, marketing copy. Covers voice, tone, structure, examples, language conventions (UK spelling, sentence case, em-dashes), and what to avoid (preachy tone, padding, opening summaries). For README files specifically, see the readme skill. For UI microcopy (buttons, error messages, empty states), see the ui-copy skill.
+description: Use this skill when writing or editing prose in *.md, docs/**, blog posts, documentation, longform content, and marketing copy. Covers voice, tone, structure, examples, UK spelling, sentence case, and avoiding padding. Pair with readme for README files and ui-copy for interface text.
 ---
 
 # Writing style

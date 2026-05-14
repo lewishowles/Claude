@@ -29,6 +29,7 @@ Every skill can be invoked manually as a command. Type the skill name with a `/`
 | Command | Skill | When to use it manually |
 |---------|-------|------------------------|
 | `/accessibility` | accessibility | Auditing an interface for WCAG compliance |
+| `/agent-config` | agent-config | Maintaining this shared Claude and Codex configuration repo |
 | `/architecture-decision-records` | architecture-decision-records | Documenting a technical decision |
 | `/bash` | bash | Writing a shell script or `.env` file |
 | `/code-style` | code-style | Reviewing formatting before committing |

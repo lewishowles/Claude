@@ -1,6 +1,6 @@
 ---
 name: session-management
-description: Use this skill when saving or resuming Claude Code sessions, starting meaningful multi-session work, or tracking progress across sessions.
+description: Use this skill when saving, resuming, or tracking multi-session work using .claude/PROGRESS.md, plan files, checkpoints, and session notes. Covers progress structure, when to update it, token efficiency, and goal-driven execution across restarts.
 related-skills:
   - code-style
 ---
