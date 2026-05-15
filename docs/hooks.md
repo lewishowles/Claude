@@ -12,7 +12,7 @@ Hooks are shell scripts that Claude Code runs automatically at specific points i
 | `progress-resume.sh` | Every user message (`UserPromptSubmit`) | Silently skips if `jq` missing or no PROGRESS.md found |
 | `skill-file-trigger.sh` | Before every Write or Edit (`PreToolUse`, `Write\|Edit`) | Silently skips if `jq` is missing — writes are never blocked |
 | `plan-verify.sh` | After `ExitPlanMode` (`PostToolUse`) | Silently skips if no plan files exist |
-| `pre-stop-checks.sh` | When Claude finishes (`Stop`) | Runs lint and unit tests; pauses Claude and displays output if either fails |
+| `pre-stop-checks.sh` | When Claude finishes (`Stop`) | Runs lint and unit tests; logs failures; pauses Claude and displays output if either fails |
 
 ### skill-autotrigger.sh
 
@@ -65,6 +65,8 @@ The hook warns rather than blocks — plans for small tasks are valid without a 
 ### pre-stop-checks.sh
 
 Runs when Claude finishes a response. Checks for a `package.json` (skips silently if absent — not all projects are frontend projects). If present, it runs `npm run lint` and `npm run test:unit:run` if those scripts are defined. On failure, outputs a JSON pause signal with the error output, preventing Claude from stopping until the issues are resolved.
+
+Failures are appended to `~/.claude/logs/friction.log` as tab-separated lines: timestamp, project path, failed check names, and the first error line. Use `scripts/analyse-friction.sh` to group the most common project/check/error combinations.
 
 ## How skill triggering works
 

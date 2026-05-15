@@ -277,10 +277,12 @@ Done.
 
 **Validation:** `plan-verify.sh` warns when the latest plan lacks `## Validation` and stays silent when that section exists. `progress-resume.sh` injects `.claude/PROGRESS.md` for continue-intent prompts and stays silent when no progress file exists.
 
-### Old Phase 4 — Friction logging [ ] deferred
+### Old Phase 4 — Friction logging [x]
 
-- [ ] Add friction log write to `pre-stop-checks.sh` — appends timestamp + session summary to `~/.claude/logs/friction.log`
-- [ ] Write `scripts/analyze-friction.sh` — parses log, shows top friction causes
+- [x] Add friction log write to `pre-stop-checks.sh` — appends timestamp, project path, failed checks, and first error line to `~/.claude/logs/friction.log`
+- [x] Write `scripts/analyse-friction.sh` — parses log, shows top friction causes
+
+**Validation:** `tests/friction-logging.sh` covers failed lint/unit checks creating a log line, successful checks leaving no log, and analyser grouping by project/check/error summary.
 
 ### Old Phase 5 — PreWrite test-skeleton gate [ ] deferred
 
@@ -362,3 +364,7 @@ Clone repo to clean machine, run `setup:agents:global --both`, then `cd` to a fr
 **Completed (session 10):** Validated deferred hook tests 3.5 and 3.6 for `plan-verify.sh` and `progress-resume.sh`
 **Validation:** Temporary hook harness confirmed missing `## Validation` warns, present validation is silent, continue-intent with `.claude/PROGRESS.md` injects content, and continue-intent without progress is silent
 **Next:** Deferred friction logging or pre-write test-skeleton gate
+
+**Completed (session 11):** Added friction logging to `pre-stop-checks.sh` and added `scripts/analyse-friction.sh`
+**Validation:** `tests/friction-logging.sh`; `bash -n targets/claude/hooks/pre-stop-checks.sh`; `bash -n scripts/analyse-friction.sh`; `tests/setup-project.sh`
+**Next:** Deferred pre-write test-skeleton gate
