@@ -21,11 +21,18 @@ backup_path() {
 	local path="$1"
 	local backup="${path}.bak"
 
+	case "$path" in
+		"$HOME/.claude/skills/"*) backup="$HOME/.claude/backups/skills/$(basename "$path").bak" ;;
+		"$HOME/.claude/hooks/"*) backup="$HOME/.claude/backups/hooks/$(basename "$path").bak" ;;
+		"$HOME/.codex/skills/"*) backup="$HOME/.codex/backups/skills/$(basename "$path").bak" ;;
+	esac
+
 	# Preserve existing backups by adding a timestamp only when needed.
 	if [ -e "$backup" ] || [ -L "$backup" ]; then
 		backup="${backup}.$(timestamp)"
 	fi
 
+	mkdir -p "$(dirname "$backup")"
 	mv "$path" "$backup"
 	printf '%s' "$backup"
 }

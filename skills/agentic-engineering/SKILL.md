@@ -1,6 +1,7 @@
 ---
 name: agentic-engineering
-description: Use this skill when building with Claude API, Anthropic SDK, or managed agents. Covers model selection (Opus 4.7, Sonnet 4.6, Haiku 4.5), cost-conscious patterns, token budgeting, batch processing, prompt caching, and cost tracking for LLM-driven applications.
+description: >
+  Use this skill when building with Claude API, Anthropic SDK, or managed agents. Covers model selection (Opus 4.7, Sonnet 4.6, Haiku 4.5), cost-conscious patterns, token budgeting, batch processing, prompt caching, and cost tracking for LLM-driven applications.
 ---
 
 # Agentic engineering

@@ -1,6 +1,7 @@
 ---
 name: session-management
-description: Use this skill when saving or resuming Claude Code sessions, starting meaningful multi-session work, or tracking progress across sessions.
+description: >
+  Use this skill when saving or resuming Claude Code sessions, starting meaningful multi-session work, or tracking progress across sessions.
 related-skills:
   - code-style
 ---

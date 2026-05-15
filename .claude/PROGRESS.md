@@ -51,7 +51,7 @@
 
 ### Phase 1 — Skill descriptions + rename `claude-config` → `agent-config`
 
-- [x] **1.1** Rewrite `description` in all 20 `skills/*/SKILL.md` — `Use this skill when` prefix, action-led wording, file globs inline, pair-skill mentions
+- [x] **1.1** Rewrite `description` in all 19 `skills/*/SKILL.md` — `Use this skill when` prefix, action-led wording, file globs inline, pair-skill mentions
 - [x] **1.2** Rename `skills/claude-config/` → `skills/agent-config/`; broaden content scope to "agent config repo (Claude + Codex)"
 - [x] **1.3** Update `hooks/skill-autotrigger.sh` line 50 (continuation list) and line 182 (`claude-config` block)
 - [x] **1.4** Update `hooks/skill-file-trigger.sh` lines 67–69 (`claude-config` paths)
@@ -108,14 +108,15 @@
   - Self-discovers repo via `REPO_DIR=$(cd "$(dirname "$0")/.." && pwd)`
   - Idempotent; re-run reports `↪ already linked` for unchanged
   - Fail-fast on first error; partial results not rolled back (they're symlinks)
-- [x] **4.2** `--claude` symlinks: `~/.claude/CLAUDE.md`, `~/.claude/settings.json`, `~/.claude/skills/<name>` ×20, `~/.claude/hooks/<file>` per-hook — all → `repo/targets/claude/`
-- [x] **4.3** `--codex` symlinks: `~/.codex/AGENTS.md` → `repo/targets/codex/AGENTS.md`; `~/.codex/skills/<name>` ×20 → `repo/skills/<name>`
+- [x] **4.2** `--claude` symlinks: `~/.claude/CLAUDE.md`, `~/.claude/settings.json`, `~/.claude/skills/<name>` ×19, `~/.claude/hooks/<file>` per-hook — all → `repo/targets/claude/`
+- [x] **4.3** `--codex` symlinks: `~/.codex/AGENTS.md` → `repo/targets/codex/AGENTS.md`; `~/.codex/skills/<name>` ×19 → `repo/skills/<name>`
 - [x] **4.4** Backup strategy (never overwrites, never deletes):
   - Doesn't exist → create symlink → `✓ linked <name>`
   - Symlink → correct repo path → skip → `↪ already linked <name>`
   - Symlink → elsewhere → move to `<path>.bak.<YYYYMMDD-HHMMSS>`, create new → `⟳ relinked <name>`
   - Real file, no `.bak` → move to `<path>.bak`, create symlink → `⟳ replaced <name> (backup at <bak>)`
   - Real file, `.bak` exists → move to `<path>.bak.<YYYYMMDD-HHMMSS>`, create symlink → `⟳ replaced <name> (backup at <bak>.<timestamp>)`
+  - Runtime-scanned skills/hooks back up under `~/.claude/backups/` or `~/.codex/backups/` so stale backups are not loaded as active skills
 - [x] **4.5** Specific drift fix: `~/.claude/settings.json` is currently a real file with `.bak` from 2026-05-14 11:15. Script moves it to `.bak.<timestamp>`, creates symlink → `repo/targets/claude/settings.json`.
 - [x] **4.6** Update README with global setup instructions and aliases
 
@@ -169,11 +170,11 @@
 
 ### Phase 8 — End-to-end validation
 
-- [ ] **8.1** Run `setup-global.sh --both` on this machine. Verify all symlinks per topology table.
-- [ ] **8.2** Backup `~/.claude/` and `~/.codex/AGENTS.md`. Run script in clean state. Verify same result. Restore.
-- [ ] **8.3** In fresh test project: `setup:agents --claude`, then `--codex`, then `--both` — three separate test projects. Verify file layouts.
-- [ ] **8.4** Open Claude in test project — confirms CLAUDE.md + skill descriptions load correctly.
-- [ ] **8.5** Open Codex in test project — confirms AGENTS.md + skills visible.
+- [x] **8.1** Run `setup-global.sh --both` on this machine. Verify all symlinks per topology table. Verified `~/.claude/CLAUDE.md`, `~/.claude/settings.json`, `~/.codex/AGENTS.md`, 19 Claude skill symlinks, 7 Claude hook symlinks, and 19 Codex skill symlinks.
+- [-] **8.2** Backup `~/.claude/` and `~/.codex/AGENTS.md`. Run script in clean state. Verify same result. Restore. — skipped per Lewis: current setup is fresh; no separate backup/restore validation needed.
+- [x] **8.3** In fresh test project: `setup:agents --claude`, then `--codex`, then `--both` — three separate test projects. Verify file layouts. Validated in `/private/tmp/agent-setup-validation.H6aRj1`.
+- [x] **8.4** Open Claude in test project — confirms CLAUDE.md + skill descriptions load correctly. Verified global Claude rules and `code-style` skill are available; Claude reads project `AGENTS.md` when following global instructions, not by automatic discovery.
+- [x] **8.5** Open Codex in test project — confirms AGENTS.md + skills visible. Verified project `AGENTS.md`, global Codex rules, and `code-style` skill. Fixed strict YAML frontmatter parsing by converting skill descriptions to block scalars; moved stale `*.bak` skill directories out of active scan paths.
 - [ ] **8.6** Run `scripts/sync.sh` after editing `shared/global-rules.md`. Diff both targets — confirm both update.
 
 **Working state:** Confidence to ship. Both runtimes verified end-to-end.
@@ -201,7 +202,7 @@ Only after Phase 8 passes.
 | Phase | File | Change |
 |---|---|---|
 | 0 | `.claude/AGENTS.md`, `.claude/PROGRESS.md` | Dual-target documentation |
-| 1 | `skills/*/SKILL.md` (×20) | Tighten descriptions |
+| 1 | `skills/*/SKILL.md` (×19) | Tighten descriptions |
 | 1 | `skills/claude-config/` | Rename → `skills/agent-config/`; broaden content |
 | 1 | `hooks/skill-autotrigger.sh` | Lines 50, 182 — rename |
 | 1 | `hooks/skill-file-trigger.sh` | Lines 67–69 — rename |
@@ -319,3 +320,11 @@ Clone repo to clean machine, run `setup:agents:global --both`, then `cd` to a fr
 **Completed:** Phases 5, 6, and 7 — added `scripts/setup-project.sh`, split project templates into `templates/claude`, `templates/codex`, and `templates/shared`, added shell tests, rewrote README, added setup and Codex docs, and updated docs banners for Claude-only hooks/plugins/agents
 **Validation:** `bash -n scripts/setup-project.sh`; `bash -n scripts/setup-global.sh`; `tests/setup-project.sh`; stale-template-path `rg` scan
 **Next:** Phase 8 — run end-to-end global and fresh-project validation, including real symlink topology checks
+
+**Completed (session 2):** Phase 8.1 and 8.3 — ran `scripts/setup-global.sh --both`, verified Claude/Codex global symlinks, skipped clean-state backup validation per Lewis, and validated `setup-project.sh` layouts in three fresh temporary projects
+**Validation:** `readlink ~/.claude/CLAUDE.md`; `readlink ~/.claude/settings.json`; `readlink ~/.codex/AGENTS.md`; counted 19 Claude skill links, 7 Claude hook links, 19 Codex skill links; checked fresh `--claude`, `--codex`, and `--both` project layouts
+**Next:** Phase 8.4/8.5 — launch Claude and Codex in test projects to confirm each runtime loads the generated rules and skills
+
+**Completed (session 3):** Phase 8.4 and 8.5 — validated Claude non-interactive startup with global rules, `code-style`, and project `AGENTS.md` read-through; validated Codex non-interactive startup with project `AGENTS.md`, global rules, and `code-style`
+**Validation fixes:** Converted all skill frontmatter descriptions to YAML block scalars for Codex; updated setup backups for runtime-scanned skills/hooks to live under `backups/`; moved stale `~/.codex/skills/*.bak` directories out of the active scan path
+**Next:** Phase 8.6 — edit `shared/global-rules.md`, run `scripts/sync.sh`, and confirm both generated targets update
