@@ -63,12 +63,6 @@ shopt -s nocasematch
 # architecture-decision-records: ADR files (0001-*.md pattern or adr/ directory)
 [[ "$file_path" =~ /adr/ ]] || [[ "$filename" =~ ^[0-9]{4}- ]] && skills+=("architecture-decision-records")
 
-# agent-config: editing config repo files (skills, hooks, scripts, settings, docs)
-[[ "$filename" == "CLAUDE.md" || "$filename" == "AGENTS.md" || "$filename" == "settings.json" ]] && skills+=("agent-config")
-[[ "$file_path" =~ /skills/[^/]+/SKILL\.md$ ]] && skills+=("agent-config")
-[[ "$file_path" =~ /hooks/.*\.sh$ ]] && skills+=("agent-config")
-[[ "$file_path" =~ /scripts/.*\.sh$ ]] && skills+=("agent-config")
-
 shopt -u nocasematch
 
 [ ${#skills[@]} -eq 0 ] && exit 0

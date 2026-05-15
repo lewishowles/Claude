@@ -47,7 +47,7 @@ skills=()
 # Claude decides what to write. Inject all skills so Claude can pick what fits.
 if echo "$prompt" | grep -qiE '^\s*(yes|yep|yeah|ok|okay|sure|go ahead|sounds good|perfect|great|looks good|done|next|correct|exactly)\s*[.!]?\s*$' || \
    echo "$prompt" | grep -qiE '\b(continue|carry on|move on|next step|proceed|let'\''s go|what'\''s next|keep going|move forward|let'\''s continue|crack on)\b'; then
-	skills+=("agent-config" "code-style" "swift" "macos" "vue" "vue-project-stack" "typescript" "unit-testing" "writing" "readme" "ui-copy" "bash" "error-handling" "accessibility" "dependencies" "vite-patterns" "e2e-testing" "architecture-decision-records" "session-management")
+	skills+=("code-style" "swift" "macos" "vue" "vue-project-stack" "typescript" "unit-testing" "writing" "readme" "ui-copy" "bash" "error-handling" "accessibility" "dependencies" "vite-patterns" "e2e-testing" "architecture-decision-records" "session-management")
 fi
 
 # ─── code-style ───────────────────────────────────────────────────────────
@@ -172,14 +172,6 @@ if echo "$prompt" | grep -qiE '\bsave.session\b|\bresume.session\b|\bcontext.*sn
    echo "$prompt" | grep -qiE 'session.*management|pause.*resume' || \
    echo "$prompt" | grep -qiE '\bPROGRESS\.md\b|progress.*track|token.*efficien|goal.driven'; then
 	skills+=("session-management")
-fi
-
-# ─── agent-config ─────────────────────────────────────────────────────────────
-# Editing this configuration repository: skills, hooks, settings, docs
-if echo "$prompt" | grep -qiE '\bskill\b|\bhook\b|\bsettings\.json\b|\bCLAUDE\.md\b|\bAGENTS\.md\b' || \
-   echo "$prompt" | grep -qiE '\bautotrigger\b|\bfile.trigger\b|\bskill.trigger\b' || \
-   echo "$prompt" | grep -qiE 'agent.config|claude.config|codex.config|config.repo|global.config'; then
-	skills+=("agent-config")
 fi
 
 # ─── Deduplicate and output ───────────────────────────────────────────────────

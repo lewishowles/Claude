@@ -114,7 +114,6 @@
 		"bash": "name-only",
 		"dependencies": "name-only",
 		"readme": "name-only",
-		"agent-config": "name-only",
 		"architecture-decision-records": "name-only",
 		"session-management": "name-only",
 		"agentic-engineering": "name-only",

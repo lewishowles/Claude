@@ -88,7 +88,6 @@ Do not inspect generated, vendored, cached, build, dependency, or large binary d
 Apply across all projects. See individual skills for detailed rules. Per-project `.claude/settings.json` can disable skills via `skillOverrides` — useful if a skill's tech (Vue, Swift) isn't used in that project.
 
 - `/accessibility` — When building interfaces, WCAG AA baseline, accessible design
-- `/agent-config` — When maintaining this shared Claude and Codex configuration repo
 - `/agentic-engineering` — When building with Claude API, Anthropic SDK, or managed agents
 - `/architecture-decision-records` — When documenting significant architectural decisions
 - `/bash` — When writing shell scripts, bash config, patterns

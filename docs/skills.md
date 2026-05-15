@@ -12,7 +12,6 @@ Defined in `~/.claude/skills/` (this repo, symlinked). Available in every projec
 | `agentic-engineering` | Building with Claude API, Anthropic SDK, or managed agents — model selection, token budgeting, batch processing, prompt caching | `claude api`, `anthropic sdk`, `managed agent`, `llm cost`, `token budget`, `prompt caching`, `batch api` |
 | `architecture-decision-records` | Documenting significant technical decisions — framework adoption, major refactors, architectural patterns | `adr`, `architecture decision`, `tech decision`, `decision record`, `framework adoption`, `major refactor` |
 | `bash` | Shell scripts, zsh functions, `.env` files, config files | `.sh`, `bash`, `zsh`, `shell script`, `.env`, `alias`, `export`, `PATH`, `.zshrc`, `cron` |
-| `agent-config` | Maintaining this shared Claude and Codex config repo — editing `CLAUDE.md`, `AGENTS.md`, `settings.json`, skills, hooks, docs, templates, or scripts | `claude.md`, `agents.md`, `skill`, `hook`, `settings.json`, `autotrigger`, `agent config`, `codex config`, `claude config` |
 | `code-style` | All code in any language — formatting, naming, comments | `write`, `add`, `create`, `implement`, `fix`, `function`, `method`, `class`, `variable`, `file`, `code` |
 | `dependencies` | Adding packages or considering a new library — when to add, what to avoid, @lewishowles libs | `package.json`, `npm install`, `bun add`, `yarn add`, `install package`, `new library`, `upgrade package` |
 | `e2e-testing` | End-to-end tests with Playwright — browser automation, user journeys, test structure | `e2e`, `playwright`, `end-to-end test`, `user journey`, `data-test` |
@@ -127,8 +126,8 @@ related-skills:
 Content here.
 ```
 
-3. Register keyword triggers in `targets/claude/hooks/skill-autotrigger.sh` so the hook detects relevant prompts
-4. Register file extension triggers in `targets/claude/hooks/skill-file-trigger.sh` if the skill maps to a file type
-5. Add the skill to the skills table in this file and to [docs/commands.md](commands.md)
+1. Register keyword triggers in `targets/claude/hooks/skill-autotrigger.sh` so the hook detects relevant prompts
+2. Register file extension triggers in `targets/claude/hooks/skill-file-trigger.sh` if the skill maps to a file type
+3. Add the skill to the skills table in this file and to [docs/commands.md](commands.md)
 
 The skill appears in Claude Code's skill list immediately — no restart needed.
