@@ -25,16 +25,16 @@ Repeat for each skill and hook. Per-item links allow plugin-installed skills and
 Run `scripts/sync.sh`, then link:
 
 ```bash
-ln -s /path/to/repository/targets/codex/AGENTS.md ~/.codex/AGENTS.md
+ln -s /path/to/repository/targets/codex/AGENTS.md ~/.agents/AGENTS.md
 ```
 
-Create `~/.codex/skills/`, then link each skill folder:
+Create `~/.agents/skills/`, then link each skill folder:
 
 ```bash
-ln -s /path/to/repository/skills/vue ~/.codex/skills/vue
+ln -s /path/to/repository/skills/vue ~/.agents/skills/vue
 ```
 
-This keeps the active Codex setup in one place: `~/.codex` for config, global `AGENTS.md`, and user skill symlinks.
+This keeps the active Codex setup in one place: `~/.agents` for config, global `AGENTS.md`, and user skill symlinks.
 
 ## Project setup
 
@@ -52,7 +52,7 @@ For Codex-only projects:
 
 ```bash
 cp /path/to/repository/templates/codex/AGENTS.md.template AGENTS.md
-mkdir -p .codex/skills
+mkdir -p .agents/skills
 ```
 
 For projects using both:
@@ -63,7 +63,7 @@ mkdir -p .claude/templates
 cp /path/to/repository/templates/claude/settings.json .claude/settings.json
 cp /path/to/repository/templates/claude/.claudeignore .claude/.claudeignore
 cp /path/to/repository/templates/PLAN.md.template .claude/templates/PLAN.md.template
-mkdir -p .codex/skills
+mkdir -p .agents/skills
 ```
 
 After copying, replace placeholders in `AGENTS.md` with project-specific rules.

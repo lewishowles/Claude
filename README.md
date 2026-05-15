@@ -29,8 +29,8 @@ The global setup script runs `scripts/sync.sh`, then links:
 - `~/.claude/settings.json` to `targets/claude/settings.json`
 - `~/.claude/skills/<name>` to `skills/<name>`
 - `~/.claude/hooks/<file>` to `targets/claude/hooks/<file>`
-- `~/.codex/AGENTS.md` to `targets/codex/AGENTS.md`
-- `~/.codex/skills/<name>` to `skills/<name>`
+- `~/.agents/AGENTS.md` to `targets/codex/AGENTS.md`
+- `~/.agents/skills/<name>` to `skills/<name>`
 
 Existing files are backed up instead of overwritten.
 
@@ -45,8 +45,8 @@ From a project root:
 Use `--claude`, `--codex`, or `--both`:
 
 - `--claude` creates `AGENTS.md`, `.claude/settings.json`, `.claude/.claudeignore`, and `.claude/templates/PLAN.md.template`
-- `--codex` creates `AGENTS.md` plus `.codex/skills/`
-- `--both` creates shared `AGENTS.md`, the Claude `.claude/` files, and `.codex/skills/`
+- `--codex` creates `AGENTS.md` plus `.agents/skills/`
+- `--both` creates shared `AGENTS.md`, the Claude `.claude/` files, and `.agents/skills/`
 
 Project setup skips existing files. It does not overwrite or back up project files because those are likely hand-edited.
 

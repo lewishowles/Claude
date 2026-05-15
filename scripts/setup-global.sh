@@ -24,7 +24,7 @@ backup_path() {
 	case "$path" in
 		"$HOME/.claude/skills/"*) backup="$HOME/.claude/backups/skills/$(basename "$path").bak" ;;
 		"$HOME/.claude/hooks/"*) backup="$HOME/.claude/backups/hooks/$(basename "$path").bak" ;;
-		"$HOME/.codex/skills/"*) backup="$HOME/.codex/backups/skills/$(basename "$path").bak" ;;
+		"$HOME/.agents/skills/"*) backup="$HOME/.agents/backups/skills/$(basename "$path").bak" ;;
 	esac
 
 	# Preserve existing backups by adding a timestamp only when needed.
@@ -123,16 +123,16 @@ setup_claude() {
 setup_codex() {
 	printf '\n→ Setting up Codex (global)\n\n'
 
-	ensure_container_dir "$HOME/.codex" "~/.codex"
-	ensure_container_dir "$HOME/.codex/skills" "~/.codex/skills"
+	ensure_container_dir "$HOME/.agents" "~/.agents"
+	ensure_container_dir "$HOME/.agents/skills" "~/.agents/skills"
 
-	link_path "$REPO_DIR/targets/codex/AGENTS.md" "$HOME/.codex/AGENTS.md" "AGENTS.md"
+	link_path "$REPO_DIR/targets/codex/AGENTS.md" "$HOME/.agents/AGENTS.md" "AGENTS.md"
 
-	# Keep Codex global config, instructions, and user skills under ~/.codex.
+	# Keep Codex global config, instructions, and user skills under ~/.agents.
 	local skill
 	for skill in "$REPO_DIR"/skills/*; do
 		[ -d "$skill" ] || continue
-		link_path "$skill" "$HOME/.codex/skills/$(basename "$skill")" "skills/$(basename "$skill")"
+		link_path "$skill" "$HOME/.agents/skills/$(basename "$skill")" "skills/$(basename "$skill")"
 	done
 }
 

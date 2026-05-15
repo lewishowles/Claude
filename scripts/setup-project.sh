@@ -61,8 +61,8 @@ setup_codex() {
 	printf '\n→ Setting up Codex (project)\n\n'
 
 	copy_file "$REPO_DIR/templates/codex/AGENTS.md.template" "$PROJECT_DIR/AGENTS.md" "AGENTS.md"
-	ensure_dir "$PROJECT_DIR/.codex" ".codex/"
-	ensure_dir "$PROJECT_DIR/.codex/skills" ".codex/skills/"
+	ensure_dir "$PROJECT_DIR/.agents" ".agents/"
+	ensure_dir "$PROJECT_DIR/.agents/skills" ".agents/skills/"
 }
 
 setup_both() {
@@ -70,8 +70,8 @@ setup_both() {
 
 	copy_file "$REPO_DIR/templates/shared/AGENTS.md.template" "$PROJECT_DIR/AGENTS.md" "AGENTS.md"
 	copy_claude_support_files
-	ensure_dir "$PROJECT_DIR/.codex" ".codex/"
-	ensure_dir "$PROJECT_DIR/.codex/skills" ".codex/skills/"
+	ensure_dir "$PROJECT_DIR/.agents" ".agents/"
+	ensure_dir "$PROJECT_DIR/.agents/skills" ".agents/skills/"
 }
 
 prompt_target() {

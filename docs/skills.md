@@ -2,11 +2,11 @@
 
 Skills are focused instruction sets that tell Claude or Codex how to behave in a specific context: what patterns to follow, what to avoid, and what the conventions are.
 
-Claude loads these from `~/.claude/skills/` and can be nudged by the Claude trigger hooks. Codex loads this repo's user skills from `~/.codex/skills/` in this setup and relies more heavily on each skill's frontmatter description for discovery.
+Claude loads these from `~/.claude/skills/` and can be nudged by the Claude trigger hooks. Codex loads this repo's user skills from `~/.agents/skills/` in this setup and relies more heavily on each skill's frontmatter description for discovery.
 
 ## User skills
 
-Defined in `skills/` in this repo, then symlinked into each runtime by `scripts/setup-global.sh`. The `agent-config` maintenance skill is intentionally repo-local under `.claude/skills/agent-config` and `.codex/skills/agent-config`; it is not installed globally for other projects.
+Defined in `skills/` in this repo, then symlinked into each runtime by `scripts/setup-global.sh`. The `agent-config` maintenance skill is intentionally repo-local under `.claude/skills/agent-config` and `.agents/skills/agent-config`; it is not installed globally for other projects.
 
 | Skill | When to use | Auto-trigger keywords |
 |-------|-------------|----------------------|
@@ -102,7 +102,7 @@ Content here.
 2. Register file extension triggers in `targets/claude/hooks/skill-file-trigger.sh` if the skill maps to a file type
 3. Add the skill to the skills table in this file and to [docs/commands.md](commands.md)
 
-After global setup, shared skills are available to Claude via `~/.claude/skills/` and to Codex via `~/.codex/skills/`.
+After global setup, shared skills are available to Claude via `~/.claude/skills/` and to Codex via `~/.agents/skills/`.
 
 **Completed (session 8):** Removed repo-managed references to the memory plugin ahead of uninstall, including settings, templates, docs, credits, and session-management recommendations
 **Validation:** pending local checks after memory plugin cleanup

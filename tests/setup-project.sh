@@ -75,8 +75,8 @@ test_codex_setup() {
 	run_setup "$target_dir" --codex
 
 	assert_file "$target_dir/AGENTS.md"
-	assert_dir "$target_dir/.codex"
-	assert_dir "$target_dir/.codex/skills"
+	assert_dir "$target_dir/.agents"
+	assert_dir "$target_dir/.agents/skills"
 	[ ! -e "$target_dir/.claude" ] || fail "Codex-only setup should not create .claude"
 	assert_contains "$target_dir/AGENTS.md" "Codex"
 }
@@ -91,8 +91,8 @@ test_both_setup() {
 	assert_file "$target_dir/.claude/settings.json"
 	assert_file "$target_dir/.claude/.claudeignore"
 	assert_file "$target_dir/.claude/templates/PLAN.md.template"
-	assert_dir "$target_dir/.codex"
-	assert_dir "$target_dir/.codex/skills"
+	assert_dir "$target_dir/.agents"
+	assert_dir "$target_dir/.agents/skills"
 	assert_contains "$target_dir/AGENTS.md" "Claude Code and Codex"
 }
 

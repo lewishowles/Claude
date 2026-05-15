@@ -12,13 +12,13 @@ Official references:
 
 Codex reads `AGENTS.md` before work starts. The official discovery order is:
 
-1. Global scope: `~/.codex/AGENTS.override.md` if present, otherwise `~/.codex/AGENTS.md`
+1. Global scope: `~/.agents/AGENTS.override.md` if present, otherwise `~/.agents/AGENTS.md`
 2. Project scope: from project root down to the current directory, one guidance file per directory
 3. Per-directory priority: `AGENTS.override.md`, then `AGENTS.md`, then names from `project_doc_fallback_filenames`
 
 Later files appear later in the combined prompt, so deeper project guidance overrides broader guidance.
 
-This repo links `~/.codex/AGENTS.md` to `targets/codex/AGENTS.md`.
+This repo links `~/.agents/AGENTS.md` to `targets/codex/AGENTS.md`.
 
 Project setup creates a root `AGENTS.md` using one of:
 
@@ -27,7 +27,7 @@ Project setup creates a root `AGENTS.md` using one of:
 
 ## Config
 
-User-level Codex config lives at `~/.codex/config.toml`. Project-level config can live at `.codex/config.toml`, and Codex loads it only for trusted projects.
+User-level Codex config lives at `~/.agents/config.toml`. Project-level config can live at `.agents/config.toml`, and Codex loads it only for trusted projects.
 
 Useful keys for this repo:
 
@@ -40,9 +40,9 @@ The official reference also documents `skills.config` for per-skill path and ena
 
 ## Skills
 
-This repo uses `~/.codex/skills/<name>` for user-global skill symlinks because that matches the active local Codex setup on this machine. `scripts/setup-global.sh --codex` links every repo skill there.
+This repo uses `~/.agents/skills/<name>` for user-global skill symlinks because that matches the active local Codex setup on this machine. `scripts/setup-global.sh --codex` links every repo skill there.
 
-Project setup creates `.codex/skills/` for project-local Codex skills. It does not copy the global skill set into each project.
+Project setup creates `.agents/skills/` for project-local Codex skills. It does not copy the global skill set into each project.
 
 Skill matching is description-driven. Keep frontmatter descriptions specific, action-led, and prefixed with `Use this skill when...` so Codex has enough signal before loading the full skill body.
 
