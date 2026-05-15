@@ -22,6 +22,7 @@ CLAUDE_PARTS=(
 	"$REPO_DIR/shared/skills-policy.md"
 	"$REPO_DIR/shared/file-discovery.md"
 	"$REPO_DIR/targets/claude/source/global-skills.md"
+	"$REPO_DIR/targets/claude/source/tokensave.md"
 )
 
 CODEX_PARTS=(
@@ -30,6 +31,7 @@ CODEX_PARTS=(
 	"$REPO_DIR/shared/identity.md"
 	"$REPO_DIR/shared/skills-policy.md"
 	"$REPO_DIR/shared/file-discovery.md"
+	"$REPO_DIR/targets/codex/source/tokensave.md"
 )
 
 write_target() {

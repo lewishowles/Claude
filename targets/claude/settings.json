@@ -21,6 +21,14 @@
 						"timeout": 5
 					}
 				]
+			},
+			{
+				"hooks": [
+					{
+						"command": "/opt/homebrew/bin/tokensave hook-prompt-submit",
+						"type": "command"
+					}
+				]
 			}
 		],
 		"PostToolUse": [
@@ -50,6 +58,15 @@
 						"timeout": 5
 					}
 				]
+			},
+			{
+				"hooks": [
+					{
+						"command": "/opt/homebrew/bin/tokensave hook-pre-tool-use",
+						"type": "command"
+					}
+				],
+				"matcher": "Agent"
 			}
 		],
 		"Stop": [
@@ -60,6 +77,14 @@
 						"command": "bash -c 'bash \"$HOME/.claude/hooks/pre-stop-checks.sh\"'",
 						"timeout": 60,
 						"statusMessage": "Checking lint and tests…"
+					}
+				]
+			},
+			{
+				"hooks": [
+					{
+						"command": "/opt/homebrew/bin/tokensave hook-stop",
+						"type": "command"
 					}
 				]
 			}
@@ -100,5 +125,64 @@
 		"security-review": "name-only",
 		"simplify": "name-only",
 		"update-config": "name-only"
+	},
+	"permissions": {
+		"allow": [
+			"mcp__tokensave__tokensave_affected",
+			"mcp__tokensave__tokensave_ast_grep_rewrite",
+			"mcp__tokensave__tokensave_body",
+			"mcp__tokensave__tokensave_branch_diff",
+			"mcp__tokensave__tokensave_branch_list",
+			"mcp__tokensave__tokensave_branch_search",
+			"mcp__tokensave__tokensave_by_qualified_name",
+			"mcp__tokensave__tokensave_callees",
+			"mcp__tokensave__tokensave_callers",
+			"mcp__tokensave__tokensave_callers_for",
+			"mcp__tokensave__tokensave_changelog",
+			"mcp__tokensave__tokensave_circular",
+			"mcp__tokensave__tokensave_commit_context",
+			"mcp__tokensave__tokensave_complexity",
+			"mcp__tokensave__tokensave_context",
+			"mcp__tokensave__tokensave_coupling",
+			"mcp__tokensave__tokensave_dead_code",
+			"mcp__tokensave__tokensave_dependency_depth",
+			"mcp__tokensave__tokensave_diff_context",
+			"mcp__tokensave__tokensave_distribution",
+			"mcp__tokensave__tokensave_doc_coverage",
+			"mcp__tokensave__tokensave_dsm",
+			"mcp__tokensave__tokensave_files",
+			"mcp__tokensave__tokensave_gini",
+			"mcp__tokensave__tokensave_god_class",
+			"mcp__tokensave__tokensave_health",
+			"mcp__tokensave__tokensave_hotspots",
+			"mcp__tokensave__tokensave_impact",
+			"mcp__tokensave__tokensave_inheritance_depth",
+			"mcp__tokensave__tokensave_insert_at",
+			"mcp__tokensave__tokensave_largest",
+			"mcp__tokensave__tokensave_module_api",
+			"mcp__tokensave__tokensave_multi_str_replace",
+			"mcp__tokensave__tokensave_node",
+			"mcp__tokensave__tokensave_port_order",
+			"mcp__tokensave__tokensave_port_status",
+			"mcp__tokensave__tokensave_pr_context",
+			"mcp__tokensave__tokensave_rank",
+			"mcp__tokensave__tokensave_record_code_area",
+			"mcp__tokensave__tokensave_record_decision",
+			"mcp__tokensave__tokensave_recursion",
+			"mcp__tokensave__tokensave_rename_preview",
+			"mcp__tokensave__tokensave_search",
+			"mcp__tokensave__tokensave_session_end",
+			"mcp__tokensave__tokensave_session_recall",
+			"mcp__tokensave__tokensave_session_start",
+			"mcp__tokensave__tokensave_similar",
+			"mcp__tokensave__tokensave_simplify_scan",
+			"mcp__tokensave__tokensave_status",
+			"mcp__tokensave__tokensave_str_replace",
+			"mcp__tokensave__tokensave_test_map",
+			"mcp__tokensave__tokensave_test_risk",
+			"mcp__tokensave__tokensave_todos",
+			"mcp__tokensave__tokensave_type_hierarchy",
+			"mcp__tokensave__tokensave_unused_imports"
+		]
 	}
 }
