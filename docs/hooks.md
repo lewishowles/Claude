@@ -1,5 +1,7 @@
 # Hooks
 
+These hooks are Claude-only. Codex has its own hook system, documented in [docs/codex.md](codex.md), but parity is out of scope for the current repo phase. For Codex, skill descriptions and `AGENTS.md` carry the discovery weight.
+
 Hooks are shell scripts that Claude Code runs automatically at specific points in a session. They're registered in `targets/claude/settings.json` under the `hooks` key and live in `targets/claude/hooks/`.
 
 ## Registered hooks

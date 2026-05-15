@@ -1,0 +1,53 @@
+# Codex
+
+This repo targets Codex through global `AGENTS.md`, user skills, and project templates. Codex hooks exist, but this repo does not install Codex hook parity yet.
+
+Official references:
+
+- [Custom instructions with AGENTS.md](https://developers.openai.com/codex/guides/agents-md)
+- [Configuration reference](https://developers.openai.com/codex/config-reference)
+- [Hooks](https://developers.openai.com/codex/hooks)
+
+## Instruction files
+
+Codex reads `AGENTS.md` before work starts. The official discovery order is:
+
+1. Global scope: `~/.codex/AGENTS.override.md` if present, otherwise `~/.codex/AGENTS.md`
+2. Project scope: from project root down to the current directory, one guidance file per directory
+3. Per-directory priority: `AGENTS.override.md`, then `AGENTS.md`, then names from `project_doc_fallback_filenames`
+
+Later files appear later in the combined prompt, so deeper project guidance overrides broader guidance.
+
+This repo links `~/.codex/AGENTS.md` to `targets/codex/AGENTS.md`.
+
+Project setup creates a root `AGENTS.md` using one of:
+
+- `templates/codex/AGENTS.md.template`
+- `templates/shared/AGENTS.md.template`
+
+## Config
+
+User-level Codex config lives at `~/.codex/config.toml`. Project-level config can live at `.codex/config.toml`, and Codex loads it only for trusted projects.
+
+Useful keys for this repo:
+
+```toml
+project_doc_fallback_filenames = ["TEAM_GUIDE.md"]
+project_doc_max_bytes = 65536
+```
+
+The official reference also documents `skills.config` for per-skill path and enablement overrides.
+
+## Skills
+
+This repo uses `~/.codex/skills/<name>` for user-global skill symlinks because that matches the active local Codex setup on this machine. `scripts/setup-global.sh --codex` links every repo skill there.
+
+Project setup creates `.codex/skills/` for project-local Codex skills. It does not copy the global skill set into each project.
+
+Skill matching is description-driven. Keep frontmatter descriptions specific, action-led, and prefixed with `Use this skill when...` so Codex has enough signal before loading the full skill body.
+
+## Hooks
+
+Codex hooks are configured through `hooks.json` next to active config layers or inline `[hooks]` tables in `config.toml`. The official Codex hook events include `SessionStart`, `PreToolUse`, `PermissionRequest`, `PostToolUse`, `UserPromptSubmit`, and `Stop`.
+
+Codex hook parity is intentionally out of scope for the current repo phase. The Claude hooks remain in `targets/claude/hooks/`; Codex relies on skill descriptions and `AGENTS.md` guidance until dedicated Codex hooks are added.

@@ -1,10 +1,12 @@
 # Skills
 
-Skills are focused instruction sets that tell Claude how to behave in a specific context — what patterns to follow, what to avoid, and what the conventions are. They're loaded on demand via the `Skill` tool, either manually or by the trigger hooks.
+Skills are focused instruction sets that tell Claude or Codex how to behave in a specific context: what patterns to follow, what to avoid, and what the conventions are.
+
+Claude loads these from `~/.claude/skills/` and can be nudged by the Claude trigger hooks. Codex loads this repo's user skills from `~/.codex/skills/` in this setup and relies more heavily on each skill's frontmatter description for discovery.
 
 ## User skills
 
-Defined in `~/.claude/skills/` (this repo, symlinked). Available in every project.
+Defined in `skills/` in this repo, then symlinked into each runtime by `scripts/setup-global.sh`.
 
 | Skill | When to use | Auto-trigger keywords |
 |-------|-------------|----------------------|
@@ -98,13 +100,15 @@ To re-enable a skill suppressed by a parent settings file, set it to `"on"` in t
 }
 ```
 
-See `templates/settings.json` for a project template with non-universal skills set to `name-only`.
+See `templates/claude/settings.json` for a Claude project template with non-universal skills set to `name-only`.
 
 ## Invoking a skill
 
-**Manually:** type `/skill-name` in Claude Code (e.g. `/vue`, `/unit-testing`).
+**Manually in Claude:** type `/skill-name` in Claude Code (e.g. `/vue`, `/unit-testing`).
 
-**Automatically:** the trigger hooks inject skills based on your prompt keywords and the file being written. See [docs/hooks.md](hooks.md) for how this works.
+**Automatically in Claude:** the trigger hooks inject skills based on your prompt keywords and the file being written. See [docs/hooks.md](hooks.md) for how this works.
+
+**In Codex:** matching is description-driven. Keep descriptions precise and action-led, with `Use this skill when...` wording.
 
 Plugin skills use namespaced slugs: `/caveman:compress`, `/claude-mem:mem-search`.
 
@@ -130,4 +134,4 @@ Content here.
 2. Register file extension triggers in `targets/claude/hooks/skill-file-trigger.sh` if the skill maps to a file type
 3. Add the skill to the skills table in this file and to [docs/commands.md](commands.md)
 
-The skill appears in Claude Code's skill list immediately — no restart needed.
+After global setup, the skill is available to Claude via `~/.claude/skills/` and to Codex via `~/.codex/skills/`.

@@ -1,5 +1,7 @@
 # Plugins
 
+This page describes Claude Code plugins. Codex has its own plugin and connector surfaces; this repo currently treats Codex plugin parity as separate from the Claude plugin setup.
+
 Plugins extend Claude Code with additional skills, hooks, and capabilities. They're installed globally and available in every session.
 
 Plugins differ from skills: skills are files in this repository that you maintain directly; plugins are versioned packages installed from a marketplace (GitHub-based) and managed by Claude Code.

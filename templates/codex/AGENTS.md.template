@@ -1,0 +1,50 @@
+---
+This is a Codex project rules template. Copy this to your project as AGENTS.md and replace every placeholder before relying on it.
+---
+
+# [Project Name]
+
+## Codex
+
+This project uses Codex with the global rules and skills from the agent configuration repo. Project-specific rules in this file override global defaults when they conflict.
+
+## Purpose
+
+What is this project? Who uses it? Why does it exist?
+
+Example: Personal task management app for iOS with offline sync and iCloud integration.
+
+## Functionality
+
+What does this app/service do? Key features or domains.
+
+- [Feature/domain 1]
+- [Feature/domain 2]
+- [Domain-specific info relevant to code]
+
+## Tech choices
+
+Specific libraries or tools for this project that differ from the global baseline.
+
+- Packages added, with brief reason if non-standard
+- Services/APIs used
+- State management approach if bespoke
+- Data persistence strategy
+
+## Architecture notes
+
+Code organisation and patterns specific to this project.
+
+- Data flow patterns
+- Folder structure specifics
+- API/service integration patterns
+- Testing approach
+
+## Gotchas
+
+Known issues, constraints, performance considerations, or environment specifics.
+
+- Browser/device quirks
+- Performance bottlenecks to avoid
+- Common mistakes or edge cases
+- Accessibility considerations specific to this app

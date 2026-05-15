@@ -3,7 +3,7 @@
 **Started:** 2026-05-13  
 **Project:** `~/Dev/Configuration/Claude` (renames to `~/Dev/Configuration/Agents` in Phase 9)  
 **Status:** in-progress  
-**Current priority:** Dual-target phases 0–9
+**Current priority:** Phase 8 end-to-end validation
 
 ## Legend
 
@@ -18,7 +18,7 @@
 
 - **Global rules:** `~/.codex/AGENTS.md` (or `AGENTS.override.md` first if present)
 - **Project rules:** walks root → cwd for `AGENTS.override.md` then `AGENTS.md`. Root `AGENTS.md` (real file or symlink) covers both runtimes. `project_doc_fallback_filenames` in `~/.codex/config.toml` works in 0.130.0-alpha.5 but treat as unstable.
-- **Skills:** `~/.agents/skills/` (user scope); `~/.codex/skills/` (system). Frontmatter `name`+`description` visible upfront; full skill loaded on use. Implicit matching weights description heavily.
+- **Skills:** This machine's active Codex setup has core user skills in `~/.codex/skills/`, so this repo uses `~/.codex/skills/<name>` for global symlinks and `.codex/skills/` for project-local Codex skills. `~/.agents/skills/` exists but currently holds caveman/cavecrew extras, not this repo's core skill symlinks. Frontmatter `name`+`description` visible upfront; full skill loaded on use. Implicit matching weights description heavily.
 - **Skill discovery:** description-driven, not slash-command. `Use this skill when` + action-led wording + file globs inline = better matching.
 - **Hooks:** Codex hooks exist (developers.openai.com/codex/hooks) but parity out of scope. Skill descriptions carry discovery weight.
 - **Caveman + claude-mem:** already installed for Codex (caveman manually activated). No further plugin work needed.
@@ -30,7 +30,7 @@
 | Decision | Rationale |
 |---|---|
 | `shared/` + `targets/<agent>/` structure | Single source of truth; agent outputs grouped; hooks move out of root |
-| Per-skill, per-hook symlinks (not whole folder) | Coexists with plugin-installed skills in `~/.agents/skills/` and `~/.claude/skills/` |
+| Per-skill, per-hook symlinks (not whole folder) | Coexists with plugin/system-installed skills in `~/.codex/skills/` and `~/.claude/skills/` |
 | Root `AGENTS.md` always real file or symlink | Both Claude and Codex read root `AGENTS.md` — one file covers both runtimes |
 | `sync.sh` composes from `shared/` | No manual sync between agent files; one place to edit shared rules |
 | Interactive default, `--claude/--codex/--both` flags | Accessible for first-time use; flags for repeat runs |
@@ -109,7 +109,7 @@
   - Idempotent; re-run reports `↪ already linked` for unchanged
   - Fail-fast on first error; partial results not rolled back (they're symlinks)
 - [x] **4.2** `--claude` symlinks: `~/.claude/CLAUDE.md`, `~/.claude/settings.json`, `~/.claude/skills/<name>` ×20, `~/.claude/hooks/<file>` per-hook — all → `repo/targets/claude/`
-- [x] **4.3** `--codex` symlinks: `~/.codex/AGENTS.md` → `repo/targets/codex/AGENTS.md`; `~/.agents/skills/<name>` ×20 → `repo/skills/<name>`
+- [x] **4.3** `--codex` symlinks: `~/.codex/AGENTS.md` → `repo/targets/codex/AGENTS.md`; `~/.codex/skills/<name>` ×20 → `repo/skills/<name>`
 - [x] **4.4** Backup strategy (never overwrites, never deletes):
   - Doesn't exist → create symlink → `✓ linked <name>`
   - Symlink → correct repo path → skip → `↪ already linked <name>`
@@ -127,43 +127,43 @@
 
 ### Phase 5 — `scripts/setup-project.sh`
 
-- [ ] **5.1** Create `scripts/setup-project.sh` with `--claude | --codex | --both`; no flag → interactive prompt; skip existing files (no overwrite)
-- [ ] **5.2** `--claude`: `cp templates/claude/AGENTS.md.template AGENTS.md`; `mkdir -p .claude/`; copy `templates/claude/settings.json`, `templates/claude/.claudeignore`, `templates/PLAN.md.template` → `.claude/templates/`
-- [ ] **5.3** `--codex`: `cp templates/codex/AGENTS.md.template AGENTS.md`
-- [ ] **5.4** `--both`: `cp templates/shared/AGENTS.md.template AGENTS.md`; `mkdir -p .claude/`; copy Claude `.claude/` layout
+- [x] **5.1** Create `scripts/setup-project.sh` with `--claude | --codex | --both`; no flag → interactive prompt; skip existing files (no overwrite)
+- [x] **5.2** `--claude`: `cp templates/claude/AGENTS.md.template AGENTS.md`; `mkdir -p .claude/`; copy `templates/claude/settings.json`, `templates/claude/.claudeignore`, `templates/PLAN.md.template` → `.claude/templates/`
+- [x] **5.3** `--codex`: `cp templates/codex/AGENTS.md.template AGENTS.md`; `mkdir -p .codex/skills`
+- [x] **5.4** `--both`: `cp templates/shared/AGENTS.md.template AGENTS.md`; `mkdir -p .claude/`; copy Claude `.claude/` layout; `mkdir -p .codex/skills`
 
-**Working state:** Per-project setup for Claude, Codex, or both via one command.
+**Working state:** Per-project setup for Claude, Codex, or both via one command. Existing project files are skipped, not overwritten or backed up.
 
-**Validation:** Each flag in a fresh dir creates correct layout; re-run skips existing files.
+**Validation:** `tests/setup-project.sh` covers each flag in a fresh dir plus re-run skip behaviour.
 
 ---
 
 ### Phase 6 — Templates filled in
 
-- [ ] **6.1** Write `templates/claude/AGENTS.md.template` — project-specific, Claude framing
-- [ ] **6.2** Write `templates/codex/AGENTS.md.template` — project-specific, Codex framing; no Claude-only references
-- [ ] **6.3** Write `templates/shared/AGENTS.md.template` — neutral, both runtimes
-- [ ] **6.4** Move `templates/settings.json` → `templates/claude/settings.json`
-- [ ] **6.5** Move `templates/.claudeignore` → `templates/claude/.claudeignore`
+- [x] **6.1** Write `templates/claude/AGENTS.md.template` — project-specific, Claude framing
+- [x] **6.2** Write `templates/codex/AGENTS.md.template` — project-specific, Codex framing; no Claude-only references
+- [x] **6.3** Write `templates/shared/AGENTS.md.template` — neutral, both runtimes
+- [x] **6.4** Move `templates/settings.json` → `templates/claude/settings.json`
+- [x] **6.5** Move `templates/.claudeignore` → `templates/claude/.claudeignore`
 
 **Working state:** All `setup-project.sh` flag combinations have valid template inputs.
 
-**Validation:** Each template loads correctly in respective runtime; no Claude-only references in Codex template.
+**Validation:** `tests/setup-project.sh` verifies the selected template marker for Claude, Codex, and both.
 
 ---
 
 ### Phase 7 — Documentation pass
 
-- [ ] **7.1** Rewrite `README.md` — three setup paths (Claude / Codex / both); single-source-of-truth model; alias setup snippet
-- [ ] **7.2** Create `docs/setup.md` — manual setup steps as fallback
-- [ ] **7.3** Create `docs/codex.md` — `~/.codex/config.toml` schema, skill loading, hook absence note (link to OpenAI hooks docs as future work), plugin parity notes
-- [ ] **7.4** Update `docs/hooks.md` — banner: "Claude-only. Codex hooks exist but parity out of scope; skill descriptions carry discovery weight instead."
-- [ ] **7.5** Update `docs/skills.md` — auto-trigger (Claude) vs description-driven (Codex); note descriptions written for both
-- [ ] **7.6** Update `docs/plugins.md` — banner Claude-only; Codex marketplace exists; caveman + claude-mem usable in both
+- [x] **7.1** Rewrite `README.md` — three setup paths (Claude / Codex / both); single-source-of-truth model; alias setup snippet
+- [x] **7.2** Create `docs/setup.md` — manual setup steps as fallback
+- [x] **7.3** Create `docs/codex.md` — `~/.codex/config.toml` schema, skill loading, hook absence note (link to OpenAI hooks docs as future work), plugin parity notes
+- [x] **7.4** Update `docs/hooks.md` — banner: "Claude-only. Codex hooks exist but parity out of scope; skill descriptions carry discovery weight instead."
+- [x] **7.5** Update `docs/skills.md` — auto-trigger (Claude) vs description-driven (Codex); note descriptions written for both
+- [x] **7.6** Update `docs/plugins.md` — banner Claude-only; Codex marketplace exists; caveman + claude-mem usable in both
 - [x] **7.7** Update `docs/commands.md` — rename `/claude-config` → `/agent-config` (completed in Phase 1)
-- [ ] **7.8** Update `docs/agents.md` — Claude agents only; note distinct from Codex top-level "agents" concept
+- [x] **7.8** Update `docs/agents.md` — Claude agents only; note distinct from Codex top-level "agents" concept
 
-**Validation:** README scan: every "this repo" reference accurate; `docs/codex.md` reachable from README.
+**Validation:** README links `docs/codex.md`; stale-template-path scan returned no matches.
 
 ---
 
@@ -294,6 +294,8 @@ Enforcement stays in hooks, not prompts. `shared/` is single source of truth for
 
 Progress tracking is flow-driven (updated at task completion), not session-driven — `SessionEnd` doesn't fire reliably when conversations are archived in the desktop app.
 
+After each completed phase or coherent implementation step, provide a ready-to-use Conventional Commit message before moving on to the next step. Keep the message scoped to the work just completed.
+
 ## Validation (end-to-end)
 
 Clone repo to clean machine, run `setup:agents:global --both`, then `cd` to a fresh project and run `setup:agents --both`. Both runtimes pick up global rules and project-local instructions.
@@ -312,3 +314,8 @@ Clone repo to clean machine, run `setup:agents:global --both`, then `cd` to a fr
 **Completed (session 4):** Phases 3 and 4 — restructured into `shared/` and `targets/<agent>/`, added `scripts/sync.sh`, moved Claude hooks/settings, removed root `CLAUDE.md`, added global setup script
 **Completed (session 4 follow-up):** Refactored `scripts/sync.sh` to join editable source fragments instead of embedding generated prose in the script; clarified project-local `AGENTS.md` template paths in generated Claude and Codex headers
 **Next:** Phase 5 — create `scripts/setup-project.sh`
+
+### 2026-05-15
+**Completed:** Phases 5, 6, and 7 — added `scripts/setup-project.sh`, split project templates into `templates/claude`, `templates/codex`, and `templates/shared`, added shell tests, rewrote README, added setup and Codex docs, and updated docs banners for Claude-only hooks/plugins/agents
+**Validation:** `bash -n scripts/setup-project.sh`; `bash -n scripts/setup-global.sh`; `tests/setup-project.sh`; stale-template-path `rg` scan
+**Next:** Phase 8 — run end-to-end global and fresh-project validation, including real symlink topology checks

@@ -1,5 +1,7 @@
 # Agents
 
+This page describes Claude Code agent types. Codex also uses the word "agents" for broader concepts such as `AGENTS.md`, subagents, and runtime roles; see [docs/codex.md](codex.md) for Codex-specific notes.
+
 Agents are specialised Claude instances that run as sub-processes, each with a focused set of tools and a specific purpose. You can spawn them via the `Agent` tool, or Claude Code spawns them automatically for certain tasks.
 
 Agents differ from skills: a skill loads instructions into the current Claude session; an agent starts a fresh session with its own context and tool access.

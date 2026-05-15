@@ -117,16 +117,15 @@ setup_codex() {
 	printf '\n→ Setting up Codex (global)\n\n'
 
 	ensure_container_dir "$HOME/.codex" "~/.codex"
-	ensure_container_dir "$HOME/.agents" "~/.agents"
-	ensure_container_dir "$HOME/.agents/skills" "~/.agents/skills"
+	ensure_container_dir "$HOME/.codex/skills" "~/.codex/skills"
 
 	link_path "$REPO_DIR/targets/codex/AGENTS.md" "$HOME/.codex/AGENTS.md" "AGENTS.md"
 
-	# Codex reads user skills from ~/.agents/skills, not ~/.codex/skills.
+	# Keep Codex global config, instructions, and user skills under ~/.codex.
 	local skill
 	for skill in "$REPO_DIR"/skills/*; do
 		[ -d "$skill" ] || continue
-		link_path "$skill" "$HOME/.agents/skills/$(basename "$skill")" "skills/$(basename "$skill")"
+		link_path "$skill" "$HOME/.codex/skills/$(basename "$skill")" "skills/$(basename "$skill")"
 	done
 }
 
