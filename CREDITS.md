@@ -25,7 +25,6 @@ All hooks are original:
 
 - `skill-autotrigger.sh` — UserPromptSubmit hook, pattern-matches prompts to inject skill reminders
 - `skill-file-trigger.sh` — PreToolUse hook, maps file extensions to relevant skills
-- `check-claude.sh` — PreToolUse gate that requires `.claude/CLAUDE.md` in every project
 - `pre-stop-checks.sh` — Stop hook running `npm run lint` and `npm run test:unit:run` before session close
 
 ## Enabled plugins

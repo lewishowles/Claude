@@ -169,7 +169,7 @@
 
 ### Phase 8 — End-to-end validation
 
-- [x] **8.1** Run `setup-global.sh --both` on this machine. Verify all symlinks per topology table. Verified `~/.claude/CLAUDE.md`, `~/.claude/settings.json`, `~/.codex/AGENTS.md`, 19 Claude skill symlinks, 7 Claude hook symlinks, and 19 Codex skill symlinks.
+- [x] **8.1** Run `setup-global.sh --both` on this machine. Verify all symlinks per topology table. Verified `~/.claude/CLAUDE.md`, `~/.claude/settings.json`, `~/.codex/AGENTS.md`, 19 Claude skill symlinks, 6 Claude hook symlinks, and 19 Codex skill symlinks.
 - [-] **8.2** Backup `~/.claude/` and `~/.codex/AGENTS.md`. Run script in clean state. Verify same result. Restore. — skipped per Lewis: current setup is fresh; no separate backup/restore validation needed.
 - [x] **8.3** In fresh test project: `setup:agents --claude`, then `--codex`, then `--both` — three separate test projects. Verify file layouts. Validated in `/private/tmp/agent-setup-validation.H6aRj1`.
 - [x] **8.4** Open Claude in test project — confirms CLAUDE.md + skill descriptions load correctly. Verified global Claude rules and `code-style` skill are available; Claude reads project `AGENTS.md` when following global instructions, not by automatic discovery.
@@ -233,7 +233,6 @@ All scripts load from `scripts/lib/colours.sh`. Blank line before/after each sec
   ✓ linked CLAUDE.md
   ✓ linked skills/vue
   ⟳ replaced settings.json (backup at ~/.claude/settings.json.bak)
-  ↪ hooks/check-claude.sh already linked
 
 → Setting up Codex (global)
 
@@ -321,7 +320,7 @@ Clone repo to clean machine, run `setup:agents:global --both`, then `cd` to a fr
 **Next:** Phase 8 — run end-to-end global and fresh-project validation, including real symlink topology checks
 
 **Completed (session 2):** Phase 8.1 and 8.3 — ran `scripts/setup-global.sh --both`, verified Claude/Codex global symlinks, skipped clean-state backup validation per Lewis, and validated `setup-project.sh` layouts in three fresh temporary projects
-**Validation:** `readlink ~/.claude/CLAUDE.md`; `readlink ~/.claude/settings.json`; `readlink ~/.codex/AGENTS.md`; counted 19 Claude skill links, 7 Claude hook links, 19 Codex skill links; checked fresh `--claude`, `--codex`, and `--both` project layouts
+**Validation:** `readlink ~/.claude/CLAUDE.md`; `readlink ~/.claude/settings.json`; `readlink ~/.codex/AGENTS.md`; counted 19 Claude skill links, 6 Claude hook links, 19 Codex skill links; checked fresh `--claude`, `--codex`, and `--both` project layouts
 **Next:** Phase 8.4/8.5 — launch Claude and Codex in test projects to confirm each runtime loads the generated rules and skills
 
 **Completed (session 3):** Phase 8.4 and 8.5 — validated Claude non-interactive startup with global rules, `code-style`, and project `AGENTS.md` read-through; validated Codex non-interactive startup with project `AGENTS.md`, global rules, and `code-style`
@@ -338,4 +337,8 @@ Clone repo to clean machine, run `setup:agents:global --both`, then `cd` to a fr
 
 **Completed (session 6):** Follow-up cleanup — removed generated backup skill files, removed compressed-mode plugin references from repo-managed docs/settings/templates, and kept `agent-config` as a repo-local skill shared between `.claude/skills` and `.codex/skills`
 **Validation:** no active references to the removed plugin wording; no backup skill files remain; JSON/YAML parsing passes; setup scripts parse; setup-project tests pass; agent-config Codex symlink resolves
+**Next:** Commit cleanup work or revisit deferred hooks
+
+**Completed (session 7):** Removed the broad Claude presence gate from the repo and active `~/.claude/hooks`; it was no longer registered in settings but still existed as a linked hook file
+**Validation:** no remaining references to the removed hook; active `~/.claude/hooks` contains 6 links; setup scripts parse; setup-project tests pass
 **Next:** Commit cleanup work or revisit deferred hooks

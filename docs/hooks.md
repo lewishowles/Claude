@@ -10,7 +10,6 @@ Hooks are shell scripts that Claude Code runs automatically at specific points i
 |------|-------|----------------------|
 | `skill-autotrigger.sh` | Every user message (`UserPromptSubmit`) | Exits cleanly if `jq` is missing — but blocks the prompt and reports an error if `jq` is installed and the hook itself errors |
 | `progress-resume.sh` | Every user message (`UserPromptSubmit`) | Silently skips if `jq` missing or no PROGRESS.md found |
-| `check-claude.sh` | Before every tool use (`PreToolUse`, all tools) | Blocks with exit code 2 and tells Claude to stop until `CLAUDE.md` is present |
 | `skill-file-trigger.sh` | Before every Write or Edit (`PreToolUse`, `Write\|Edit`) | Silently skips if `jq` is missing — writes are never blocked |
 | `plan-verify.sh` | After `ExitPlanMode` (`PostToolUse`) | Silently skips if no plan files exist |
 | `pre-stop-checks.sh` | When Claude finishes (`Stop`) | Runs lint and unit tests; pauses Claude and displays output if either fails |
@@ -62,10 +61,6 @@ Fires after `ExitPlanMode`. Finds the most recently modified `.md` file in `~/.c
 The hook warns rather than blocks — plans for small tasks are valid without a Validation section.
 
 **Requires:** `jq` — silently skips if missing.
-
-### check-claude.sh
-
-Runs on every tool use, but only once per session (uses a temp flag file keyed to the session ID). Checks that `.claude/CLAUDE.md` exists in the current working directory. If not, it blocks Claude with exit code 2 and instructs it to tell the user to run `/init` rather than attempting workarounds.
 
 ### pre-stop-checks.sh
 
