@@ -12,6 +12,12 @@
 - `[x]` done
 - `[-]` skipped/superseded (with reason)
 
+## Progress conventions
+
+- Checklist items track deliverables or behaviour changes, not progress-file maintenance.
+- Put validation under the relevant section's `**Validation:**` block instead of as standalone checklist work.
+- Put progress updates in `## Session notes` after the relevant work is complete.
+
 ---
 
 ## Confirmed Codex behaviour (verified by Lewis)
@@ -39,10 +45,10 @@
 
 ## Dual-target phases (current priority)
 
-### Phase 0 — Update AGENTS.md and PROGRESS.md
+### Phase 0 — Capture dual-target plan
 
 - [x] **0.1** Rewrite `.claude/AGENTS.md` for dual-target purpose, structure, Codex behaviour
-- [x] **0.2** Rewrite `.claude/PROGRESS.md` with dual-target phases; mark old Phase 6 superseded
+- [x] **0.2** Capture the dual-target phases and mark old Phase 6 superseded
 
 **Working state:** Documentation only. No functional change.
 
@@ -259,7 +265,8 @@ Done.
 - [x] Audit and classify CLAUDE.md rules
 - [x] Move token efficiency + goal-driven execution → `session-management`
 - [x] Remove communicating-with-humans detail
-- [x] Verify line count (100 lines, down from 141)
+
+**Validation:** Line count verified at 100 lines, down from 141.
 
 ### Old Phase 3 — Plan verify + progress-resume hooks [x]
 
@@ -267,8 +274,8 @@ Done.
 - [x] Write `hooks/progress-resume.sh` (UserPromptSubmit)
 - [x] Register both in `settings.json`
 - [x] Document in `docs/hooks.md`
-- [ ] **3.5 Test:** exit plan mode without Validation section → warning visible; with section → silent
-- [ ] **3.6 Test:** "let's continue" in project with PROGRESS.md → content injected; without → silent
+
+**Validation:** `plan-verify.sh` warns when the latest plan lacks `## Validation` and stays silent when that section exists. `progress-resume.sh` injects `.claude/PROGRESS.md` for continue-intent prompts and stays silent when no progress file exists.
 
 ### Old Phase 4 — Friction logging [ ] deferred
 
@@ -279,8 +286,8 @@ Done.
 
 - [ ] Write `hooks/pre-write-test-gate.sh` — detects Vitest/Playwright/Cypress/Jest/XCTest; blocks implementation writes if no matching test file
 - [ ] Register in `settings.json`
-- [ ] Test in Vitest project: write `.ts` without test file → blocked; write `.test.ts` first → proceeds
-- [ ] Test in non-test project: write `.ts` → no interruption
+
+**Validation:** Pending: in a Vitest project, writing `.ts` without a test file is blocked and writing `.test.ts` first proceeds; in a non-test project, writing `.ts` does not interrupt.
 
 ### Old Phase 6 — install.sh [-] superseded
 
@@ -292,7 +299,7 @@ Superseded by `scripts/setup-global.sh` (dual-target Phase 4). Per-skill, per-ho
 
 Enforcement stays in hooks, not prompts. `shared/` is single source of truth for rules. `sync.sh` composes agent-specific outputs deterministically. Setup scripts handle both runtimes from one entry point with a consistent backup strategy.
 
-Progress tracking is flow-driven (updated at task completion), not session-driven — `SessionEnd` doesn't fire reliably when conversations are archived in the desktop app.
+Progress tracking is flow-driven (updated at task completion), not session-driven — `SessionEnd` doesn't fire reliably when conversations are archived in the desktop app. Progress updates and validation notes are part of the relevant work section, not separate checklist items.
 
 After each completed phase or coherent implementation step, provide a ready-to-use Conventional Commit message before moving on to the next step. Keep the message scoped to the work just completed.
 
@@ -351,3 +358,7 @@ Clone repo to clean machine, run `setup:agents:global --both`, then `cd` to a fr
 **Completed (session 9):** Captured the tokensave sections added by the plugin as source fragments and wired them into `scripts/sync.sh`, so `targets/claude/CLAUDE.md` and `targets/codex/AGENTS.md` rebuild with those sections instead of carrying manual target-only edits
 **Validation:** `scripts/sync.sh` rebuilds both targets; `bash -n scripts/sync.sh`; `rg` confirms the Claude and Codex tokensave sections appear in their generated targets and source fragments
 **Next:** Commit cleanup work or revisit deferred hooks
+
+**Completed (session 10):** Validated deferred hook tests 3.5 and 3.6 for `plan-verify.sh` and `progress-resume.sh`
+**Validation:** Temporary hook harness confirmed missing `## Validation` warns, present validation is silent, continue-intent with `.claude/PROGRESS.md` injects content, and continue-intent without progress is silent
+**Next:** Deferred friction logging or pre-write test-skeleton gate
