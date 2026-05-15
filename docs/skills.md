@@ -103,7 +103,3 @@ Content here.
 3. Add the skill to the skills table in this file and to [docs/commands.md](commands.md)
 
 After global setup, shared skills are available to Claude via `~/.claude/skills/` and to Codex via `~/.agents/skills/`.
-
-**Completed (session 8):** Removed repo-managed references to the memory plugin ahead of uninstall, including settings, templates, docs, credits, and session-management recommendations
-**Validation:** pending local checks after memory plugin cleanup
-**Next:** Commit cleanup work or revisit deferred hooks

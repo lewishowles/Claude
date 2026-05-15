@@ -2,8 +2,8 @@
 
 **Started:** 2026-05-13
 **Project:** `~/Dev/Configuration/Agents`
-**Status:** complete for dual-target phases; deferred hooks remain queued
-**Current priority:** Dual-target phases complete
+**Status:** complete for dual-target phases and deferred hooks
+**Current priority:** Final cleanup and release
 
 ## Legend
 
@@ -371,4 +371,8 @@ Clone repo to clean machine, run `setup:agents:global --both`, then `cd` to a fr
 
 **Completed (session 12):** Added `test-skeleton-reminder.sh` and registered it for Claude `Write|Edit` hooks
 **Validation:** `tests/test-skeleton-reminder.sh`; `bash -n targets/claude/hooks/test-skeleton-reminder.sh`; `jq empty targets/claude/settings.json`; `tests/setup-project.sh`
-**Next:** Review deferred hook list for any remaining queued work
+**Next:** Final cleanup, commit, and push
+
+**Completed (session 13):** Removed stale session-note text from `docs/skills.md` and updated progress status now that deferred hooks are complete
+**Validation:** current progress status reflects completed dual-target and deferred hook work
+**Next:** Commit and push the completed maintenance work
