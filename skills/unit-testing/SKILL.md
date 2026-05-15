@@ -14,112 +14,200 @@ related-skills:
 - Over-test: happy/unhappy paths, valid/invalid variants
 - Meaningful assertions over snapshots for volatile content
 - Separate test setup from assertions like separating variables from logic in JS
+- Keep imports at the top of the file
+- Test and group names are capitalised, human-readable, and self-contained; method/computed names may stay exact
+- Group tests by collection, e.g. "Initialisation", "Computed", "Methods"
+- Avoid interaction tests in unit tests; cover those in integration tests
 
 ## Vue & Vitest
 
 - Vitest; unit-test computed properties and heavily-used methods
 - Skip tests for methods delegating to `@lewishowles/helpers`
-- Component testing: focus on user interactions and state changes
+- Component testing: focus on rendered state, props, slots, and emitted events
 - Composables: test reactive state, side effects, lifecycle hooks
 
 ### Component test structure
 
-```typescript
+- Top level component group names should use `kebab-case` to refer to the component (e.g. `form-input`, not `FormInput`)
+
+```javascript
 // src/components/form-input/form-input.test.js
-import { describe, it, expect } from 'vitest';
-import { mount } from '@vue/test-utils';
-import FormInput from './form-input.vue';
+import { mount } from "@vue/test-utils";
+import { describe, expect, test } from "vitest";
 
-describe('FormInput', () => {
-	it('updates modelValue on input', async () => {
-		const wrapper = mount(FormInput, {
-			props: {
-				modelValue: 'initial',
-			},
+import FormInput from "./form-input.vue";
+
+describe("form-input", () => {
+	describe("Initialisation", () => {
+		test("Displays the provided model value", () => {
+			const wrapper = mount(FormInput, {
+				props: {
+					modelValue: "Initial value",
+				},
+			});
+
+			expect(wrapper.find("input").element.value).toBe("Initial value");
 		});
-
-		const input = wrapper.find('input');
-		await input.setValue('updated');
-
-		expect(wrapper.emitted('update:modelValue')).toBeTruthy();
-		expect(wrapper.emitted('update:modelValue')[0]).toEqual(['updated']);
 	});
 
-	it('displays error slot when provided', () => {
-		const wrapper = mount(FormInput, {
-			slots: {
-				error: 'This field is required',
-			},
-		});
+	describe("States", () => {
+		test("Disables the input when disabled is true", () => {
+			const wrapper = mount(FormInput, {
+				props: {
+					disabled: true,
+				},
+			});
 
-		expect(wrapper.text()).toContain('This field is required');
+			expect(wrapper.find("input").attributes("disabled")).toBeDefined();
+		});
 	});
 
-	it('disables input when disabled prop is true', async () => {
-		const wrapper = mount(FormInput, {
-			props: {
-				disabled: true,
-			},
-		});
+	describe("Slots", () => {
+		test("Displays the error slot when provided", () => {
+			const wrapper = mount(FormInput, {
+				slots: {
+					error: "This field is required",
+				},
+			});
 
-		const input = wrapper.find('input');
-		expect(input.attributes('disabled')).toBeDefined();
+			expect(wrapper.text()).toContain("This field is required");
+		});
 	});
 });
 ```
 
 ### Composable test structure
 
-```typescript
+```javascript
 // src/composables/use-form.test.js
-import { describe, it, expect } from 'vitest';
-import { useForm } from './use-form';
+import { describe, expect, test } from "vitest";
 
-describe('useForm', () => {
-	it('initializes with default values', () => {
-		const { data } = useForm({
-			name: '',
-			email: '',
+import { useForm } from "./use-form";
+
+describe("useForm", () => {
+	describe("Initialisation", () => {
+		test("Initialises with default values", () => {
+			const { data } = useForm({
+				name: "",
+				email: "",
+			});
+
+			expect(data.value).toEqual({ name: "", email: "" });
 		});
-
-		expect(data.value).toEqual({ name: '', email: '' });
 	});
 
-	it('updates field values', () => {
-		const { data, updateField } = useForm({
-			name: '',
-			email: '',
+	describe("Computed", () => {
+		test("hasErrors is true when errors are present", () => {
+			const { errors, hasErrors } = useForm({
+				name: "",
+			});
+
+			errors.value.name = "Name is required";
+
+			expect(hasErrors.value).toBe(true);
 		});
-
-		updateField('name', 'Lewis');
-
-		expect(data.value.name).toBe('Lewis');
 	});
 
-	it('validates required fields', () => {
-		const { validate, errors } = useForm(
-			{ name: '' },
-			{
-				name: { required: true },
-			}
-		);
+	describe("Methods", () => {
+		test("Updates field values", () => {
+			const { data, updateField } = useForm({
+				name: "",
+				email: "",
+			});
 
-		validate();
+			updateField("name", "Lewis");
 
-		expect(errors.value.name).toBeDefined();
-	});
-
-	it('resets form to initial state', () => {
-		const { data, updateField, reset } = useForm({
-			name: 'Lewis',
+			expect(data.value.name).toBe("Lewis");
 		});
 
-		updateField('name', 'Jane');
-		reset();
+		test("Validates required fields", () => {
+			const { validate, errors } = useForm(
+				{ name: "" },
+				{
+					name: { required: true },
+				}
+			);
 
-		expect(data.value.name).toBe('Lewis');
+			validate();
+
+			expect(errors.value.name).toBeDefined();
+		});
+
+		test("Resets the form to its initial state", () => {
+			const { data, updateField, reset } = useForm({
+				name: "Lewis",
+			});
+
+			updateField("name", "Jane");
+			reset();
+
+			expect(data.value.name).toBe("Lewis");
+		});
 	});
 });
 ```
 
-**File colocation**: place test file next to component or composable using `.test.js` extension. Vitest discovers and runs automatically.
+### Helper test structure
+
+```javascript
+import { describe, expect, test } from "vitest";
+import get from ".";
+
+
+describe("get", () => {
+  test("Resets the form to its initial state", () => {
+    const sampleObject = {
+      name: "Sophie",
+      profiles: {
+        linkedIn: "linkedin/sophie",
+        behance: {
+          icon: "behance.icon",
+          url: "behance/sophie",
+        },
+      },
+    };
+
+    test("Retrieves a top level property", () => {
+      expect(get(sampleObject, "name")).toBe("Sophie");
+    });
+  });
+});
+```
+
+### Testing input types
+
+When a function expects a specific input type, test invalid types together with `test.for()` so coverage stays strict without repeating the same assertion.
+
+Start with the shared invalid-type list:
+
+```javascript
+test.for([
+	["boolean (true)", true],
+	["boolean (false)", false],
+	["number (positive)", 1],
+	["number (negative)", -1],
+	["number (NaN)", NaN],
+	["string (non-empty)", "string"],
+	["string (empty)", ""],
+	["object (non-empty)", { property: "value" }],
+	["object (empty)", {}],
+	["array (non-empty)", [1, 2, 3]],
+	["array (empty)", []],
+	["null", null],
+	["undefined", undefined],
+])("Rejects invalid <something>: %s", ([, input]) => {
+	expect(myHelper(input)).toBe("...");
+});
+```
+
+Then remove any cases that should pass for the helper being tested. For example, when testing `isNonEmptyObject`, remove:
+
+```javascript
+["object (non-empty)", { property: "value" }],
+```
+
+because that is the valid case.
+
+### File co-location
+
+Place test file next to component, composable, or test using `.test.js` extension. Vitest discovers and runs automatically.
