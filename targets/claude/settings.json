@@ -37,17 +37,6 @@
 		],
 		"PreToolUse": [
 			{
-				"matcher": ".*",
-				"hooks": [
-					{
-						"type": "command",
-						"command": "bash -c 'bash \"$HOME/.claude/hooks/check-claude.sh\"'",
-						"timeout": 30,
-						"statusMessage": "Checking for CLAUDE.md…"
-					}
-				]
-			},
-			{
 				"matcher": "Write|Edit",
 				"hooks": [
 					{
