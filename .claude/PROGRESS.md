@@ -159,7 +159,7 @@
 - [x] **7.3** Create `docs/codex.md` — `~/.codex/config.toml` schema, skill loading, hook absence note (link to OpenAI hooks docs as future work), plugin parity notes
 - [x] **7.4** Update `docs/hooks.md` — banner: "Claude-only. Codex hooks exist but parity out of scope; skill descriptions carry discovery weight instead."
 - [x] **7.5** Update `docs/skills.md` — auto-trigger (Claude) vs description-driven (Codex); note descriptions written for both
-- [x] **7.6** Update `docs/plugins.md` — banner Claude-only; Codex marketplace exists; claude-mem documented
+- [x] **7.6** Update `docs/plugins.md` — banner Claude-only; Codex marketplace exists
 - [x] **7.7** Update `docs/commands.md` — rename `/claude-config` → `/agent-config` (completed in Phase 1)
 - [x] **7.8** Update `docs/agents.md` — Claude agents only; note distinct from Codex top-level "agents" concept
 
@@ -341,4 +341,8 @@ Clone repo to clean machine, run `setup:agents:global --both`, then `cd` to a fr
 
 **Completed (session 7):** Removed the broad Claude presence gate from the repo and active `~/.claude/hooks`; it was no longer registered in settings but still existed as a linked hook file
 **Validation:** no remaining references to the removed hook; active `~/.claude/hooks` contains 6 links; setup scripts parse; setup-project tests pass
+**Next:** Commit cleanup work or revisit deferred hooks
+
+**Completed (session 8):** Removed repo-managed references to the memory plugin ahead of uninstall, including settings, templates, docs, credits, and session-management recommendations
+**Validation:** no remaining repo references to the removed memory plugin; JSON/YAML parsing passes; setup scripts parse; setup-project tests pass
 **Next:** Commit cleanup work or revisit deferred hooks

@@ -64,7 +64,6 @@ For multi-file, multi-session, or significant-scope work, maintain a `PROGRESS.m
 
 - Skip plan mode for single-file, single-line, or trivial edits (<20 lines)
 - Batch edits in one session — amortise system context across multiple changes
-- Use `claude-mem:smart-explore` for large codebases instead of broad reads
 - Try `grep`/`find` first before spawning agents for targeted lookups
 
 ## Goal-driven execution
@@ -83,3 +82,7 @@ Multi-step tasks: state plan with verification:
 ```
 
 Strong criteria = independent loops. Weak criteria = constant clarification.
+
+**Completed (session 8):** Removed repo-managed references to the memory plugin ahead of uninstall, including settings, templates, docs, credits, and session-management recommendations
+**Validation:** pending local checks after memory plugin cleanup
+**Next:** Commit cleanup work or revisit deferred hooks

@@ -8,37 +8,7 @@ Plugins differ from skills: skills are files in this repository that you maintai
 
 ## Installed plugins
 
-### claude-mem (`claude-mem@thedotmack`)
-
-**Source:** `github:thedotmack/claude-mem`
-
-Persistent cross-session memory for Claude Code. Captures observations during sessions and stores them so future sessions can recall past work, decisions, and context — even after the conversation context is cleared.
-
-**Skills provided:**
-
-| Skill | What it does |
-|-------|-------------|
-| `/mem-search` | Search the persistent memory database |
-| `/how-it-works` | Explain how claude-mem captures and stores observations |
-| `/learn-codebase` | Prime a codebase by reading every source file — builds a searchable corpus |
-| `/smart-explore` | Token-optimised structural code search using tree-sitter |
-| `/make-plan` | Create a detailed, phased implementation plan with documented steps |
-| `/do` | Execute a phased plan using subagents |
-| `/pathfinder` | Map a codebase into feature-grouped flowcharts |
-| `/knowledge-agent` | Build and query AI-powered knowledge bases |
-| `/babysit` | Watch a pull request until it's ready to merge |
-| `/version-bump` | Automated semantic versioning and release workflow |
-| `/timeline-report` | Generate a narrative history of a project |
-| `/wowerpoint` | Turn a document into a slide deck |
-
-**Getting started with claude-mem:**
-
-1. In a new project, run `/learn-codebase` to prime the memory corpus
-2. Use `/mem-search` at the start of a session to recall past context
-3. claude-mem captures observations automatically during sessions — no manual saving needed
-4. Use `/make-plan` + `/do` to run phased multi-step work across session boundaries
-
----
+No Claude Code plugins are currently managed by this repo.
 
 ## Installing a plugin
 

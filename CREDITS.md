@@ -31,10 +31,13 @@ All hooks are original:
 
 Listed in `settings.json` under `enabledPlugins`:
 
-- **claude-mem** — [thedotmack/claude-mem](https://github.com/thedotmack/claude-mem) — memory consolidation
 
 ## Inspirations
 
 References consulted while designing this repository (no code or content copied):
 
 - [affaan-m/everything-claude-code](https://github.com/affaan-m/everything-claude-code) — MIT © 2026 Affaan Mustafa — broader survey of skills, commands, agents, and hooks patterns
+
+**Completed (session 8):** Removed repo-managed references to the memory plugin ahead of uninstall, including settings, templates, docs, credits, and session-management recommendations
+**Validation:** pending local checks after memory plugin cleanup
+**Next:** Commit cleanup work or revisit deferred hooks

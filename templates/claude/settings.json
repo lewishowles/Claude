@@ -28,18 +28,6 @@
 		"schedule": "name-only",
 		"security-review": "name-only",
 		"simplify": "name-only",
-		"update-config": "name-only",
-		"claude-mem:babysit": "name-only",
-		"claude-mem:do": "name-only",
-		"claude-mem:how-it-works": "name-only",
-		"claude-mem:knowledge-agent": "name-only",
-		"claude-mem:learn-codebase": "name-only",
-		"claude-mem:make-plan": "name-only",
-		"claude-mem:mem-search": "on",
-		"claude-mem:pathfinder": "name-only",
-		"claude-mem:smart-explore": "on",
-		"claude-mem:timeline-report": "name-only",
-		"claude-mem:version-bump": "name-only",
-		"claude-mem:wowerpoint": "name-only"
+		"update-config": "name-only"
 	}
 }

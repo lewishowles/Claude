@@ -51,25 +51,4 @@ Most of these fire automatically via the trigger hooks — manual invocation is 
 
 ## Plugin commands
 
-These come from installed plugins. See [docs/plugins.md](plugins.md) for plugin details.
-
-### claude-mem plugin
-
-Persistent cross-session memory and knowledge management.
-
-| Command | What it does |
-|---------|-------------|
-| `/mem-search` | Search the persistent memory database across sessions |
-| `/how-it-works` | Explain how claude-mem captures and stores observations |
-| `/learn-codebase` | Prime a codebase by reading every source file — builds the memory corpus |
-| `/smart-explore` | Token-optimised structural code search using tree-sitter |
-| `/make-plan` | Create a detailed, phased implementation plan with documented steps |
-| `/do` | Execute a phased implementation plan using subagents |
-| `/pathfinder` | Map a codebase into feature-grouped flowcharts, identify entry points |
-| `/knowledge-agent` | Build and query AI-powered knowledge bases from Claude sessions |
-| `/babysit` | Watch a pull request or review cycle until it's ready to merge |
-| `/version-bump` | Automated semantic versioning and release workflow |
-| `/timeline-report` | Generate a narrative report of a project's history |
-| `/wowerpoint` | Turn a document into a slide deck |
-
-claude-mem stores observations across sessions. Use `/mem-search` to retrieve context from past work, or `/learn-codebase` when starting in an unfamiliar project.
+No plugin commands are currently documented by this repo. See [docs/plugins.md](plugins.md) if plugin management is added later.

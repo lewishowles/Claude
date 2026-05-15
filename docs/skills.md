@@ -47,25 +47,6 @@ Provided by Claude Code itself. No SKILL.md files — managed by the application
 | `simplify` | Review changed code for reuse, quality, and efficiency, then fix issues found |
 | `update-config` | Modify Claude Code configuration via `settings.json` — hooks, permissions, env vars, plugins |
 
-## Plugin skills — claude-mem
-
-From the [claude-mem plugin](https://github.com/thedotmack/claude-mem). Persistent cross-session memory.
-
-| Skill | When to use |
-|-------|-------------|
-| `claude-mem:babysit` | Monitor a PR until it is ready to merge — watches CI, resolves review threads, fixes issues in focused commits |
-| `claude-mem:do` | Execute a phased implementation plan using subagents — typically used after `make-plan` |
-| `claude-mem:how-it-works` | Explain how claude-mem captures observations, when memory injection kicks in, and where data lives |
-| `claude-mem:knowledge-agent` | Build and query AI-powered knowledge bases from past observations — create focused "brains" about specific topics |
-| `claude-mem:learn-codebase` | Prime a codebase by reading every source file in full — use when starting on an unfamiliar project |
-| `claude-mem:make-plan` | Create a detailed, phased implementation plan with documentation discovery — use before `do` |
-| `claude-mem:mem-search` | Search persistent cross-session memory — use when asking "did we solve this before?" or "how did we do X last time?" |
-| `claude-mem:pathfinder` | Map a codebase into feature-grouped flowcharts, identify duplicated concerns, and propose a unified architecture |
-| `claude-mem:smart-explore` | Token-optimised AST code search using tree-sitter — replaces Read/Grep/Glob for large codebases (4–18× token savings) |
-| `claude-mem:timeline-report` | Generate a "Journey Into [Project]" narrative report analysing a project's entire development history |
-| `claude-mem:version-bump` | Automated semantic versioning and release workflow for Claude Code plugins — bumps version across all manifests, publishes to npm, creates GitHub release |
-| `claude-mem:wowerpoint` | Turn one document into a kawaii NotebookLM slide-deck PDF — use for "make a deck about \<file\>" |
-
 ## Controlling which skills load (skillOverrides)
 
 Skills can be selectively suppressed in any `settings.json` using `skillOverrides`. This is the main tool for reducing token usage — skill descriptions are the bulk of the listing cost.
@@ -98,7 +79,6 @@ See `templates/claude/settings.json` for a Claude project template with non-univ
 
 **In Codex:** matching is description-driven. Keep descriptions precise and action-led, with `Use this skill when...` wording.
 
-Plugin skills use namespaced slugs such as `/claude-mem:mem-search`.
 
 ## Adding a new skill
 
@@ -123,3 +103,7 @@ Content here.
 3. Add the skill to the skills table in this file and to [docs/commands.md](commands.md)
 
 After global setup, shared skills are available to Claude via `~/.claude/skills/` and to Codex via `~/.codex/skills/`.
+
+**Completed (session 8):** Removed repo-managed references to the memory plugin ahead of uninstall, including settings, templates, docs, credits, and session-management recommendations
+**Validation:** pending local checks after memory plugin cleanup
+**Next:** Commit cleanup work or revisit deferred hooks
