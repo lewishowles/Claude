@@ -70,6 +70,7 @@ Rule: every changed line traces directly to the request
 
 - Never commit automatically
 - Update docs when changes require documentation
+- After completing a coherent step, provide a scoped Conventional Commit message
 
 ## Identity & expertise
 

@@ -175,7 +175,7 @@
 - [x] **8.3** In fresh test project: `setup:agents --claude`, then `--codex`, then `--both` — three separate test projects. Verify file layouts. Validated in `/private/tmp/agent-setup-validation.H6aRj1`.
 - [x] **8.4** Open Claude in test project — confirms CLAUDE.md + skill descriptions load correctly. Verified global Claude rules and `code-style` skill are available; Claude reads project `AGENTS.md` when following global instructions, not by automatic discovery.
 - [x] **8.5** Open Codex in test project — confirms AGENTS.md + skills visible. Verified project `AGENTS.md`, global Codex rules, and `code-style` skill. Fixed strict YAML frontmatter parsing by converting skill descriptions to block scalars; moved stale `*.bak` skill directories out of active scan paths.
-- [ ] **8.6** Run `scripts/sync.sh` after editing `shared/global-rules.md`. Diff both targets — confirm both update.
+- [x] **8.6** Run `scripts/sync.sh` after editing `shared/global-rules.md`. Diff both targets — confirm both update. Added the scoped commit-message rule to shared rules and verified it appears in both generated targets.
 
 **Working state:** Confidence to ship. Both runtimes verified end-to-end.
 
@@ -328,3 +328,7 @@ Clone repo to clean machine, run `setup:agents:global --both`, then `cd` to a fr
 **Completed (session 3):** Phase 8.4 and 8.5 — validated Claude non-interactive startup with global rules, `code-style`, and project `AGENTS.md` read-through; validated Codex non-interactive startup with project `AGENTS.md`, global rules, and `code-style`
 **Validation fixes:** Converted all skill frontmatter descriptions to YAML block scalars for Codex; updated setup backups for runtime-scanned skills/hooks to live under `backups/`; moved stale `~/.codex/skills/*.bak` directories out of the active scan path
 **Next:** Phase 8.6 — edit `shared/global-rules.md`, run `scripts/sync.sh`, and confirm both generated targets update
+
+**Completed (session 4):** Phase 8.6 — added the scoped commit-message rule to `shared/global-rules.md`, ran `scripts/sync.sh`, and confirmed both generated targets received the change
+**Validation:** `rg` found the new rule in `shared/global-rules.md`, `targets/claude/CLAUDE.md`, and `targets/codex/AGENTS.md`; `git diff` shows matching generated target updates
+**Next:** Phase 9 — rename repo to `Configuration/Agents` and refresh symlinks/paths
