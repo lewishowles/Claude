@@ -18,7 +18,7 @@ related-skills:
 - Keep imports at the top of the file
 - Test and group names are capitalised, human-readable, and self-contained; method/computed names may stay exact
 - Group tests by collection, e.g. "Initialisation", "Computed", "Methods"
-- Avoid interaction tests in unit tests; cover those in integration tests
+- **Do not** write interaction tests in unit tests; those are covered in Playwright/Cypress tests
 
 ## Vue & Vitest
 
