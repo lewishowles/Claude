@@ -1,6 +1,6 @@
 ---
 name: unit-testing
-description: Use this skill when writing or reviewing unit tests in *.test.js, *.test.ts, *.spec.js, *.spec.ts, XCTest, Vitest, @testing-library/vue, and composable tests. Covers happy and unhappy paths, what to skip, meaningful assertions, mocks, and avoiding snapshot-heavy tests. Pair with e2e-testing for browser journeys.
+description: Use this skill when writing, editing, or reviewing unit tests — Vitest, @testing-library/vue, composable testing, XCTest. Covers testing philosophy (happy and unhappy paths), what to skip (methods that delegate to @lewishowles/helpers), and meaningful assertions over snapshots. Always apply when working in *.test.js files or when the user mentions tests, specs, or coverage. For end-to-end tests, see the e2e-testing skill if present.
 related-skills:
   - code-style
   - vue

@@ -1,6 +1,6 @@
 ---
 name: vue-project-stack
-description: Use this skill when working in Vue projects using the Lewis Howles stack, including *.vue, *.ts, Tailwind, Vitest, Bun, Gitflow, GitHub Pages, @lewishowles/helpers, and @lewishowles/components. Covers why each tool is used and flags outdated alternatives. Pair with vue.
+description: Use this skill when working in a Vue project that uses the wider Lewis Howles stack. Covers the chosen tools (Vue 3 with script setup, TypeScript, Tailwind, Vitest, Bun, Gitflow, GitHub Pages) with the *why* for each so suggestions can flag outdated choices, plus the @lewishowles/helpers and @lewishowles/components libraries that replace common packages.
 related-skills:
   - vue
   - code-style

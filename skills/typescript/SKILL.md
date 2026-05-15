@@ -1,6 +1,6 @@
 ---
 name: typescript
-description: Use this skill when writing, editing, or debugging TypeScript in *.ts, *.tsx, and *.vue files with lang="ts". Covers type errors, interfaces, generics, type aliases, simple types, when as any is acceptable, and avoiding type gymnastics. Pair with vue for Vue files.
+description: Use this skill when working in TypeScript files (.ts, .tsx, .vue with lang="ts") or when type errors, type definitions, or generics are involved. Covers keeping types simple, when `as any` is acceptable, avoiding type gymnastics, and always explaining type errors rather than silently suppressing them.
 related-skills:
   - code-style
 ---

@@ -1,6 +1,6 @@
 ---
 name: error-handling
-description: Use this skill when validating inputs, API responses, async results, and error paths in *.js, *.ts, *.vue, and service code. Covers guard clauses, helper utilities, response validation, graceful fallbacks, and what not to handle. Pair with typescript when types are involved.
+description: Use this skill when writing functions that accept parameters, making API calls, or handling any response data — even if errors aren't the main topic. Covers input validation with helper utilities, API response validation, graceful fallbacks, and what NOT to handle. Apply proactively when writing JavaScript/TypeScript functions.
 ---
 
 # Error handling

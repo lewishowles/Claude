@@ -1,6 +1,6 @@
 ---
 name: code-style
-description: Use this skill when formatting or reviewing every code change, including *.js, *.ts, *.vue, *.swift, *.sh, config files, and small snippets. Covers tabs, double quotes, semicolons, naming, comments, and documentation patterns. Pair with language-specific skills when they match.
+description: Use this skill on every code change — even small snippets. Covers tabs vs spaces, quote style, semicolons, naming conventions, JSDoc comments, and documentation patterns. This is the baseline style guide for all code.
 related-skills:
   - vue
   - vue-project-stack

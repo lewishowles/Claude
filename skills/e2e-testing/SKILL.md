@@ -1,6 +1,6 @@
 ---
 name: e2e-testing
-description: Use this skill when writing or reviewing Playwright end-to-end tests in e2e/**, *.e2e.ts, *.e2e.js, and browser automation specs. Covers user journeys, interaction testing, selectors, test structure, and CI integration. Pair with unit-testing for component-level coverage.
+description: Use this skill when writing end-to-end tests with Playwright. Covers browser automation, user interactions, test structure, and CI integration. For unit/component testing, see the unit-testing skill.
 related-skills:
   - code-style
   - unit-testing

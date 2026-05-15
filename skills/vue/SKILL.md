@@ -1,6 +1,6 @@
 ---
 name: vue
-description: Use this skill when building or reviewing Vue 3 components, composables, templates, and *.vue files. Covers Composition API, script setup, macro order, computed organisation, component patterns, and directory structure. Pair with vue-project-stack for Bun, Vitest, Tailwind, Gitflow, and @lewishowles libraries.
+description: Use this skill when working with .vue files, Vue components, composables, or Vue templates — even for small edits. Covers Vue 3 Composition API patterns, script setup, macro order, computed property organisation, component patterns, and component directory organisation. For project-specific stack choices (Bun, Vitest, Gitflow, @lewishowles/helpers, @lewishowles/components), see the vue-project-stack skill.
 related-skills:
   - code-style
   - vue-project-stack
