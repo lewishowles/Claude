@@ -284,12 +284,12 @@ Done.
 
 **Validation:** `tests/friction-logging.sh` covers failed lint/unit checks creating a log line, successful checks leaving no log, and analyser grouping by project/check/error summary.
 
-### Old Phase 5 — PreWrite test-skeleton gate [ ] deferred
+### Old Phase 5 — PreWrite test-skeleton reminder [x]
 
-- [ ] Write `hooks/pre-write-test-gate.sh` — detects Vitest/Playwright/Cypress/Jest/XCTest; blocks implementation writes if no matching test file
-- [ ] Register in `settings.json`
+- [x] Write `hooks/test-skeleton-reminder.sh` — detects test-enabled projects and reminds on implementation writes when no matching test file exists
+- [x] Register in `settings.json`
 
-**Validation:** Pending: in a Vitest project, writing `.ts` without a test file is blocked and writing `.test.ts` first proceeds; in a non-test project, writing `.ts` does not interrupt.
+**Validation:** `tests/test-skeleton-reminder.sh` covers a Vitest implementation write without a sibling test emitting a reminder, an existing sibling test staying silent, test files staying silent, and projects without a recognised test stack staying silent.
 
 ### Old Phase 6 — install.sh [-] superseded
 
@@ -368,3 +368,7 @@ Clone repo to clean machine, run `setup:agents:global --both`, then `cd` to a fr
 **Completed (session 11):** Added friction logging to `pre-stop-checks.sh` and added `scripts/analyse-friction.sh`
 **Validation:** `tests/friction-logging.sh`; `bash -n targets/claude/hooks/pre-stop-checks.sh`; `bash -n scripts/analyse-friction.sh`; `tests/setup-project.sh`
 **Next:** Deferred pre-write test-skeleton gate
+
+**Completed (session 12):** Added `test-skeleton-reminder.sh` and registered it for Claude `Write|Edit` hooks
+**Validation:** `tests/test-skeleton-reminder.sh`; `bash -n targets/claude/hooks/test-skeleton-reminder.sh`; `jq empty targets/claude/settings.json`; `tests/setup-project.sh`
+**Next:** Review deferred hook list for any remaining queued work

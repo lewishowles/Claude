@@ -54,6 +54,11 @@
 					},
 					{
 						"type": "command",
+						"command": "bash -c 'bash \"$HOME/.claude/hooks/test-skeleton-reminder.sh\"'",
+						"timeout": 5
+					},
+					{
+						"type": "command",
 						"command": "bash \"/Users/lewis/.claude/hooks/auto-allow-edits.sh\"",
 						"timeout": 5
 					}

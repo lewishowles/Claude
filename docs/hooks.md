@@ -11,6 +11,7 @@ Hooks are shell scripts that Claude Code runs automatically at specific points i
 | `skill-autotrigger.sh` | Every user message (`UserPromptSubmit`) | Exits cleanly if `jq` is missing — but blocks the prompt and reports an error if `jq` is installed and the hook itself errors |
 | `progress-resume.sh` | Every user message (`UserPromptSubmit`) | Silently skips if `jq` missing or no PROGRESS.md found |
 | `skill-file-trigger.sh` | Before every Write or Edit (`PreToolUse`, `Write\|Edit`) | Silently skips if `jq` is missing — writes are never blocked |
+| `test-skeleton-reminder.sh` | Before every Write or Edit (`PreToolUse`, `Write\|Edit`) | Silently skips if no matching test stack is detected |
 | `plan-verify.sh` | After `ExitPlanMode` (`PostToolUse`) | Silently skips if no plan files exist |
 | `pre-stop-checks.sh` | When Claude finishes (`Stop`) | Runs lint and unit tests; logs failures; pauses Claude and displays output if either fails |
 
@@ -43,6 +44,21 @@ Extension-to-skill mapping:
 | `*.test.js`, `*.spec.ts`, etc. | + `unit-testing` |
 | `*.e2e.js`, files in `e2e/` | + `e2e-testing` |
 | Files in `adr/` or `0001-*.md` | + `architecture-decision-records` |
+
+**Requires:** `jq` — silently skips if missing.
+
+### test-skeleton-reminder.sh
+
+Fires whenever Claude is about to write or edit an implementation file. If the project has a recognised test setup and no plausible matching test file exists, it injects a reminder to add or update a test alongside the implementation.
+
+The hook suggests rather than blocks. It skips test files, docs, scripts without a detected test stack, and non-code files.
+
+Recognised test stacks:
+
+| Project type | Detection |
+|--------------|-----------|
+| JS / TS / Vue | `package.json` mentions Vitest, Jest, Playwright, or Cypress in scripts or dependencies |
+| Swift | `Tests/` exists or `Package.swift` exists |
 
 **Requires:** `jq` — silently skips if missing.
 
