@@ -53,20 +53,6 @@ Most of these fire automatically via the trigger hooks — manual invocation is 
 
 These come from installed plugins. See [docs/plugins.md](plugins.md) for plugin details.
 
-### caveman plugin
-
-Ultra-compressed communication mode — reduces token usage and response verbosity.
-
-| Command | What it does |
-|---------|-------------|
-| `/caveman` | Activate caveman mode (full compression by default) |
-| `/caveman-help` | Quick-reference card: all modes, skills, and shortcuts |
-| `/caveman-review` | Ultra-compressed code review comments |
-| `/caveman-commit` | Ultra-compressed commit message generator |
-| `/compress` | Compress natural-language memory files (CLAUDE.md, todo lists, notes) |
-
-Caveman modes: `full` (default), `lite`, `ultra`. Switch with `/caveman lite`, `/caveman ultra`. Deactivate with "stop caveman" or "normal mode".
-
 ### claude-mem plugin
 
 Persistent cross-session memory and knowledge management.

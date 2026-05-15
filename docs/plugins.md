@@ -8,34 +8,6 @@ Plugins differ from skills: skills are files in this repository that you maintai
 
 ## Installed plugins
 
-### caveman (`caveman@caveman`)
-
-**Source:** `github:JuliusBrussee/caveman`
-
-Activates ultra-compressed communication mode, cutting filler and reducing response verbosity without losing technical substance. Useful for keeping sessions tight and reducing token usage.
-
-**Skills provided:**
-
-| Skill | What it does |
-|-------|-------------|
-| `/caveman` | Activate caveman mode. Levels: `full` (default), `lite`, `ultra` |
-| `/caveman-help` | Quick-reference card for all modes, skills, and shortcuts |
-| `/caveman-review` | Ultra-compressed code review comments |
-| `/caveman-commit` | Ultra-compressed commit message generator |
-| `/compress` | Compress natural-language memory files (CLAUDE.md, todo lists, notes) |
-
-**Modes:**
-
-| Mode | What changes |
-|------|-------------|
-| `lite` | Drop filler and pleasantries; keep full sentences |
-| `full` | Drop articles, fragments OK, short synonyms — classic caveman |
-| `ultra` | Maximum compression; symbols and abbreviations |
-
-Activate: `/caveman` or `/caveman lite\|full\|ultra`. Deactivate: type "stop caveman" or "normal mode".
-
----
-
 ### claude-mem (`claude-mem@thedotmack`)
 
 **Source:** `github:thedotmack/claude-mem`
@@ -74,7 +46,7 @@ Persistent cross-session memory for Claude Code. Captures observations during se
 /plugins install <marketplace>/<plugin-name>
 ```
 
-Plugins are installed globally (user scope) and registered in `settings.json` under `enabledPlugins`. Adding a new marketplace:
+Plugins are installed globally (user scope) and registered in `settings.json` under `enabledPlugins` when this repo manages them. Adding a new marketplace:
 
 ```json
 "extraKnownMarketplaces": {

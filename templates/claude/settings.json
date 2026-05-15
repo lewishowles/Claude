@@ -3,7 +3,6 @@
 		"code-style": "on",
 		"error-handling": "on",
 		"writing": "on",
-
 		"vue": "name-only",
 		"vue-project-stack": "name-only",
 		"vite-patterns": "name-only",
@@ -12,21 +11,15 @@
 		"ui-copy": "name-only",
 		"unit-testing": "name-only",
 		"e2e-testing": "name-only",
-
 		"swift": "name-only",
 		"swift-ui": "name-only",
-
 		"bash": "name-only",
 		"dependencies": "name-only",
-
 		"readme": "name-only",
-
 		"architecture-decision-records": "name-only",
 		"session-management": "name-only",
-
 		"agentic-engineering": "name-only",
 		"claude-api": "name-only",
-
 		"fewer-permission-prompts": "name-only",
 		"init": "name-only",
 		"keybindings-help": "name-only",
@@ -36,13 +29,6 @@
 		"security-review": "name-only",
 		"simplify": "name-only",
 		"update-config": "name-only",
-
-		"caveman:caveman": "name-only",
-		"caveman:caveman-commit": "name-only",
-		"caveman:caveman-help": "name-only",
-		"caveman:caveman-review": "name-only",
-		"caveman:compress": "name-only",
-
 		"claude-mem:babysit": "name-only",
 		"claude-mem:do": "name-only",
 		"claude-mem:how-it-works": "name-only",

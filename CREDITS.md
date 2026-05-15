@@ -32,7 +32,6 @@ All hooks are original:
 
 Listed in `settings.json` under `enabledPlugins`:
 
-- **caveman** — [JuliusBrussee/caveman](https://github.com/JuliusBrussee/caveman) — ultra-compressed communication mode
 - **claude-mem** — [thedotmack/claude-mem](https://github.com/thedotmack/claude-mem) — memory consolidation
 
 ## Inspirations

@@ -1,9 +1,9 @@
 # Claude config improvements — dual-target (Claude + Codex)
 
-**Started:** 2026-05-13  
-**Project:** `~/Dev/Configuration/Claude` (renames to `~/Dev/Configuration/Agents` in Phase 9)  
-**Status:** in-progress  
-**Current priority:** Phase 8 end-to-end validation
+**Started:** 2026-05-13
+**Project:** `~/Dev/Configuration/Agents`
+**Status:** complete for dual-target phases; deferred hooks remain queued
+**Current priority:** Dual-target phases complete
 
 ## Legend
 
@@ -18,10 +18,9 @@
 
 - **Global rules:** `~/.codex/AGENTS.md` (or `AGENTS.override.md` first if present)
 - **Project rules:** walks root → cwd for `AGENTS.override.md` then `AGENTS.md`. Root `AGENTS.md` (real file or symlink) covers both runtimes. `project_doc_fallback_filenames` in `~/.codex/config.toml` works in 0.130.0-alpha.5 but treat as unstable.
-- **Skills:** This machine's active Codex setup has core user skills in `~/.codex/skills/`, so this repo uses `~/.codex/skills/<name>` for global symlinks and `.codex/skills/` for project-local Codex skills. `~/.agents/skills/` exists but currently holds caveman/cavecrew extras, not this repo's core skill symlinks. Frontmatter `name`+`description` visible upfront; full skill loaded on use. Implicit matching weights description heavily.
+- **Skills:** This machine's active Codex setup has core user skills in `~/.codex/skills/`, so this repo uses `~/.codex/skills/<name>` for global symlinks and `.codex/skills/` for project-local Codex skills. Frontmatter `name`+`description` visible upfront; full skill loaded on use. Implicit matching weights description heavily.
 - **Skill discovery:** description-driven, not slash-command. `Use this skill when` + action-led wording + file globs inline = better matching.
 - **Hooks:** Codex hooks exist (developers.openai.com/codex/hooks) but parity out of scope. Skill descriptions carry discovery weight.
-- **Caveman + claude-mem:** already installed for Codex (caveman manually activated). No further plugin work needed.
 
 ---
 
@@ -52,7 +51,7 @@
 ### Phase 1 — Skill descriptions + rename `claude-config` → `agent-config`
 
 - [x] **1.1** Rewrite `description` in all 19 `skills/*/SKILL.md` — `Use this skill when` prefix, action-led wording, file globs inline, pair-skill mentions
-- [x] **1.2** Rename `skills/claude-config/` → `skills/agent-config/`; broaden content scope to "agent config repo (Claude + Codex)"
+- [x] **1.2** Rename `claude-config` → `agent-config`; broaden content scope to "agent config repo (Claude + Codex)"
 - [x] **1.3** Update `hooks/skill-autotrigger.sh` line 50 (continuation list) and line 182 (`claude-config` block)
 - [x] **1.4** Update `hooks/skill-file-trigger.sh` lines 67–69 (`claude-config` paths)
 - [x] **1.5** Update `settings.json` — `skillOverrides` key `claude-config` → `agent-config`
@@ -160,7 +159,7 @@
 - [x] **7.3** Create `docs/codex.md` — `~/.codex/config.toml` schema, skill loading, hook absence note (link to OpenAI hooks docs as future work), plugin parity notes
 - [x] **7.4** Update `docs/hooks.md` — banner: "Claude-only. Codex hooks exist but parity out of scope; skill descriptions carry discovery weight instead."
 - [x] **7.5** Update `docs/skills.md` — auto-trigger (Claude) vs description-driven (Codex); note descriptions written for both
-- [x] **7.6** Update `docs/plugins.md` — banner Claude-only; Codex marketplace exists; caveman + claude-mem usable in both
+- [x] **7.6** Update `docs/plugins.md` — banner Claude-only; Codex marketplace exists; claude-mem documented
 - [x] **7.7** Update `docs/commands.md` — rename `/claude-config` → `/agent-config` (completed in Phase 1)
 - [x] **7.8** Update `docs/agents.md` — Claude agents only; note distinct from Codex top-level "agents" concept
 
@@ -185,13 +184,13 @@
 
 Only after Phase 8 passes.
 
-- [ ] **9.1** `mv ~/Dev/Configuration/Claude ~/Dev/Configuration/Agents`
-- [ ] **9.2** Update git remote URL if changed on hosting side
-- [ ] **9.3** Update README references to new path
-- [ ] **9.4** Update aliases in `~/.zshrc`
-- [ ] **9.5** Re-run `setup-global.sh --both` — updates all symlinks to new repo path
-- [ ] **9.6** Update `skills/agent-config/SKILL.md` repo path reference
-- [ ] **9.7** Update `.claude/AGENTS.md` path references
+- [x] **9.1** `mv ~/Dev/Configuration/Claude ~/Dev/Configuration/Agents`
+- [-] **9.2** Update git remote URL if changed on hosting side — skipped; remote still points at `https://github.com/lewishowles/Claude.git`
+- [x] **9.3** Update README references to new path — no hard-coded old repo path remained in README
+- [x] **9.4** Update aliases in `~/.zshrc` — updated sourced zsh config helpers in `~/Dev/Configuration/zsh/`
+- [x] **9.5** Re-run `setup-global.sh --both` — updates all symlinks to new repo path
+- [x] **9.6** Update `.claude/skills/agent-config/SKILL.md` repo path reference
+- [x] **9.7** Update `.claude/AGENTS.md` path references
 
 **Working state:** Final form. Repo name reflects content.
 
@@ -203,7 +202,7 @@ Only after Phase 8 passes.
 |---|---|---|
 | 0 | `.claude/AGENTS.md`, `.claude/PROGRESS.md` | Dual-target documentation |
 | 1 | `skills/*/SKILL.md` (×19) | Tighten descriptions |
-| 1 | `skills/claude-config/` | Rename → `skills/agent-config/`; broaden content |
+| 1 | `claude-config` skill | Rename → `agent-config`; broaden content |
 | 1 | `hooks/skill-autotrigger.sh` | Lines 50, 182 — rename |
 | 1 | `hooks/skill-file-trigger.sh` | Lines 67–69 — rename |
 | 1 | `settings.json` | `skillOverrides` rename key |
@@ -304,12 +303,12 @@ Clone repo to clean machine, run `setup:agents:global --both`, then `cd` to a fr
 ## Session notes
 
 ### 2026-05-13
-**Completed:** Old phases 1 & 2 — PROGRESS.md, PLAN.md.template, claude-config skill maintenance rules, session-management skill expanded, CLAUDE.md slimmed 141→100 lines, autotrigger updated  
-**Completed (session 2):** Old phase 3 — `plan-verify.sh`, `progress-resume.sh`, registered in settings.json, docs/hooks.md updated  
+**Completed:** Old phases 1 & 2 — PROGRESS.md, PLAN.md.template, claude-config skill maintenance rules, session-management skill expanded, CLAUDE.md slimmed 141→100 lines, autotrigger updated
+**Completed (session 2):** Old phase 3 — `plan-verify.sh`, `progress-resume.sh`, registered in settings.json, docs/hooks.md updated
 **Next:** Old phase 3.5–3.6 tests; dual-target phases 0–9
 
 ### 2026-05-14
-**Completed:** Phase 0 — `.claude/AGENTS.md` and `.claude/PROGRESS.md` rewritten to capture dual-target plan in full  
+**Completed:** Phase 0 — `.claude/AGENTS.md` and `.claude/PROGRESS.md` rewritten to capture dual-target plan in full
 **Completed (session 2):** Phase 1 — all skill descriptions rewritten with `Use this skill when`, action-led discovery, and file globs; `claude-config` renamed to `agent-config`; hooks/settings/docs updated
 **Completed (session 3):** Phase 2 — added `## Skill use policy` and `## File discovery` to `CLAUDE.md`
 **Completed (session 4):** Phases 3 and 4 — restructured into `shared/` and `targets/<agent>/`, added `scripts/sync.sh`, moved Claude hooks/settings, removed root `CLAUDE.md`, added global setup script
@@ -332,3 +331,11 @@ Clone repo to clean machine, run `setup:agents:global --both`, then `cd` to a fr
 **Completed (session 4):** Phase 8.6 — added the scoped commit-message rule to `shared/global-rules.md`, ran `scripts/sync.sh`, and confirmed both generated targets received the change
 **Validation:** `rg` found the new rule in `shared/global-rules.md`, `targets/claude/CLAUDE.md`, and `targets/codex/AGENTS.md`; `git diff` shows matching generated target updates
 **Next:** Phase 9 — rename repo to `Configuration/Agents` and refresh symlinks/paths
+
+**Completed (session 5):** Phase 9 — renamed repo to `~/Dev/Configuration/Agents`, refreshed Claude/Codex symlinks, updated agent-config and `.claude/AGENTS.md` path references, and updated sourced zsh setup helpers
+**Validation:** old repo path absent; global symlinks point to `Configuration/Agents`; 19 Claude and 19 Codex skill symlinks present; remote unchanged at `lewishowles/Claude.git`
+**Next:** Deferred hook validation or commit final dual-target work
+
+**Completed (session 6):** Follow-up cleanup — removed generated backup skill files, removed compressed-mode plugin references from repo-managed docs/settings/templates, and kept `agent-config` as a repo-local skill shared between `.claude/skills` and `.codex/skills`
+**Validation:** no active references to the removed plugin wording; no backup skill files remain; JSON/YAML parsing passes; setup scripts parse; setup-project tests pass; agent-config Codex symlink resolves
+**Next:** Commit cleanup work or revisit deferred hooks

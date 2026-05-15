@@ -6,7 +6,7 @@ Claude loads these from `~/.claude/skills/` and can be nudged by the Claude trig
 
 ## User skills
 
-Defined in `skills/` in this repo, then symlinked into each runtime by `scripts/setup-global.sh`.
+Defined in `skills/` in this repo, then symlinked into each runtime by `scripts/setup-global.sh`. The `agent-config` maintenance skill is intentionally repo-local under `.claude/skills/agent-config` and `.codex/skills/agent-config`; it is not installed globally for other projects.
 
 | Skill | When to use | Auto-trigger keywords |
 |-------|-------------|----------------------|
@@ -46,18 +46,6 @@ Provided by Claude Code itself. No SKILL.md files — managed by the application
 | `security-review` | Run a security-focused review of code changes |
 | `simplify` | Review changed code for reuse, quality, and efficiency, then fix issues found |
 | `update-config` | Modify Claude Code configuration via `settings.json` — hooks, permissions, env vars, plugins |
-
-## Plugin skills — caveman
-
-From the [caveman plugin](https://github.com/JuliusBrussee/caveman). Compressed communication mode.
-
-| Skill | When to use |
-|-------|-------------|
-| `caveman:caveman` | Activate compressed caveman mode — drops articles, filler, hedging to cut output tokens ~75%. Levels: `lite`, `full` (default), `ultra` |
-| `caveman:caveman-commit` | Write terse Conventional Commits commit messages — subject ≤50 chars, body only when the why isn't obvious |
-| `caveman:caveman-help` | Display a reference card for all caveman modes, skills, and commands |
-| `caveman:caveman-review` | Write ultra-compressed PR review comments — one line per finding: location, problem, fix |
-| `caveman:compress` | Compress `.md` files (CLAUDE.md, todos, preferences) into caveman prose to save input tokens. Run: `/caveman:compress <filepath>` |
 
 ## Plugin skills — claude-mem
 
@@ -110,7 +98,7 @@ See `templates/claude/settings.json` for a Claude project template with non-univ
 
 **In Codex:** matching is description-driven. Keep descriptions precise and action-led, with `Use this skill when...` wording.
 
-Plugin skills use namespaced slugs: `/caveman:compress`, `/claude-mem:mem-search`.
+Plugin skills use namespaced slugs such as `/claude-mem:mem-search`.
 
 ## Adding a new skill
 
@@ -134,4 +122,4 @@ Content here.
 2. Register file extension triggers in `targets/claude/hooks/skill-file-trigger.sh` if the skill maps to a file type
 3. Add the skill to the skills table in this file and to [docs/commands.md](commands.md)
 
-After global setup, the skill is available to Claude via `~/.claude/skills/` and to Codex via `~/.codex/skills/`.
+After global setup, shared skills are available to Claude via `~/.claude/skills/` and to Codex via `~/.codex/skills/`.
