@@ -26,6 +26,7 @@ related-skills:
 - Never abbreviate event parameter names — `event` not `e`
 - Prefer "user" over "consumer"
 - Destructured keys and imports: alphabetical
+- Name variables after what they represent, not how they look — `alertPrefix` not `capitalisedType`
 
 ## Comments & documentation
 
