@@ -14,6 +14,7 @@ related-skills:
 
 - Over-test: happy/unhappy paths, valid/invalid variants
 - Meaningful assertions over snapshots for volatile content
+- For JSON or other serialised output, assert decoded structure or user-visible behaviour unless key order is part of a deliberately implemented contract. Do not test object key order from standard encoders because it is often not guaranteed and leads to brittle failures.
 - Separate test setup from assertions like separating variables from logic in JS
 - Keep imports at the top of the file
 - Test and group names are capitalised, human-readable, and self-contained; method/computed names may stay exact
