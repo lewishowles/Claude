@@ -1,7 +1,7 @@
 ---
 name: e2e-testing
 description: >
-  Use this skill when writing end-to-end tests with Playwright. Covers browser automation, user interactions, test structure, and CI integration. For unit/component testing, see the unit-testing skill.
+  Use this skill when writing, reviewing, or planning end-to-end and browser-based component tests with Playwright or Cypress. It guides agents through user-focused browser automation, interaction coverage, test structure, selector strategy, and CI setup. For isolated logic or rendering checks that do not need a browser, use the unit-testing skill instead.
 related-skills:
   - code-style
   - unit-testing
@@ -10,7 +10,95 @@ related-skills:
 
 # End-to-end testing
 
-E2E tests verify full user journeys, browser to backend. Playwright automates interactions and assertions.
+E2E and component tests verify what users see and experience in a real browser. Playwright is the current standard for new projects; Cypress is used in many existing projects and should be respected where already in place.
+
+## General
+
+- **Do not** run tests — consuming the output is token-heavy. Suggest the command for the user to run instead
+- **Do not** execute test commands from plan verification steps
+
+## Which tool to use
+
+- **Playwright** — preferred for all new projects and new test suites. Supports both full e2e and component-level testing
+- **Cypress** — used in many existing projects. Continue using it where already established; don't migrate away unless asked
+- **No component testing yet?** — add Playwright component tests, not Cypress
+
+## Component testing
+
+Component tests sit between Vitest unit tests and full e2e — they mount a single component in a real browser and assert what the user sees and experiences. Both Playwright and Cypress support this pattern.
+
+### What to test
+
+- Rendered output: visible text, ARIA attributes, element presence driven by props or slots
+- User interaction: click, type, keyboard navigation, focus movement
+- Slot-driven behaviour: content appears when a slot is populated, absent when it isn't
+- Accessibility attributes: `aria-invalid`, `aria-disabled`, `aria-expanded`, `role`, etc.
+
+### What not to test
+
+- Framework internals: computed values, reactive refs, `wrapper.vm.*` — those belong in Vitest
+- Implementation details: internal state, method calls, component structure not visible to the user
+- DOM structure for its own sake: assert that an element communicates something, not that a specific tag was used
+
+### Cypress component testing
+
+Used in existing projects with Cypress already configured. Test files are `.cy.js`, co-located with the component.
+
+Projects may provide custom helpers via `@cypress/support/mount`:
+
+- `cy.getByData("data-test-value")` — select by `data-test` attribute
+- `cy.getFormField("data-test-value")` — select the native form control inside a form component
+- `cy.shouldBeVisible()`, `cy.shouldHaveAttribute(attr, value)`, `cy.shouldNotHaveAttribute(attr)`, `cy.shouldHaveText(text)`, `cy.shouldHaveClass(cls)` — chainable assertion helpers
+
+```javascript
+import { createMount } from "@cypress/support/mount";
+import FormInput from "./form-input.vue";
+
+const defaultProps = { id: "id-abc" };
+const defaultSlots = { default: "Your name" };
+const mount = createMount(FormInput, { props: defaultProps, slots: defaultSlots });
+
+describe("form-input", () => {
+    it("Sets aria-invalid when an error is provided", () => {
+        mount({ slots: { error: "Error text" } });
+
+        cy.getFormField("form-input").shouldHaveAttribute("aria-invalid", "true");
+    });
+
+    it("Does not set aria-invalid without an error", () => {
+        mount();
+
+        cy.getFormField("form-input").shouldNotHaveAttribute("aria-invalid");
+    });
+});
+```
+
+### Playwright component testing
+
+Preferred for new projects. Use `@playwright/experimental-ct-vue` (or the relevant framework package).
+
+```typescript
+import { test, expect } from "@playwright/experimental-ct-vue";
+import FormInput from "./form-input.vue";
+
+test("sets aria-invalid when an error is provided", async ({ mount }) => {
+    const component = await mount(FormInput, {
+        props: { id: "id-abc" },
+        slots: { default: "Your name", error: "Error text" },
+    });
+
+    await expect(component.locator("input")).toHaveAttribute("aria-invalid", "true");
+});
+
+test("does not set aria-invalid without an error", async ({ mount }) => {
+    const component = await mount(FormInput, {
+        props: { id: "id-abc" },
+        slots: { default: "Your name" },
+    });
+
+    await expect(component.locator("input")).not.toHaveAttribute("aria-invalid");
+});
+```
 
 ## Playwright setup
 
