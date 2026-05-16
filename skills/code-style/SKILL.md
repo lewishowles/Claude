@@ -27,6 +27,7 @@ related-skills:
 - Prefer "user" over "consumer"
 - Destructured keys and imports: alphabetical
 - Name variables after what they represent, not how they look — `alertPrefix` not `capitalisedType`
+- Fixed string sets: define as a named constants object — `const alertTypes = { ERROR: "error", MUTED: "muted" }` — reference in switch/if and template expressions, not inline literals
 
 ## Comments & documentation
 
