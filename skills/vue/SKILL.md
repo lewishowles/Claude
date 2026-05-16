@@ -14,6 +14,7 @@ related-skills:
 
 - Tab HTML indentation
 - Always self-close where possible (`<img />`, `<component />`)
+- Prefer `v-bind="{ prop: value }"` for non-string bindings (booleans, numbers, expressions)—the object form reads more clearly, especially with multiple bindings
 - Lowercase component names in templates
 - Always two-word minimum component names per Vue best practices
 - Max 5 attributes per line (single); 1 per line (multiline)
