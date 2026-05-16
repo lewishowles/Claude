@@ -35,5 +35,5 @@ related-skills:
 - Functions: JSDoc or equivalent blocks. Parameters: `@param  {type}  name` format, description indented four spaces on next line
 - Repeated inline logic? Extract into named functions with JSDoc or equivalent, don't duplicate
 - No banner/divider comments (`// ---`) — use JSDoc or equivalent and blank lines for structure
-- In-code comments explain why, not what
+- **In-code comments explain why, not what** — the code shows *what* it does; comments explain *why*. Bad: `// increment count` on `count++`. Good: `// reset counter on new session` before `count = 0`
 - Block comments for functions explain purpose and why
