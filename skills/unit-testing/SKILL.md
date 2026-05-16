@@ -19,7 +19,7 @@ related-skills:
 - Keep imports at the top of the file
 - Test and group names are capitalised, human-readable, and self-contained; method/computed names may stay exact
 - Group tests by collection, e.g. "Initialisation", "Computed", "Methods"
-- **Do not** write interaction tests in unit tests; those are covered in Playwright/Cypress tests
+- **Do not** write interaction or DOM-presence tests in unit tests; those are covered in Playwright/Cypress tests. DOM checks like `wrapper.find("[data-test=...]").exists()` belong in Cypress, not Vitest
 - **Do not** run tests, as consuming the output is token-heavy
 - **Do not** execute test commands from plan verification steps; suggest the command for the user to run instead
 
