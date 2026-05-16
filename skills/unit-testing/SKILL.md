@@ -21,6 +21,7 @@ related-skills:
 - Group tests by collection, e.g. "Initialisation", "Computed", "Methods"
 - **Do not** write interaction tests in unit tests; those are covered in Playwright/Cypress tests
 - **Do not** run tests, as consuming the output is token-heavy
+- **Do not** execute test commands from plan verification steps; suggest the command for the user to run instead
 
 ## Vue & Vitest
 
