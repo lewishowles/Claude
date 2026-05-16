@@ -19,6 +19,7 @@ related-skills:
 - Test and group names are capitalised, human-readable, and self-contained; method/computed names may stay exact
 - Group tests by collection, e.g. "Initialisation", "Computed", "Methods"
 - **Do not** write interaction tests in unit tests; those are covered in Playwright/Cypress tests
+- **Do not** run tests, as consuming the output is token-heavy
 
 ## Vue & Vitest
 
