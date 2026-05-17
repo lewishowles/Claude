@@ -33,6 +33,7 @@ related-skills:
 
 - Every top-level variable: single-line comment describing what it does — all languages
 - Functions: JSDoc or equivalent blocks. Parameters: `@param  {type}  name` format, description indented four spaces on next line
+- Use TypeScript-style JSDoc types where they stay simple, e.g. `object[]` or `string[]` instead of `Array<object>` or `Array<string>`
 - Repeated inline logic? Extract into named functions with JSDoc or equivalent, don't duplicate
 - No banner/divider comments (`// ---`) — use JSDoc or equivalent and blank lines for structure
 - **In-code comments should focus on why and intent** — most useful comments say what a value represents and why it exists. Avoid comments that merely repeat syntax. Good: `// A reference to the input, which allows us to trigger focus on it.` before `const inputElement = useTemplateRef("inputElement");`
