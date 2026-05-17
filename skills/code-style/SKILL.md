@@ -20,6 +20,7 @@ related-skills:
 - Comma-dangle always multiline; quote props consistent-as-needed
 - No one-liner `if` statements — full block format with braces, body on new line
 - Blank lines separate logical steps in functions
+- Multi-line variable declarations should have a blank line before and after them
 
 ## Naming & imports
 
