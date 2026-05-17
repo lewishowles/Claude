@@ -29,6 +29,7 @@ related-skills:
 - Skip tests for methods delegating to `@lewishowles/helpers`
 - Component testing: focus on rendered state, props, slots, and emitted events
 - Composables: test reactive state, side effects, lifecycle hooks
+- For async updates in tests, import `nextTick` from Vue and use `await nextTick()` instead of `await wrapper.vm.$nextTick()`
 
 ### Component test structure
 
