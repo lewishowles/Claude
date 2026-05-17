@@ -24,11 +24,53 @@ related-skills:
 
 - `defineProps` → `defineModel` → `defineEmits` → implementation → `defineExpose` (last)
 
-## Computed properties
+## Props and computed properties
+
+### Props
+
+Every prop should have a JSDoc block explaining its purpose. Keep descriptions concise and user-focused:
+
+```vue
+const props = defineProps({
+	/**
+	 * The date to display, formatted as ISO 8601.
+	 */
+	date: {
+		type: String,
+		required: true,
+	},
+
+	/**
+	 * The locale to use when formatting the date. If not provided, uses the user's locale.
+	 */
+	locale: {
+		type: String,
+		default: undefined,
+	},
+});
+```
+
+### Computed properties
 
 - Non-simple computed: multiline with blank lines around
 - Order: variables and single-line computed, then multi-line computed, then functions
 - Keep related items together
+- Every computed property gets a single-line comment explaining what it represents (following `code-style` baseline)
+
+Example:
+
+```vue
+// Whether an error slot has been provided.
+const haveError = computed(() => isNonEmptySlot(slots.error));
+
+// The formatted date string, ready for display.
+const displayDate = computed(() => {
+	if (!isNonEmptyString(props.date)) {
+		return null;
+	}
+	return new Date(props.date).toLocaleDateString(props.locale);
+});
+```
 
 ## Component patterns
 
@@ -542,6 +584,18 @@ const filtered = computed(() =>
 ## watch and watchEffect (alternative patterns)
 
 `computed` preferred for derived state. `watch` and `watchEffect` handle side effects and conditional reactions.
+
+**Always comment why the watch is needed.** Following `code-style` baseline, add a single-line comment explaining the purpose before the watch declaration. Explain why this side effect matters, not what the watch does:
+
+```typescript
+// Fetch film details whenever the user selects a different film.
+watch(
+	() => filmId.value,
+	async (newId) => {
+		// ...
+	}
+);
+```
 
 **watch** — explicit dependencies, triggers when they change:
 
