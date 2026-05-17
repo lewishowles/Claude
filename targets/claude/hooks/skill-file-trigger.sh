@@ -38,7 +38,7 @@ ext="${filename##*.}"
 skills=()
 
 case "$ext" in
-	swift)  skills+=("code-style" "swift" "macos") ;;
+	swift)  skills+=("code-style" "swift") ;;
 	vue)    skills+=("code-style" "vue" "vue-project-stack") ;;
 	ts|tsx) skills+=("code-style" "typescript") ;;
 	js)     skills+=("code-style") ;;
@@ -57,8 +57,10 @@ shopt -s nocasematch
 # unit-testing: .test.js, .spec.js, .spec.ts, or XCTest files
 [[ "$filename" =~ \.(test|spec)\.(js|ts)$ ]] || [[ "$filename" =~ Tests?\.(swift|js)$ ]] && skills+=("unit-testing")
 
-# e2e-testing: .e2e.js, .spec.ts/.spec.js, or files in e2e/ directory
-[[ "$filename" =~ \.e2e\.(js|ts)$ ]] || [[ "$file_path" =~ /e2e/ ]] && skills+=("e2e-testing")
+# e2e-testing: .e2e.*, .cy.*, or files in e2e/ or tests/cypress/ directories
+if [[ "$filename" =~ \.e2e\.(js|ts)$ ]] || [[ "$filename" =~ \.cy\.(js|ts)$ ]] || [[ "$file_path" =~ /e2e/ ]] || [[ "$file_path" =~ /tests/cypress/ ]]; then
+	skills+=("e2e-testing")
+fi
 
 # architecture-decision-records: ADR files (0001-*.md pattern or adr/ directory)
 [[ "$file_path" =~ /adr/ ]] || [[ "$filename" =~ ^[0-9]{4}- ]] && skills+=("architecture-decision-records")

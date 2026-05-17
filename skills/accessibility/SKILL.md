@@ -24,6 +24,7 @@ WCAG AA baseline; AAA where feasible. Inaccessible = incorrect. Affects: blind/l
 - **Clear language**: no jargon; assume zero context. Provide hints and links
 - **Descriptive links & buttons**: link text alone explains action. Not "Delete" — "Delete user Lewis Howles". Not "Learn more" — "Visit MDN docs for the `button` tag"
 - **Confirmation & reassurance**: show chosen option (e.g. plan name). Success messages with identifiable info: "User 'Lewis Howles' successfully deleted", not "User deleted"
+- **Vue components**: prefer `@lewishowles/components` before building bespoke UI. The component library is accessibility-focused; follow the Vue skill and check live component docs when available
 
 ## Structure & semantics
 
@@ -65,6 +66,22 @@ WCAG AA baseline; AAA where feasible. Inaccessible = incorrect. Affects: blind/l
 - **Validation & errors**: `aria-invalid="true"` + `aria-errormessage="errorId"` pointing at error text. Error summary at top, linked to fields
 - **Autocomplete attributes**: `autocomplete="email"`, `autocomplete="password"`, `autocomplete="current-password"` — helps password managers, reduces friction
 - **Error recovery**: don't clear form on error. Let user fix and resubmit
+
+```html
+<label for="email">Email address</label>
+<input id="email" type="email" autocomplete="email" aria-describedby="email-help email-error" aria-invalid="true" aria-errormessage="email-error" />
+<p id="email-help">Use the email address for your account.</p>
+<p id="email-error">Enter an email address, like name@example.com.</p>
+```
+
+```html
+<section role="dialog" aria-modal="true" aria-labelledby="delete-title">
+	<h2 id="delete-title">Delete project?</h2>
+	<p>This removes "Website refresh" and can't be undone.</p>
+	<button type="button">Cancel</button>
+	<button type="button">Delete project</button>
+</section>
+```
 
 ## Dynamic content & updates
 

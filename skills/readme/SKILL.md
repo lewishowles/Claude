@@ -34,3 +34,31 @@ README job: help person who just landed — what is it, why exist, how use. Quic
 - Can new reader run setup from clean machine using only what's here?
 - Platform assumptions stated explicitly?
 - Cut anything that doesn't help average reader?
+
+## Minimal structure
+
+````markdown
+# Project name
+
+One or two sentences: what this is and who it's for.
+
+## Requirements
+
+- macOS
+- Bun
+
+## Getting started
+
+```bash
+bun install
+bun run dev
+```
+
+## Usage
+
+The most common command or workflow, with one short example.
+
+## More information
+
+- [Detailed docs](docs/)
+````

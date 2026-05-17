@@ -8,7 +8,7 @@ related-skills:
   - typescript
 ---
 
-# Vue JS
+# Vue
 
 ## Formatting
 
@@ -93,9 +93,9 @@ const displayDate = computed(() => {
 
 ---
 
-# Advanced patterns
+## Advanced patterns
 
-## Fragment-based component composition
+### Fragment-based component composition
 
 Break complex components into internal `/fragments/` subdirectory. Fragments not exported; used only by parent. Reduces re-render scope, keeps logic isolated.
 
@@ -130,7 +130,7 @@ const haveHelp = isNonEmptySlot(slots.help);
 
 **Slot checking**: use `useSlots()` + boolean computed/const to detect available slots.
 
-## Composables as global state + API wrapper
+### Composables as global state + API wrapper
 
 For smaller apps (without Pinia), composables expose module-scope refs persisting across component mounts. Multiple components share same instance.
 
@@ -193,7 +193,7 @@ const { availableFilms, selectedFilms, findFilms } = useFilmFinder();
 
 **Trade-off**: simpler than Pinia for small apps, but loses Pinia's devtools + time-travel debugging.
 
-## Complex computed chains (filtering pipelines)
+### Complex computed chains (filtering pipelines)
 
 Build filtering/transformation pipelines where each computed depends on previous. All cached, all reactive.
 
@@ -246,7 +246,7 @@ export function useFilmSetCalculator() {
 
 **Key**: each computed builds on previous. Vue caches aggressively — no re-computation unless dependency changes.
 
-## Reusable template pattern (VueUse)
+### Reusable template pattern (VueUse)
 
 Use `createReusableTemplate` from `@vueuse/core` for define-once, render-many patterns. Useful for complex dynamic rendering (e.g., notification templates).
 
@@ -275,7 +275,7 @@ const [DefineTemplate, ReuseTemplate] = createReusableTemplate();
 
 **Trade-off**: cleaner than three separate components, but less obvious than slot-based composition. Use sparingly.
 
-## Dynamic slot names
+### Dynamic slot names
 
 Use template literals in `#[...]` syntax for computed slot names. Useful for flexible column configs or dynamic field rendering.
 
@@ -326,7 +326,7 @@ const displayOptions = computed(() =>
 </data-table>
 ```
 
-## Skeleton loaders
+### Skeleton loaders
 
 Build domain-specific skeleton components (e.g., `user-list-skeleton`, `product-card-skeleton`) composing `loading-skeleton` (wrapper) and `loading-skeleton-indicator` (individual "bones") from `@lewishowles/components`. Use `v-show` (not `v-if`) to preserve animation state. Size bones to match template being loaded.
 
@@ -372,7 +372,7 @@ onMounted(async () => {
 
 **Key**: `v-show` keeps DOM mounted (preserves animations), `v-if` destroys/recreates (breaks transitions). Add `data-test` namespaced attributes so e2e tests can target specific skeletons.
 
-## Pinia setup store (Composition API)
+### Pinia setup store (Composition API)
 
 Use `defineStore` with setup function (not Options API). Simpler syntax, native composition API.
 
@@ -426,7 +426,7 @@ onMounted(() => security.updateStatus());
 
 **vs module-level refs**: Pinia offers devtools, time-travel debugging, type-safe mutations. Use for complex state; module refs for simple shared data.
 
-## keep-alive (cache component state)
+### keep-alive (cache component state)
 
 Cache component instance when hidden (e.g., tabs, routes). Preserves state, skips re-run of `onMounted`.
 
@@ -472,7 +472,7 @@ const activeTab = ref('films');
 </keep-alive>
 ```
 
-## Suspense (async component boundaries)
+### Suspense (async component boundaries)
 
 Boundary for async setup or data loading. Shows fallback UI while child loads; renders child when ready. Works well with skeleton loaders — put skeleton in `#fallback` slot.
 
@@ -513,7 +513,7 @@ const { data } = await fetch(`/api/films/${props.id}`).then(r => r.json());
 
 **Suspense + skeletons**: Suspense handles multiple async children together, coordinates loading state. Use skeleton loaders (from component library) as fallback. Simpler for async setup when data is critical to rendering.
 
-## Teleport (render outside hierarchy)
+### Teleport (render outside hierarchy)
 
 Render component to different DOM location. Useful for modals, tooltips, popovers (keep in component tree, render elsewhere).
 
@@ -545,7 +545,7 @@ const showModal = ref(false);
 
 **Benefits**: modal doesn't inherit parent's CSS constraints (z-index, overflow); stays in logical component tree (for events/props). Accessibility: use `role="dialog"` + `aria-modal="true"` on teleported modal and mark main app `aria-hidden="true"` while modal open, so screen readers skip inert content.
 
-## v-memo (skip expensive re-renders)
+### v-memo (skip expensive re-renders)
 
 Skip re-render if dependency array unchanged. Use only when re-render is known expensive (complex template, large list).
 
@@ -581,7 +581,7 @@ const filtered = computed(() =>
 
 **Caveat**: premature optimization. Use only if profiler shows re-render is bottleneck. Vue's reactivity fast; avoid `v-memo` unless needed.
 
-## watch and watchEffect (alternative patterns)
+### watch and watchEffect (alternative patterns)
 
 `computed` preferred for derived state. `watch` and `watchEffect` handle side effects and conditional reactions.
 

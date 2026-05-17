@@ -1,7 +1,7 @@
 ---
 name: agentic-engineering
 description: >
-  Use this skill when building with Claude API, Anthropic SDK, or managed agents. Covers model selection (Opus 4.7, Sonnet 4.6, Haiku 4.5), cost-conscious patterns, token budgeting, batch processing, prompt caching, and cost tracking for LLM-driven applications.
+  Use this skill when building with Claude API, Anthropic SDK, or managed agents. Covers model selection, cost-conscious patterns, token budgeting, batch processing, prompt caching, and cost tracking for LLM-driven applications.
 ---
 
 # Agentic engineering
@@ -10,29 +10,29 @@ Build with Claude API and managed agents. Focus: cost awareness, right-size mode
 
 ## Model selection
 
-Three models, three purposes. Pick by task complexity, cost, latency:
+Pick by task complexity, cost, and latency. Model names, prices, and discount rates change — verify current details in official Anthropic docs before quoting costs or hard-coding model IDs.
 
-| Model | Best for | Cost | Speed | Context |
-|-------|----------|------|-------|---------|
-| **Opus 4.7** | Complex reasoning, multi-step planning, code gen, research synthesis | $15/$60 per 1M tokens | Slower | 200k tokens |
-| **Sonnet 4.6** | Balanced: most LLM tasks, general purpose, fast iteration | $3/$15 per 1M tokens | Fast | 200k tokens |
-| **Haiku 4.5** | Simple tasks, high-volume processing, real-time responses | $0.80/$4 per 1M tokens | Fastest | 200k tokens |
+| Tier | Best for | Trade-off |
+|------|----------|-----------|
+| **Largest reasoning model** | Complex reasoning, multi-step planning, code generation, research synthesis | Highest quality, highest cost and latency |
+| **Balanced model** | Most LLM tasks, general purpose work, fast iteration | Strong default for quality and cost |
+| **Fast model** | Simple tasks, high-volume processing, real-time responses | Lowest latency and cost, weaker on complex work |
 
 ### Selection heuristics
 
-- **Use Haiku** for: bulk text classification, simple summaries, content filtering, high-frequency tasks (chatbots, API responses)
-- **Use Sonnet** for: default — feature work, debugging, code review, most Agent tasks
-- **Use Opus** when Sonnet fails or task needs deep reasoning — multi-doc synthesis, architectural decisions, complex proofs
+- **Use the fast model** for: bulk text classification, simple summaries, content filtering, high-frequency tasks (chatbots, API responses)
+- **Use the balanced model** for: default — feature work, debugging, code review, most agent tasks
+- **Use the largest reasoning model** when the balanced model fails or the task needs deep reasoning — multi-doc synthesis, architectural decisions, complex proofs
 
 ### Cost-quality trade-off
 
-Test on Haiku first (cheap signal). Underperforms → upgrade to Sonnet. Only use Opus if Sonnet consistently fails.
+Test on the fastest suitable model first. Underperforms → upgrade to the balanced model. Only use the largest reasoning model if the balanced model consistently fails.
 
 ```python
 # Example: classify sentiment
 def classify_sentiment(text: str) -> str:
     response = client.messages.create(
-        model="claude-haiku-4-5-20251001",  # cheap, fast enough
+        model="claude-haiku-4-5",  # verify current model ID before shipping
         max_tokens=50,
         messages=[
             {
@@ -60,13 +60,13 @@ Tokens = cost unit. Manage three categories:
 - Step-by-step reasoning uses 2–3× more tokens than direct answers
 - Use `max_tokens` to cap runaway outputs
 
-### Batch processing (20% discount)
+### Batch processing
 
 Use batch API for non-urgent work:
 - Bulk classification or summaries
 - Reports, analysis, content generation
 - Lower throughput, ~24-hour processing window
-- 20% cost reduction vs real-time API
+- Discount rate changes over time — verify current pricing before estimating savings
 
 ```python
 # Batch request format
@@ -89,9 +89,9 @@ batch = client.beta.messages.batches.create(
 )
 ```
 
-## Prompt caching (5% savings + speed)
+## Prompt caching
 
-Cache static content (docs, examples, system prompts) across requests. Cache hits 90% cheaper than input tokens.
+Cache static content (docs, examples, system prompts) across requests. Cache hits are cheaper and faster than resending the same large context, but exact rates change — verify current pricing before promising savings.
 
 ```python
 response = client.messages.create(
@@ -127,32 +127,20 @@ Monitor `usage.cache_read_input_tokens` vs `usage.input_tokens`. Healthy ratio: 
 Log cost per request:
 
 ```python
-def log_cost(response) -> float:
-    input_tokens = response.usage.input_tokens
-    cache_read = response.usage.cache_read_input_tokens
-    output_tokens = response.usage.output_tokens
-    
-    # Opus 4.7: $15/$60 per 1M
-    # Sonnet 4.6: $3/$15 per 1M
-    # Haiku 4.5: $0.80/$4 per 1M
-    
-    model = response.model
-    if "opus" in model:
-        input_cost = (input_tokens + cache_read * 0.9) * 15 / 1e6
-        output_cost = output_tokens * 60 / 1e6
-    elif "sonnet" in model:
-        input_cost = (input_tokens + cache_read * 0.9) * 3 / 1e6
-        output_cost = output_tokens * 15 / 1e6
-    else:  # haiku
-        input_cost = (input_tokens + cache_read * 0.9) * 0.80 / 1e6
-        output_cost = output_tokens * 4 / 1e6
-    
-    total_cost = input_cost + output_cost
-    print(f"Cost: ${total_cost:.4f} ({input_tokens} in, {output_tokens} out)")
-    return total_cost
+def log_usage(response) -> None:
+    usage = response.usage
+
+    print(
+        "Model: {model}; input: {input}; cache read: {cache}; output: {output}".format(
+            model=response.model,
+            input=usage.input_tokens,
+            cache=getattr(usage, "cache_read_input_tokens", 0),
+            output=usage.output_tokens,
+        )
+    )
 ```
 
-Aggregate cost by model, task, time period. Alert when weekly cost exceeds baseline.
+Aggregate usage by model, task, and time period. Calculate cost from a central pricing table that is reviewed against official docs.
 
 ## Patterns for cost efficiency
 

@@ -7,7 +7,7 @@ related-skills:
   - code-style
 ---
 
-# Architecture Decision Records
+# Architecture decision records
 
 ADRs document significant technical decisions: why made, what considered, consequences.
 
@@ -49,7 +49,7 @@ We will use Vue 3 with Composition API and `<script setup>`.
 - Build tooling requires Vite (our choice anyway)
 - Component library must follow Vue conventions
 
-## Alternatives Considered
+## Alternatives considered
 
 ### React
 - Pros: larger ecosystem, more jobs
@@ -59,7 +59,7 @@ We will use Vue 3 with Composition API and `<script setup>`.
 - Pros: compiler-based, small bundle size
 - Cons: smaller ecosystem, less mature
 
-## Related Decisions
+## Related decisions
 
 - ADR-0002: Use Tailwind for styling (pairs with Vue)
 - ADR-0003: Use Vite as build tool (Vue native)

@@ -13,6 +13,26 @@ description: >
 - Non-critical params: default in signature, no explicit check
 - Uncertain types: use `validateOrFallback` or similar
 
+```javascript
+import { isNonEmptyString } from "@lewishowles/helpers/string";
+
+/**
+ * Load projects for a user.
+ *
+ * @param  {string}  userId
+ *     The user ID to fetch projects for.
+ * @param  {number}  limit
+ *     The maximum number of projects to return.
+ */
+async function loadProjects(userId, limit = 20) {
+	if (!isNonEmptyString(userId)) {
+		return [];
+	}
+
+	return api.get(`/users/${userId}/projects`, { limit });
+}
+```
+
 ## API responses
 
 - Validate structurally (is object, is array, etc.)

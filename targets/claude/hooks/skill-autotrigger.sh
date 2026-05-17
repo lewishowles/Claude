@@ -47,7 +47,7 @@ skills=()
 # Claude decides what to write. Inject all skills so Claude can pick what fits.
 if echo "$prompt" | grep -qiE '^\s*(yes|yep|yeah|ok|okay|sure|go ahead|sounds good|perfect|great|looks good|done|next|correct|exactly)\s*[.!]?\s*$' || \
    echo "$prompt" | grep -qiE '\b(continue|carry on|move on|next step|proceed|let'\''s go|what'\''s next|keep going|move forward|let'\''s continue|crack on)\b'; then
-	skills+=("code-style" "swift" "macos" "vue" "vue-project-stack" "typescript" "unit-testing" "writing" "readme" "ui-copy" "bash" "error-handling" "accessibility" "dependencies" "vite-patterns" "e2e-testing" "architecture-decision-records" "session-management")
+	skills+=("code-style" "swift" "vue" "vue-project-stack" "typescript" "unit-testing" "writing" "readme" "ui-copy" "bash" "error-handling" "accessibility" "dependencies" "vite-patterns" "e2e-testing" "architecture-decision-records" "session-management")
 fi
 
 # ─── code-style ───────────────────────────────────────────────────────────
@@ -57,12 +57,12 @@ if echo "$prompt" | grep -qiE '\b(write|add|create|implement|fix|update|refactor
 	skills+=("code-style")
 fi
 
-# ─── swift + macos ───────────────────────────────────────────────────────────
+# ─── swift ─────────────────────────────────────────────────────────────────
 # Swift, SwiftUI, Xcode, macOS app patterns
 if echo "$prompt" | grep -qiE '\.swift\b|\bswiftui\b|\bxcode\b|\bswift\b|\bactor\b|\bstruct\b|\@observable\b|\@state\b|\@mainactor\b|\@environment\b|\@binding\b' || \
    echo "$prompt" | grep -qiE '\bnavigationstack\b|\bnavigationsplitview\b|\bnsworkspace\b|\bdispatchsource\b|\blabeledcontent\b|\btabview\b|\bform\b.*\bswift\b' || \
    echo "$prompt" | grep -qiE 'macos app|appkit|uikit|swiftdata|xctest|async.*await.*swift|\bactor\b.*\bswift\b'; then
-	skills+=("swift" "macos")
+	skills+=("swift")
 fi
 
 # ─── vue + vue-project-stack ───────────────────────────────────────────────
@@ -94,7 +94,7 @@ fi
 # WCAG, ARIA, keyboard access, semantic HTML, UI components, colour contrast
 if echo "$prompt" | grep -qiE '\baccessib|\bwcag\b|\ba11y\b|\baria-|\baria\b' || \
    echo "$prompt" | grep -qiE 'color contrast|colour contrast|keyboard nav|screen reader|focus (trap|management|ring|visible)' || \
-   echo "$prompt" | grep -qiE '\b(button|form|input|label|heading|landmark|tabindex|role=|alt text|caption|fieldset)\b'; then
+   echo "$prompt" | grep -qiE '\b(landmark|tabindex|role=|alt text|caption|fieldset)\b'; then
 	skills+=("accessibility")
 fi
 

@@ -19,63 +19,41 @@ related-skills:
 - Keep imports at the top of the file
 - Test and group names are capitalised, human-readable, and self-contained; method/computed names may stay exact
 - Group tests by collection, e.g. "Initialisation", "Computed", "Methods"
-- **Do not** write interaction or DOM-presence tests in unit tests; those are covered in Playwright/Cypress tests. DOM checks like `wrapper.find("[data-test=...]").exists()` belong in Cypress, not Vitest
-- **Do not** run tests, as consuming the output is token-heavy
-- **Do not** execute test commands from plan verification steps; suggest the command for the user to run instead
+- **Do not** write interaction, rendered-state, or DOM-presence tests in unit tests; those are covered in Playwright/Cypress component tests. DOM checks like `wrapper.find("[data-test=...]").exists()` belong in browser component tests, not Vitest
+- Avoid running tests by default because output is token-heavy. Run only focused tests when needed to verify a specific fix or failure; suggest broader commands for the user to run
 
 ## Vue & Vitest
 
 - Vitest; unit-test computed properties and heavily-used methods
 - Skip tests for methods delegating to `@lewishowles/helpers`
-- Component testing: focus on rendered state, props, slots, and emitted events
+- Component logic in unit tests: focus on computed properties, emitted events, composables, and heavily-used methods. Rendered state belongs in Playwright/Cypress component tests
 - Composables: test reactive state, side effects, lifecycle hooks
 - For async updates in tests, import `nextTick` from Vue and use `await nextTick()` instead of `await wrapper.vm.$nextTick()`
 
-### Component test structure
+### Component logic test structure
 
 - Top level component group names should use `kebab-case` to refer to the component (e.g. `form-input`, not `FormInput`)
+- Use unit tests for component logic only when the logic cannot reasonably be extracted to a composable or helper
+- Do not assert visible text, DOM attributes, keyboard behaviour, or rendered states here; use Playwright/Cypress component tests
 
 ```javascript
-// src/components/form-input/form-input.test.js
 import { mount } from "@vue/test-utils";
 import { describe, expect, test } from "vitest";
 
-import FormInput from "./form-input.vue";
+import FormCounter from "./form-counter.vue";
 
-describe("form-input", () => {
-	describe("Initialisation", () => {
-		test("Displays the provided model value", () => {
-			const wrapper = mount(FormInput, {
+describe("form-counter", () => {
+	describe("Emits", () => {
+		test("Emits an updated count when incremented", () => {
+			const wrapper = mount(FormCounter, {
 				props: {
-					modelValue: "Initial value",
+					modelValue: 2,
 				},
 			});
 
-			expect(wrapper.find("input").element.value).toBe("Initial value");
-		});
-	});
+			wrapper.vm.increment();
 
-	describe("States", () => {
-		test("Disables the input when disabled is true", () => {
-			const wrapper = mount(FormInput, {
-				props: {
-					disabled: true,
-				},
-			});
-
-			expect(wrapper.find("input").attributes("disabled")).toBeDefined();
-		});
-	});
-
-	describe("Slots", () => {
-		test("Displays the error slot when provided", () => {
-			const wrapper = mount(FormInput, {
-				slots: {
-					error: "This field is required",
-				},
-			});
-
-			expect(wrapper.text()).toContain("This field is required");
+			expect(wrapper.emitted("update:modelValue")).toEqual([[3]]);
 		});
 	});
 });
@@ -158,24 +136,21 @@ describe("useForm", () => {
 import { describe, expect, test } from "vitest";
 import get from ".";
 
-
 describe("get", () => {
-  test("Resets the form to its initial state", () => {
-    const sampleObject = {
-      name: "Sophie",
-      profiles: {
-        linkedIn: "linkedin/sophie",
-        behance: {
-          icon: "behance.icon",
-          url: "behance/sophie",
-        },
-      },
-    };
+	test("Retrieves a top-level property", () => {
+		const sampleObject = {
+			name: "Sophie",
+			profiles: {
+				linkedIn: "linkedin/sophie",
+				behance: {
+					icon: "behance.icon",
+					url: "behance/sophie",
+				},
+			},
+		};
 
-    test("Retrieves a top level property", () => {
-      expect(get(sampleObject, "name")).toBe("Sophie");
-    });
-  });
+		expect(get(sampleObject, "name")).toBe("Sophie");
+	});
 });
 ```
 

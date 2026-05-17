@@ -184,7 +184,7 @@ struct ContentView: View {
 }
 ```
 
-## Performance optimization
+## Performance optimisation
 
 ### LazyVStack / LazyHStack
 

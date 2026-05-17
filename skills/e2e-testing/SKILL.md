@@ -14,8 +14,8 @@ E2E and component tests verify what users see and experience in a real browser. 
 
 ## General
 
-- **Do not** run tests — consuming the output is token-heavy. Suggest the command for the user to run instead
-- **Do not** execute test commands from plan verification steps
+- Avoid running tests by default because browser-test output is token-heavy. Run only focused tests when needed to verify a specific fix or failure; suggest broader commands for the user to run
+- Do not run full suites from plan verification steps unless the user explicitly asks
 
 ## Which tool to use
 
@@ -25,7 +25,7 @@ E2E and component tests verify what users see and experience in a real browser. 
 
 ## Component testing
 
-Component tests sit between Vitest unit tests and full e2e — they mount a single component in a real browser and assert what the user sees and experiences. Both Playwright and Cypress support this pattern.
+Component tests sit between Vitest unit tests and full e2e. They mount a single component in a real browser and assert what the user sees and experiences. Both Playwright and Cypress support this pattern.
 
 ### What to test
 
@@ -200,7 +200,7 @@ const text = await page.locator('[data-test="page-title"]').textContent();
 ## Best practices
 
 - **One user journey per test** — full flows, not isolated pieces
-- **Use data attributes** — `data-testid="user-input"` more stable than selectors
+- **Use data attributes** — `data-test="user-input"` is more stable than CSS selectors
 - **Wait explicitly** — avoid `page.waitForTimeout()`, use `waitForURL()` or `waitForSelector()`
 - **Cleanup** — no test data left; use `beforeAll`/`afterAll` to set up/tear down
 - **Parallel tests** — parallel by default; no execution order dependency

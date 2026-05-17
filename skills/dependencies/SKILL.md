@@ -14,7 +14,7 @@ Add only for complex work needing real skill/effort:
 - Authentication (JWT, OAuth handling)
 - Specialised libraries (not trivial utilities)
 
-## When NOT to add packages
+## When not to add packages
 
 - Single-function or trivial packages
 - JS helper libraries — `@lewishowles/helpers` replaces them (discuss adding to helpers if missing)
@@ -28,5 +28,16 @@ Always discuss with team/user. Explain:
 - What it solves
 - Why worth dependency
 - What existing approach would be
+- Estimated complexity of rolling our own
 
 Never add without discussion/permission.
+
+```markdown
+Dependency proposal: `package-name`
+
+- Problem: [what this solves]
+- Existing option: [helper/component/local implementation]
+- Roll-our-own complexity: low | medium | high — [why]
+- Dependency value: [why the package earns its maintenance cost]
+- Risk: [bundle size, maintenance, security, API churn]
+```

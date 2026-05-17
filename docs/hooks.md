@@ -33,7 +33,7 @@ Extension-to-skill mapping:
 
 | Extension / filename | Skills injected |
 |----------------------|----------------|
-| `.swift` | `code-style`, `swift`, `macos` |
+| `.swift` | `code-style`, `swift` |
 | `.vue` | `code-style`, `vue`, `vue-project-stack` |
 | `.ts`, `.tsx` | `code-style`, `typescript` |
 | `.js` | `code-style` |
@@ -42,7 +42,7 @@ Extension-to-skill mapping:
 | `README.md` | + `readme` |
 | `vite.config.ts` / `.js` | + `vite-patterns` |
 | `*.test.js`, `*.spec.ts`, etc. | + `unit-testing` |
-| `*.e2e.js`, files in `e2e/` | + `e2e-testing` |
+| `*.e2e.*`, `*.cy.*`, files in `e2e/` or `tests/cypress/` | + `e2e-testing` |
 | Files in `adr/` or `0001-*.md` | + `architecture-decision-records` |
 
 **Requires:** `jq` — silently skips if missing.
