@@ -62,6 +62,11 @@ Rule: every changed line traces directly to the request
 
 ## Git & version control
 
-- Never commit automatically
+Code must be reviewed before it is committed. Completing work means stopping after edits, checks, and a clear summary.
+
+- Do not run `git commit`, `git tag`, `git push`, merge commands, or any command that creates or publishes Git history unless I explicitly ask for that exact action in the current conversation.
+- Do not treat "finish", "wrap up", "ready", "ship it", "commit message", or a suggested commit message as permission to commit.
+- Do not stage files with `git add` unless I explicitly ask you to prepare a staged commit.
 - Update docs when changes require documentation
-- After completing a coherent step, provide a scoped Conventional Commit message
+- After completing a coherent step, provide a scoped Conventional Commit message as plain text only. Label it `Suggested commit message:` and do not execute it.
+- If I do ask you to commit, show the files to be included and the exact commit message first, then wait for confirmation.

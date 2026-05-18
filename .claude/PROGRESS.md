@@ -303,7 +303,7 @@ Enforcement stays in hooks, not prompts. `shared/` is single source of truth for
 
 Progress tracking is flow-driven (updated at task completion), not session-driven — `SessionEnd` doesn't fire reliably when conversations are archived in the desktop app. Progress updates and validation notes are part of the relevant work section, not separate checklist items.
 
-After each completed phase or coherent implementation step, provide a ready-to-use Conventional Commit message before moving on to the next step. Keep the message scoped to the work just completed.
+After each completed phase or coherent implementation step, provide a scoped Conventional Commit message as plain text only. Label it `Suggested commit message:` and do not execute it.
 
 ## Validation (end-to-end)
 
