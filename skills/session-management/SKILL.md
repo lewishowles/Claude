@@ -69,6 +69,8 @@ The pattern: work in **committable chunks** — pieces that are coherent and can
 2. Provide a commit message (e.g. `feat(component): add support for X`) — document it, don't execute it
 3. Stop and summarise what you did and what's next
 
+When starting the next chunk after the user confirms the previous chunk is reviewed or committed, compact older completed PROGRESS.md detail into short human-readable summaries. Keep decisions, constraints, user-visible test notes, and unresolved follow-ups. Remove blow-by-blow implementation notes that are no longer needed for future work.
+
 This keeps PROGRESS.md in sync with the actual work and makes it trivial to pick up mid-stream in a new session.
 
 ## Token efficiency

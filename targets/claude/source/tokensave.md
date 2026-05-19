@@ -14,3 +14,8 @@
 If you do spawn an Explore agent (e.g. because the user asked for one, or because a sub-task requires it), include the following in the agent prompt:
 
 > This project has tokensave initialised (.tokensave/ exists). Use `tokensave_context` as your ONLY exploration tool. Call it with your question in plain English. Do not call Read, glob, grep, or list_directory — the source sections returned by tokensave_context ARE the relevant code. Follow the call budget in the tool description. Pass `seen_node_ids` from each response to the next call's `exclude_node_ids`.
+
+
+## Token-efficient fallback
+
+Use tokensave only when the tokensave MCP tools are available in the current runtime. If they are unavailable, do not spend tokens searching for them, reading setup docs, or trying multiple failing calls. State once that tokensave is unavailable in this environment, then use the narrowest normal file-discovery command allowed by the file-discovery rules.
