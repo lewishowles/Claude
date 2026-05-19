@@ -78,6 +78,12 @@ const displayDate = computed(() => {
 - Computed booleans for state/slot checks (`haveError`, `havePrefix`)
 - Slot-driven composition with `isNonEmptySlot` guards
 
+## provide / inject
+
+- Key by the providing component's name so the origin is immediately clear at the inject site: `provide("dropdown-menu", { selectMenuItem })`
+- Provide an object, not a bare value — this keeps all related functionality under one key and makes future additions additive rather than breaking
+- At the inject site, destructure: `const { selectMenuItem } = inject("dropdown-menu", {})`; supply an empty object as the default so destructuring is always safe when the component is used outside its intended parent
+
 ## Component organisation
 
 - `src/views/` — page views, organised by domain (e.g., categories/, settings/)
