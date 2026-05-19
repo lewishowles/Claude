@@ -1,135 +1,8 @@
 {
-	"modelCaching": true,
-	"promptCaching": true,
 	"env": {
 		"CLAUDE_CODE_DISABLE_AUTO_MEMORY": "1",
 		"MAX_THINKING_TOKENS": "10000",
 		"CLAUDE_CODE_SUBAGENT_MODEL": "haiku"
-	},
-	"hooks": {
-		"UserPromptSubmit": [
-			{
-				"hooks": [
-					{
-						"type": "command",
-						"command": "bash -c 'bash \"$HOME/.claude/hooks/skill-autotrigger.sh\"'",
-						"timeout": 5
-					},
-					{
-						"type": "command",
-						"command": "bash -c 'bash \"$HOME/.claude/hooks/progress-resume.sh\"'",
-						"timeout": 5
-					}
-				]
-			},
-			{
-				"hooks": [
-					{
-						"command": "/opt/homebrew/bin/tokensave hook-prompt-submit",
-						"type": "command"
-					}
-				]
-			}
-		],
-		"PostToolUse": [
-			{
-				"matcher": "ExitPlanMode",
-				"hooks": [
-					{
-						"type": "command",
-						"command": "bash -c 'bash \"$HOME/.claude/hooks/plan-verify.sh\"'",
-						"timeout": 5
-					}
-				]
-			}
-		],
-		"PreToolUse": [
-			{
-				"matcher": "Write|Edit",
-				"hooks": [
-					{
-						"type": "command",
-						"command": "bash -c 'bash \"$HOME/.claude/hooks/skill-file-trigger.sh\"'",
-						"timeout": 5
-					},
-					{
-						"type": "command",
-						"command": "bash -c 'bash \"$HOME/.claude/hooks/test-skeleton-reminder.sh\"'",
-						"timeout": 5
-					},
-					{
-						"type": "command",
-						"command": "bash \"/Users/lewis/.claude/hooks/auto-allow-edits.sh\"",
-						"timeout": 5
-					}
-				]
-			},
-			{
-				"hooks": [
-					{
-						"command": "/opt/homebrew/bin/tokensave hook-pre-tool-use",
-						"type": "command"
-					}
-				],
-				"matcher": "Agent"
-			}
-		],
-		"Stop": [
-			{
-				"hooks": [
-					{
-						"type": "command",
-						"command": "bash -c 'bash \"$HOME/.claude/hooks/pre-stop-checks.sh\"'",
-						"timeout": 60,
-						"statusMessage": "Checking lint and tests…"
-					}
-				]
-			},
-			{
-				"hooks": [
-					{
-						"command": "/opt/homebrew/bin/tokensave hook-stop",
-						"type": "command"
-					}
-				]
-			}
-		]
-	},
-	"enabledPlugins": {
-		"superpowers@claude-plugins-official": true
-	},
-	"agentPushNotifEnabled": true,
-	"contextCompactionThreshold": 80,
-	"skillOverrides": {
-		"code-style": "on",
-		"error-handling": "on",
-		"writing": "on",
-		"vue": "name-only",
-		"vue-project-stack": "name-only",
-		"vite-patterns": "name-only",
-		"typescript": "name-only",
-		"accessibility": "name-only",
-		"ui-copy": "name-only",
-		"unit-testing": "name-only",
-		"e2e-testing": "name-only",
-		"swift": "name-only",
-		"swift-ui": "name-only",
-		"bash": "name-only",
-		"dependencies": "name-only",
-		"readme": "name-only",
-		"architecture-decision-records": "name-only",
-		"session-management": "name-only",
-		"agentic-engineering": "name-only",
-		"claude-api": "name-only",
-		"fewer-permission-prompts": "name-only",
-		"init": "name-only",
-		"keybindings-help": "name-only",
-		"loop": "name-only",
-		"review": "name-only",
-		"schedule": "name-only",
-		"security-review": "name-only",
-		"simplify": "name-only",
-		"update-config": "name-only"
 	},
 	"permissions": {
 		"allow": [
@@ -189,5 +62,130 @@
 			"mcp__tokensave__tokensave_type_hierarchy",
 			"mcp__tokensave__tokensave_unused_imports"
 		]
-	}
+	},
+	"skillOverrides": {
+		"code-style": "on",
+		"error-handling": "on",
+		"writing": "on",
+		"vue": "name-only",
+		"vue-project-stack": "name-only",
+		"vite-patterns": "name-only",
+		"typescript": "name-only",
+		"accessibility": "name-only",
+		"ui-copy": "name-only",
+		"unit-testing": "name-only",
+		"e2e-testing": "name-only",
+		"swift": "name-only",
+		"swift-ui": "name-only",
+		"bash": "name-only",
+		"dependencies": "name-only",
+		"readme": "name-only",
+		"architecture-decision-records": "name-only",
+		"session-management": "name-only",
+		"agentic-engineering": "name-only",
+		"claude-api": "name-only",
+		"fewer-permission-prompts": "name-only",
+		"init": "name-only",
+		"keybindings-help": "name-only",
+		"loop": "name-only",
+		"review": "name-only",
+		"schedule": "name-only",
+		"security-review": "name-only",
+		"simplify": "name-only",
+		"update-config": "name-only"
+	},
+	"hooks": {
+		"UserPromptSubmit": [
+			{
+				"hooks": [
+					{
+						"type": "command",
+						"command": "bash -c 'bash \"$HOME/.claude/hooks/skill-autotrigger.sh\"'",
+						"timeout": 5
+					},
+					{
+						"type": "command",
+						"command": "bash -c 'bash \"$HOME/.claude/hooks/progress-resume.sh\"'",
+						"timeout": 5
+					}
+				]
+			},
+			{
+				"hooks": [
+					{
+						"type": "command",
+						"command": "/opt/homebrew/bin/tokensave hook-prompt-submit"
+					}
+				]
+			}
+		],
+		"PostToolUse": [
+			{
+				"matcher": "ExitPlanMode",
+				"hooks": [
+					{
+						"type": "command",
+						"command": "bash -c 'bash \"$HOME/.claude/hooks/plan-verify.sh\"'",
+						"timeout": 5
+					}
+				]
+			}
+		],
+		"PreToolUse": [
+			{
+				"matcher": "Write|Edit",
+				"hooks": [
+					{
+						"type": "command",
+						"command": "bash -c 'bash \"$HOME/.claude/hooks/skill-file-trigger.sh\"'",
+						"timeout": 5
+					},
+					{
+						"type": "command",
+						"command": "bash -c 'bash \"$HOME/.claude/hooks/test-skeleton-reminder.sh\"'",
+						"timeout": 5
+					},
+					{
+						"type": "command",
+						"command": "bash \"/Users/lewis/.claude/hooks/auto-allow-edits.sh\"",
+						"timeout": 5
+					}
+				]
+			},
+			{
+				"matcher": "Agent",
+				"hooks": [
+					{
+						"type": "command",
+						"command": "/opt/homebrew/bin/tokensave hook-pre-tool-use"
+					}
+				]
+			}
+		],
+		"Stop": [
+			{
+				"hooks": [
+					{
+						"type": "command",
+						"command": "bash -c 'bash \"$HOME/.claude/hooks/pre-stop-checks.sh\"'",
+						"timeout": 60,
+						"statusMessage": "Checking lint and tests…"
+					}
+				]
+			},
+			{
+				"hooks": [
+					{
+						"type": "command",
+						"command": "/opt/homebrew/bin/tokensave hook-stop"
+					}
+				]
+			}
+		]
+	},
+	"enabledPlugins": {},
+	"agentPushNotifEnabled": true,
+	"modelCaching": true,
+	"promptCaching": true,
+	"contextCompactionThreshold": 80
 }
