@@ -70,3 +70,21 @@ Code must be reviewed before it is committed. Completing work means stopping aft
 - Update docs when changes require documentation
 - After completing a coherent step, provide a scoped Conventional Commit message as plain text only. Label it `Suggested commit message:` and do not execute it.
 - If I do ask you to commit, show the files to be included and the exact commit message first, then wait for confirmation.
+
+## Working across sessions
+
+**Maintain PROGRESS.md for significant work.** For multi-file, multi-session, or complex-scope work, keep `.claude/PROGRESS.md` as the persistent record that survives session changes.
+
+**Keep it live**: Update PROGRESS.md after every significant change, decision, or scope shift — don't wait until session end:
+- Mark checklist items done as they complete
+- Record new architectural decisions or constraint discoveries
+- Update Phase descriptions if requirements evolve
+- Append session notes after finishing each logical chunk of work
+
+**Work in committable chunks**: Break work into pieces that can be reviewed together:
+- Each chunk = a feature, bugfix, refactor, or documentation update — something coherent and meaningful
+- Avoid accumulating unrelated changes in a single review
+- After completing a chunk, provide a standard commit message (e.g. `feat(component): add support for X`) — document it for review, but don't execute `git commit` unless asked
+- Update PROGRESS.md to reflect what was completed
+
+**Why it matters**: You know the full session history and can pick up mid-stream without re-reading 100 lines of context. PROGRESS.md is the handoff mechanism between sessions.

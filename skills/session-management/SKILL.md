@@ -58,7 +58,18 @@ For multi-file, multi-session, or significant-scope work, maintain a `PROGRESS.m
 **Completed:** [tasks done]  **Next:** [what to pick up]
 ```
 
-**When to update:** After completing a significant task — update the checklist and append a session note. Don't wait until session end; `SessionEnd` doesn't fire reliably when conversations are archived in the desktop app.
+**Keep it live**: Update PROGRESS.md after every significant change, decision, or scope shift — don't wait until session end. This ensures the handoff between sessions is clear:
+- Mark checklist items done as they complete
+- Record new architectural decisions or constraint discoveries
+- Update Phase descriptions if requirements evolve or scope expands
+- Append session notes after finishing each logical chunk of work
+
+The pattern: work in **committable chunks** — pieces that are coherent and can be reviewed together (e.g. a feature, bugfix, refactor, or documentation update). After each chunk:
+1. Update PROGRESS.md with what you completed
+2. Provide a commit message (e.g. `feat(component): add support for X`) — document it, don't execute it
+3. Stop and summarise what you did and what's next
+
+This keeps PROGRESS.md in sync with the actual work and makes it trivial to pick up mid-stream in a new session.
 
 ## Token efficiency
 
