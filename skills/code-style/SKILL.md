@@ -30,6 +30,14 @@ related-skills:
 - Name variables after what they represent, not how they look — `alertPrefix` not `capitalisedType`
 - Fixed string sets: define as a named constants object — `const alertTypes = { ERROR: "error", MUTED: "muted" }` — reference in switch/if and template expressions, not inline literals
 
+## Query selectors & predicates
+
+- **Simplicity over repetition**: Group similar elements with `:is()` and use single negations rather than repeating `:not()` for each type
+  - ✗ Verbose: `:is(button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), a[href], [tabindex]:not([tabindex='-1']))`
+  - ✓ Simple: `:is(button, input, select, textarea):not([disabled]), a[href], [tabindex]:not([tabindex='-1'])`
+- **Common focusable selector**: `:is(button, input, select, textarea):not([disabled]), a[href], [tabindex]:not([tabindex='-1'])` — prefer this pattern when finding elements that can receive focus programmatically
+- **Readability**: when a selector is complex, assign it to a named constant with a JSDoc comment explaining its purpose
+
 ## Comments & documentation
 
 - Every top-level variable: single-line comment describing what it does — all languages

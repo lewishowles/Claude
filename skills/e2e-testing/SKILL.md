@@ -197,6 +197,12 @@ const text = await page.locator('[data-test="page-title"]').textContent();
 
 **Use data-test attributes**: Prefer `data-test="component.element"` over CSS selectors. Namespacing avoids cross-test contamination, intent stays clear.
 
+**Selector simplicity**: When querying elements (e.g. finding focusable items), prioritise clarity and avoid repetition:
+- ✓ Simple: `:is(button, input, select, textarea):not([disabled]), a[href], [tabindex]:not([tabindex='-1'])`
+- ✗ Verbose: `:is(button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), a[href], [tabindex]:not([tabindex='-1']))`
+
+Group similar element types with `:is()` and apply single negations rather than repeating `:not()` for each type. See code-style skill for the pattern.
+
 ## Best practices
 
 - **One user journey per test** — full flows, not isolated pieces

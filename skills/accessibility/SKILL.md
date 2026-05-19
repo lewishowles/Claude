@@ -41,7 +41,7 @@ WCAG AA baseline; AAA where feasible. Inaccessible = incorrect. Affects: blind/l
 
 ## Interaction
 
-- **Keyboard access**: every action via keyboard. Drag-drop? Provide button alternative
+- **Keyboard access**: every action via keyboard. Drag-drop? Provide button alternative. When programmatically querying focusable elements, see the code-style skill for the standard selector pattern
 - **Visible focus**: show keyboard focus. Ring indicator, no outline removal. Delete in table? Move focus sensibly (next row), not page top
 - **Skip links**: `<a href="#main">Skip to main content</a>` with `<main id="main" tabindex="-1">`
 - **Motion**: respect `prefers-reduced-motion`. Guard animations: `@media (prefers-reduced-motion: reduce) { ... }`
