@@ -45,5 +45,7 @@ related-skills:
 - Use TypeScript-style JSDoc types where they stay simple, e.g. `object[]` or `string[]` instead of `Array<object>` or `Array<string>`
 - Repeated inline logic? Extract into named functions with JSDoc or equivalent, don't duplicate
 - No banner/divider comments (`// ---`) — use JSDoc or equivalent and blank lines for structure
-- **In-code comments should focus on why and intent** — most useful comments say what a value represents and why it exists. Avoid comments that merely repeat syntax. Good: `// A reference to the input, which allows us to trigger focus on it.` before `const inputElement = useTemplateRef("inputElement");`
-- Block comments for functions explain purpose and why
+- **In-code comments should explain purpose, not implementation mechanics** — say what a value, prop, branch, or check is for. Do not explain framework internals, historical bugs, or how the code works unless that knowledge is required to safely modify it.
+- Avoid comments that merely repeat syntax, narrate control flow, or describe a workaround's mechanics. Prefer `// Ensures the dialog has an accessible label.` over `// Wrapped in onMounted to avoid invoking slots outside render context.`
+- Remove stale or transactional bug-fix comments once the code expresses the behaviour clearly.
+- Block comments for functions explain purpose and externally relevant constraints; avoid internal implementation trivia.
